@@ -55,8 +55,8 @@ public class shopProductController extends HttpServlet {
                 ShopDAO shopDAO = new ShopDAO();
                 if (user != null) {
                     Shop shop = shopDAO.getShopInforByShopID(user);
-                    List<Product> products = productDAO.getProductByShopID(shop);
-                    request.setAttribute("PRODUCTS", products);
+                  //  List<Product> products = productDAO.getProductByShopID(shop);
+                   // request.setAttribute("PRODUCTS", products);
                 }
             }
         } finally {

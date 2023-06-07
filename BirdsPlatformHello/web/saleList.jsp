@@ -6,7 +6,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,16 +13,15 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>blog</title>
+        <title>shop</title>
 
         <!-- remix icon cdn link  -->
         <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet">
 
         <!-- font awesome cdn link  -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- custom css file link  -->
-        <link rel="stylesheet" href="./css/total.css">
+        <link rel="stylesheet" href="css/total.css">
 
     </head>
 
@@ -32,7 +30,7 @@
         <!-- header section starts  -->
 
         <header class="header">
-            <a href="./Homepage.html" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
+            <a href="Homepage.html" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
 
             <form action="#" class="search-form">
                 <input type="search" placeholder="search here..." id="search-box">
@@ -57,12 +55,12 @@
         <!-- navbar start  -->
 
         <nav class="navbar">
-            <a href="./HomePage.jsp">home</a>
-            <a href="./shop.html">shop</a>
-            <a href="./about.html">about</a>
-            <a href="./team.html">team</a>
-            <a href="./saleList.jsp">Sale</a>
-            <a href="./contact.html">contact</a>
+            <a href="HomePage.jsp">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="about.html">About</a>
+            <a href="team.html">Team</a>
+            <a href="saleListController">On Sale</a>
+            <a href="contact.html">Contact</a>
         </nav>
 
         <!-- navbar end  -->
@@ -74,7 +72,7 @@
 
             <div class="box">
                 <i class="ri-close-line close-icon"></i>
-                <img src="./img/cart-img-1.jpg" alt="">
+                <img src="img/cart-img-1.jpg" alt="">
                 <div class="content">
                     <h3>modern furniture</h3>
                     <span class="quantity"> 1 </span>
@@ -85,7 +83,7 @@
 
             <div class="box">
                 <i class="ri-close-line close-icon"></i>
-                <img src="./img/cart-img-1.jpg" alt="">
+                <img src="img/cart-img-1.jpg" alt="">
                 <div class="content">
                     <h3>modern furniture</h3>
                     <span class="quantity"> 1 </span>
@@ -96,7 +94,7 @@
 
             <div class="box">
                 <i class="ri-close-line close-icon"></i>
-                <img src="./img/cart-img-1.jpg" alt="">
+                <img src="img/cart-img-1.jpg" alt="">
                 <div class="content">
                     <h3>modern furniture</h3>
                     <span class="quantity"> 1 </span>
@@ -107,7 +105,7 @@
 
             <div class="box">
                 <i class="ri-close-line close-icon"></i>
-                <img src="./img/cart-img-1.jpg" alt="">
+                <img src="img/cart-img-1.jpg" alt="">
                 <div class="content">
                     <h3>modern furniture</h3>
                     <span class="quantity"> 1 </span>
@@ -135,7 +133,7 @@
                     <input type="checkbox" name="" id="remember-me">
                     <label for="remember-me">remember me</label>
                 </div>
-                <input name ="MAIN" type="submit" value="login now" class="btn">
+                <input type="submit" value="login now" class="btn">
                 <p>forget password? <a href="#">click here</a> </p>
                 <p>don't have an account? <a href="#">create now</a> </p>
             </form>
@@ -147,50 +145,69 @@
         <!-- heading section start -->
 
         <section class="heading">
-            <h3>our shop</h3>
-            <p> <a href="./Homepage.html">home</a> / <span>blog</span> </p>
+            <h3>SALE</h3>
+            <p> <a href="Homepage.html">home</a> / <span>On sale</span> </p>
         </section>
 
         <!-- heading section end -->
 
 
-        <!-- blog section start -->
 
-        <section class="blog">
 
-            <h1 class="title"> <span>our blogs</span> <a href="#">view all >></a> </h1>
+
+        <!-- products section start -->
+
+        <section class="products">
+
 
             <div class="box-container">
+                <c:if test="${empty requestScope.LIST}">
+                    <h3> No Product on Sale, Please comeback later.
+                    </c:if>
+                    <c:if test="${ not empty requestScope.LIST}">
+                        <c:forEach var="dto" items="${requestScope.LIST}">
+                            <div class="box">
+                                <div class="icons">
+                                    <a href="#" class="ri-shopping-cart-line"></a>
+                                    <a href="#" class="ri-heart-line"></a>
+                                    <a href="#" class="ri-eye-line"></a>
+                                </div>
+                                <div class="image">
+                                    <img style="object-fit: cover;" src="${dto.img}" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="sale">
 
-                <c:set var="result" value="${requestScope.LIST}" />
-                <c:if test="${ empty result}">
-                    <h2> No sale found in system</h2>
-                </c:if>
-
-                <c:if test="${not empty result}">
-                    <c:forEach var="dto" items="${result}" >
-                    <div class="box">
-                        <div class="image">
-                            <img src="" alt="${dto.img}">
-                        </div>
-                        <div class="content">
-                            <h3 style="color: red">Sale up to ${dto.saleUP}</h3>
-                            <p>${dto.description}</p>
-                            <a href="#" class="btn">Go to shop</a>
-                            <div class="icons">
-                                <a href="#"> <i class="fas fa-calendar"></i> ${dto.from} to ${dto.to} </a>
-                                <a href="#"> <i class="fas fa-user"></i> by ${dto.shopName} shop </a>
+                                        <h1>${100 - dto.pSale*100} %</h1>
+                                    </div>
+                                    <div class="price">
+                                        <h4>${dto.priceOut} $</h4>
+                                        <h4 id="new">${dto.priceOut*dto.pSale} $ </h4>
+                                    </div>
+                                    <h3>${dto.productName}</h3>
+                                    <div style="display: flex;" class="stars">
+                                        <i style="color: #5e473e;" class="fa-solid fa-shop"></i>
+                                        <form class="ShopGo" action="">
+                                            <input type="hidden" name="shopID" value="${dto.shop.shopID}" /> 
+                                            <input style="color: #5e473e;" type="Submit" name="MAIN" value="${dto.shop.shopName}">
+                                        </form>
+                                        <div class="${dto.shop.rate}">
+                                            <span> (4,5 </span>
+                                            <i style="color: gold" class="fas fa-star"></i>
+                                            <span> ) </span>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </c:forEach>
-                </c:if>
-                
+
+                        </c:forEach>
+                    </c:if>
             </div>
 
         </section>
 
-        <!-- blog section end -->
+        <!-- products section end -->
 
 
 
@@ -203,12 +220,22 @@
 
                 <div class="box">
                     <h3>quick links</h3>
-                    <a href="./Homepage.html"> <i class="ri-arrow-right-line"></i> Home </a>
-                    <a href="./shop.html"> <i class="ri-arrow-right-line"></i> Shop </a>
-                    <a href="./about.html"> <i class="ri-arrow-right-line"></i> About </a>
-                    <a href="./team.html"> <i class="ri-arrow-right-line"></i> Team </a>
-                    <a href="./blog.html"> <i class="ri-arrow-right-line"></i> Blog </a>
-                    <a href="./contact.html"> <i class="ri-arrow-right-line"></i> Contact </a>
+                    <a href="Homepage.html"> <i class="ri-arrow-right-line"></i> home </a>
+                    <a href="shop.html"> <i class="ri-arrow-right-line"></i> shop </a>
+                    <a href="about.html"> <i class="ri-arrow-right-line"></i> about </a>
+                    <a href="team.html"> <i class="ri-arrow-right-line"></i> team </a>
+                    <a href="blog.html"> <i class="ri-arrow-right-line"></i> blog </a>
+                    <a href="contact.html"> <i class="ri-arrow-right-line"></i> contact </a>
+                </div>
+
+                <div class="box">
+                    <h3>quick links</h3>
+                    <a href="Homepage.html"> <i class="ri-arrow-right-line"></i> Home </a>
+                    <a href="shop.html"> <i class="ri-arrow-right-line"></i> Shop </a>
+                    <a href="about.html"> <i class="ri-arrow-right-line"></i> About </a>
+                    <a href="team.html"> <i class="ri-arrow-right-line"></i> Team </a>
+                    <a href="blog.html"> <i class="ri-arrow-right-line"></i> Blog </a>
+                    <a href="contact.html"> <i class="ri-arrow-right-line"></i> Contact </a>
                 </div>
 
                 <div class="box">
@@ -229,15 +256,6 @@
                     <a href="#"> <i class="ri-pinterest-fill"></i> Pinterest </a>
                 </div>
 
-                <div class="box">
-                    <h3>newsletter</h3>
-                    <p>subscribe for latest updates</p>
-                    <form action="#">
-                        <input type="email" name="" placeholder="enter your email" id="">
-                        <input name="MAIN" type="submit" value="subscribe" class="btn">
-                    </form>
-                </div>
-
             </div>
         </section>
 
@@ -247,7 +265,7 @@
         <!-- footer section end  -->
 
         <!-- custom js file link  -->
-        <script src="./js/total.js"></script>
+        <script src="js/total.js"></script>
 
     </body>
 

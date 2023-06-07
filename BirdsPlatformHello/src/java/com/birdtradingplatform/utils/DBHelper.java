@@ -16,7 +16,7 @@ public class DBHelper {
      public static Connection makeConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         String url = "jdbc:sqlserver://localhost:1433;databaseName=BirdPlatform";
-        Connection connection = DriverManager.getConnection(url, "sa", "12345");
+        Connection connection = DriverManager.getConnection(url, "sa", "123456");
         return connection;
     }
     public static void main(String[] args) throws ClassNotFoundException, SQLException {

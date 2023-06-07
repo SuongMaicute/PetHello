@@ -52,11 +52,10 @@ public class saleListController extends HttpServlet {
                  System.out.println(dto.getDescription() + "  " + dto.getProductName());
             }
           
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(saleListController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(saleListController.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
+            Logger.getLogger(saleListController.class.getName()).log(Level.SEVERE, null, ex); 
+        }
+        finally{
             RequestDispatcher rd = request.getRequestDispatcher("saleList.jsp");
             rd.forward(request, response);
         }

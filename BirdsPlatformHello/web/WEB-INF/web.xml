@@ -39,11 +39,7 @@
     </session-config>
     <welcome-file-list>
         <welcome-file>
-<<<<<<< HEAD
            HomePage.jsp
-=======
-           Login.jsp
->>>>>>> 1c3b3fb0d76bbf1aa901b41d03e526b099bdc7ab
         </welcome-file>
     </welcome-file-list>
 </web-app>
