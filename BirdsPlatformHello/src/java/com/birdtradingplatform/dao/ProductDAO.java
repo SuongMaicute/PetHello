@@ -28,6 +28,54 @@ public class ProductDAO {
         return productList;
     }
 
+    
+    
+     public ArrayList<Product> getProductByShopID(Shop shop) throws ClassNotFoundException, SQLException{
+        ArrayList<Product> products = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Product result = null;
+        
+        con = DBHelper.makeConnection();
+        if (con != null) {
+            try {
+                String  sql = "SELECT [productID],[productName],[priceIn],[type],[category],[quantity],[description],[status],[img],[sku],[priceOut],[pSale]"
+                             + "FROM [BirdPlatform].[dbo].[Product]"
+                            + " WHERE shopID = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, shop.getShopID());
+                rs = stm.executeQuery();
+                while (rs.next()) {                    
+                  int productID = rs.getInt("productID");
+                    String productName = rs.getString("productName");
+                    float priceIn = rs.getFloat("priceIn");
+                    String type = rs.getString("type");
+                    String category = rs.getString("category");
+                    int quantity = rs.getInt("quantity");
+                    String description = rs.getString("description");
+                    String status = rs.getString("status");
+                    String img = rs.getString("img");
+                    String sku = rs.getString("sku");
+                    float priceOut = rs.getFloat("priceOut");
+                    float pSale = rs.getFloat("pSale");
+                    result = new Product(productID, productName, priceIn, type, category, quantity, description, status, img, sku, shop, priceOut, pSale, status);
+                    products.add(result);
+                }
+            } finally {
+               if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            } 
+            }
+        }
+        return products;        
+    }
     public ArrayList<Product> printProductList() throws ClassNotFoundException, SQLException {
         ArrayList<Product> productDashList = new ArrayList<>();
         Connection con = null;
@@ -395,5 +443,34 @@ public class ProductDAO {
         }
         return productList;
     }
+
+    public boolean deleteProduct(Product product) throws ClassNotFoundException, SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int row = 0;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE Product "
+                        + "SET status = 'NOT AVAILABLE' "
+                        + "WHERE sku like ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, product.getSku());
+                row = stm.executeUpdate();
+                if (row > 1) {
+                    return true;
+                }
+            }
+        } finally {
+             if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+    
 
 }

@@ -71,27 +71,15 @@
                                         <thead class="table-thead">
                                             <tr>
                                                 <th class="text-center" scope="col">Order's ID</th>
-                                                <th class="text-center" scope="col">Product's Name</th>
-                                                <th class="text-center" scope="col">Image</th>
-                                                <th class="text-center" scope="col">Price</th>
-                                                <th class="text-center" scope="col">Quantity</th>
+                                                <th class="text-center" scope="col">Customer</th>
+                                                <th class="text-center" scope="col">Total ($)</th>
+                                                <th class="text-center" scope="col">Order day</th>
                                                 <th class="text-center" scope="col">Status</th>
-                                                <th class="text-center" scope="col">Action</th>
+                                                <th class="text-center" scope="col">Cancel</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center">
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getPriceIsEmptyError()}</p>
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getPriceIsNumberError()}</p>
-                                                </td>
-                                                <td class="text-center">  
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getQuantityIsEmptyError()}</p>
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getQuantityIsNumberError()}</p>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                            
                                             <c:set var="orderList" value="${requestScope.ORDERS}"/>
                                             <c:set var="productList" value="${requestScope.PRODUCTIMG}"/>
                                             <c:if test="${not empty productList}">
@@ -101,7 +89,6 @@
                                                     <tr>                    
                                                         <td class="text-center">${order.orderID}                               
                                                         </td>
-                                                        <td class="text-center">${product.productName}</td>
                                                         <td class="text-center">
                                                             <c:forEach var="entry" items="${productList}">
                                                                 <c:if test="${entry.key eq order.orderID}">

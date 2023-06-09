@@ -28,6 +28,8 @@ public class DispatcherServlet extends HttpServlet {
     private String UPDATECONTROLLER = "UpdateProfile";
     private String GETDATATOUSERPROFILECONTROLLE= "GetDataForUserProfile";
     private String UPDATEPASSCONTROLLER= "UpdateNewPass";
+    private String CHECKMAILCONTROLLER= "CreateCodeController";
+    private String CHANGEPASSCONTROLLER = "ChangePassController";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,6 +43,7 @@ public class DispatcherServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url ="Err.html";
+        System.out.println("Dispatch controkker");
         try{
             String submit = request.getParameter("MAIN");
             if (submit.isEmpty()){
@@ -57,6 +60,10 @@ public class DispatcherServlet extends HttpServlet {
                 url = GETKEYTORESETPASSCONTROLLER;
             }else if(submit.equalsIgnoreCase("Update")){
                 url = UPDATECONTROLLER;
+            }else if(submit.equalsIgnoreCase("CheckMail")){
+                url = CHECKMAILCONTROLLER;
+            }else if(submit.equalsIgnoreCase("Update Pass")){
+                url = CHANGEPASSCONTROLLER;
             }
             
         }finally{

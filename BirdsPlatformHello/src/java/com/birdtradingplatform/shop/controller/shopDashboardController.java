@@ -4,14 +4,30 @@
  */
 package com.birdtradingplatform.shop.controller;
 
+import com.birdtradingplatform.dao.AccountDAO;
+import com.birdtradingplatform.dao.OrderDAO;
+import com.birdtradingplatform.dao.OrderDetailDAO;
+import com.birdtradingplatform.dao.ProductDAO;
+import com.birdtradingplatform.dao.ShopDAO;
+import com.birdtradingplatform.model.Account;
+import com.birdtradingplatform.model.Order;
+import com.birdtradingplatform.model.OrderDetail;
+import com.birdtradingplatform.model.Product;
+import com.birdtradingplatform.model.Shop;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,9 +46,38 @@ public class shopDashboardController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                String username = (String) session.getAttribute("username");
+                AccountDAO accountDAO = new AccountDAO();
+                Account user = accountDAO.getAccountByUsername(username);
+                OrderDAO orderDAO = new OrderDAO();
+                ShopDAO shopDAO = new ShopDAO();
+                ProductDAO productDAO = new ProductDAO();
+                OrderDetailDAO detailDAO = new OrderDetailDAO();
+                double total = 0;
+                double income = 0;
+                if (user != null) {
+                    Shop shop = shopDAO.getShopInforByShopID(user);
+                    List<Product> products =  productDAO.getProductByShopID(shop);
+                    List<Order> orders = orderDAO.getOrderByShopID(shop);
+                    for (int i = 0; i < orders.size(); i++) {
+                         total += orders.get(i).getTotal();
+                         List<OrderDetail> orderDetails = detailDAO.getImgByOrderID(orders);
+                    List<OrderDetail> productList = detailDAO.getTop5ProductOfShop();
+                    Map<Integer, String> topProduct = detailDAO.getTopProductMap();
+                    request.setAttribute("TOPPRODUCTOFSHOP", topProduct);
+                    request.setAttribute("QUANTITY", productList);
+                    request.setAttribute("NUMBEROFORDER", orders.size());
+                    request.setAttribute("INCOMEOFSHOP", total);
+                    request.setAttribute("INCOME", orders);
+                    request.setAttribute("NUMBEROFPRODUCT", products.size());
+                    }
+                }
+            }
             
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(SHOP_PAGE);
@@ -52,7 +97,13 @@ public class shopDashboardController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(shopDashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(shopDashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -66,7 +117,13 @@ public class shopDashboardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(shopDashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(shopDashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

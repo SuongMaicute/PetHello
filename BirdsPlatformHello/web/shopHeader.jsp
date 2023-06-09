@@ -33,7 +33,7 @@
                 </form>
                 <div class="header-right">
                     <div class="profile-user" onclick="menuToggle();">
-                        <img src="img/download.jpg" alt="">
+                        <img src="${sessionScope.IMG}" alt="">
                     </div> 
                     <div class="account-menu">
                         <ul class="navbar-list">
@@ -54,7 +54,7 @@
                                 <span class="material-symbols-outlined">
                                     logout
                                 </span>
-                                <a href="">Log out</a>
+                                <a href="LogOutServlet">Log out</a>
                             </li>
                         </ul>
                     </div>

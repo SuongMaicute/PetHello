@@ -4,8 +4,10 @@
  */
 package com.birdtradingplatform.dao;
 
+import com.birdtradingplatform.model.Account;
 import com.birdtradingplatform.model.Order;
 import com.birdtradingplatform.model.OrderDetail;
+import com.birdtradingplatform.model.Shop;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,9 +24,15 @@ import java.util.Map;
  */
 public class OrderDetailDAO {
 
-   public List<OrderDetail> orderItemList;
+    public List<OrderDetail> orderItemList;
     public Map<Integer, String> mapImg;
+    public Map<Integer, String> productNameMap;
+    public Map<Integer, String> topProductMap;
 
+    public Map<Integer, String> getTopProductMap() {
+        return topProductMap;
+    }
+    
     public List<OrderDetail> getOrderItemList() {
         return orderItemList;
     }
@@ -33,6 +41,9 @@ public class OrderDetailDAO {
         return mapImg;
     }
 
+    public Map<Integer, String> getProductNameMap() {
+        return productNameMap;
+    }
 
     public float getIncome() throws ClassNotFoundException, SQLException {
         Connection con = null;
@@ -103,7 +114,8 @@ public class OrderDetailDAO {
             }
         }
     }
-  public List<OrderDetail> getImgByOrderID(List<Order> orders) throws ClassNotFoundException, SQLException {
+
+    public List<OrderDetail> getImgByOrderID(List<Order> orders) throws ClassNotFoundException, SQLException {
         ArrayList<OrderDetail> orderDetails = new ArrayList<>();
         Connection con = null;
         ResultSet rs = null;
@@ -134,11 +146,9 @@ public class OrderDetailDAO {
                     int productID = rs.getInt("productID");
                     int orderID = rs.getInt("orderID");
                     String img = rs.getString("img");
-
                     result = new OrderDetail(orderDetailID, quantity, price, productID, orderID);
                     orderDetails.add(result);
-
-                    mapImg.put(orderID, img);
+                    mapImg.put(productID, img);
                 }
             }
             //}
@@ -156,10 +166,121 @@ public class OrderDetailDAO {
         return orderDetails;
     }
 
+    public List<OrderDetail> getProductNameByOrderID() throws ClassNotFoundException, SQLException {
+        ArrayList<OrderDetail> orderDetails = new ArrayList<>();
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stm = null;
+        OrderDetail result = null;
+        if (this.productNameMap == null) {
+            productNameMap = new HashMap<>();
+        }
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "SELECT TOP (1000) [orderDetailID] "
+                        + "      ,[OrderDetail].[quantity] "
+                        + "      ,[OrderDetail].[price] "
+                        + "      ,[OrderDetail].[productID] "
+                        + "      ,[orderID], "
+                        + "	  productName "
+                        + "  FROM [BirdPlatform].[dbo].[OrderDetail], Product  "
+                        + "  where [OrderDetail].productID = Product.productID";
+                // for (Order order : orders) {
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int orderDetailID = rs.getInt("orderDetailID");
+                    int quantity = rs.getInt("quantity");
+                    float price = rs.getFloat("price");
+                    int productID = rs.getInt("productID");
+                    int orderID = rs.getInt("orderID");
+                    String productName = rs.getString("productName");
+
+                    result = new OrderDetail(orderDetailID, quantity, price, productID, orderID);
+                    orderDetails.add(result);
+                   
+
+                    productNameMap.put(productID, productName);
+                }
+            }
+            //}
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return orderDetails;
+    }
+    public List<OrderDetail> getTop5ProductOfShop() throws ClassNotFoundException, SQLException {
+        ArrayList<OrderDetail> topProduct = new ArrayList<>();
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stm = null;
+        OrderDetail result = null;
+        if (this.topProductMap == null) {
+            topProductMap = new HashMap<>();
+        }
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "SELECT TOP (5) [orderDetailID] "
+                        + "      ,[OrderDetail].[quantity] "
+                        + "      ,[OrderDetail].[price] "
+                        + "      ,[OrderDetail].[productID] "
+                        + "      ,[orderID], "
+                        + "	  productName "
+                        + "  FROM [BirdPlatform].[dbo].[OrderDetail], Product  "
+                        + "  where [OrderDetail].productID = Product.productID order by [OrderDetail].[quantity]  ";
+                // for (Order order : orders) {
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int orderDetailID = rs.getInt("orderDetailID");
+                    int quantity = rs.getInt("quantity");
+                    float price = rs.getFloat("price");
+                    int productID = rs.getInt("productID");
+                    int orderID = rs.getInt("orderID");
+                    String productName = rs.getString("productName");
+
+                    result = new OrderDetail(orderDetailID, quantity, price, productID, orderID);
+                    topProduct.add(result);
+                   
+
+                    topProductMap.put(productID, productName);
+                }
+            }
+            //}
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return topProduct;
+    }
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        OrderDetailDAO dao = new OrderDetailDAO();
-        dao.getTop5Product();
-        List<OrderDetail> list = dao.getOrderItemList(); 
-        System.out.println(list);
+      Account user = new Account(2, "bird", "s", "1",3 , true, null, null);
+        OrderDAO orderDAO = new OrderDAO();
+        ShopDAO shopDAO = new ShopDAO();
+        OrderDetailDAO detailDAO = new OrderDetailDAO();
+        Shop shop = shopDAO.getShopInforByShopID(user);
+        List<Order> orders = orderDAO.getOrderByShopID(shop);
+        List<OrderDetail> orderDetails = detailDAO.getTop5ProductOfShop();
+         Map<Integer, String> productNameMap = detailDAO.getTopProductMap();
+         System.out.println(productNameMap.values());
+          
+
     }
 }

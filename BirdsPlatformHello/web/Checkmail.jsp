@@ -25,7 +25,7 @@
     <!-- header section starts  -->
 
     <header class="header">
-        <a href="home.html" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
+        <a href="HomePgae.jsp" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
 
         <form action="#" class="search-form">
             <input type="search" placeholder="search here..." id="search-box">
@@ -71,7 +71,7 @@
                     
                 </div>
                 <div class="only">
-                    <input id="only" class="submit-btn" type="submit" name="MAIN" value="ResetPassByCode" />
+                    <input id="only" class="submit-btn" type="submit" name="MAIN" value="CheckMail" />
                     <a href="sendCode.jsp" class="submit-btn">Next step</a>
                     
                     

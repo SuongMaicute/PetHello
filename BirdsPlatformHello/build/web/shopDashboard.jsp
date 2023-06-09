@@ -193,13 +193,13 @@
 
 // BAR CHART
             var bartData = [
-            <c:forEach var="order" items="${requestScope.TOPQUANTITY}">
+            <c:forEach var="order" items="${requestScope.QUANTITY}">
                 ${order.quantity},
             </c:forEach>
             ];
             var categoryData = [
-            <c:forEach var="product" items="${requestScope.TOPPRODUCT}">
-                "${product.productName}",
+            <c:forEach var="product" items="${requestScope.TOPPRODUCTOFSHOP}">
+                "${product.value}",
             </c:forEach>
             ];
             var barChartOptions = {

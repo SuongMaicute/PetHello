@@ -25,7 +25,7 @@
         <!-- header section starts  -->
 
         <header class="header">
-            <a href="home.html" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
+            <a href="HomePage.jsp" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
 
             <form action="#" class="search-form">
                 <input type="search" placeholder="search here..." id="search-box">

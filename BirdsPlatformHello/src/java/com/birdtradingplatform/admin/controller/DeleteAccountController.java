@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Minh Quan
  */
 public class DeleteAccountController extends HttpServlet {
- private final String RESULT_PAGE = "account.jsp";
+ private final String RESULT_PAGE = "AccountManageController";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
