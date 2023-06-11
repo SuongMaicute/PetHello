@@ -4,6 +4,7 @@
  */
 package com.birdtradingplatform.dao;
 
+import com.birdtradingplatform.model.Account;
 import com.birdtradingplatform.model.Order;
 import java.sql.Connection;
 import java.sql.Date;
@@ -15,13 +16,20 @@ import java.util.List;
 import com.birdtradingplatform.model.OrderHistory;
 import com.birdtradingplatform.model.Shop;
 import com.birdtradingplatform.utils.DBHelper;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author Minh Quan
  */
 public class OrderDAO {
+    private Map<Integer, String> usernameMap;
 
+    public Map<Integer, String> getUsernameMap() {
+        return usernameMap;
+    }
+    
     private List<Order> ordersList;
 
     public List<Order> getOrderList() {
@@ -137,7 +145,10 @@ public class OrderDAO {
 
         if (con != null) {
             try {
-                String sql = "SELECT * FROM [BirdPlatform].[dbo].[Order] WHERE shopID = ?";
+                String sql = "SELECT TOP (1000) [Order].[orderID],[Order].[orderDate],[Order].[total] ,[Order].[paymentID],[Order].[customerID],[Order].[addressShipID],[Order].[shipDate],[Order].[status],[Order].[shopID],Customer.accountID,Account.username"
+                              + " FROM [BirdPlatform].[dbo].[Order]"
+                              + " JOIN Customer ON [Order].[customerID] = [Customer].[customerID]"
+                              + " JOIN Account ON Customer.accountID = Account.accountID WHERE shopID = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, shop.getShopID());
                 rs = stm.executeQuery();
@@ -150,8 +161,13 @@ public class OrderDAO {
                     int addressShipID = rs.getInt("addressShipID");
                     String shipDate = rs.getString("shipDate");
                     String status = rs.getString("status");
+                    String username = rs.getString("username");
                     result = new Order(orderID, orderDate, total, paymentID, customerID, addressShipID, shipDate, status);
                     orders.add(result);
+                    if (this.usernameMap == null) {
+                        usernameMap = new HashMap<>();
+                    }
+                    usernameMap.put(orderID, username);
                 }
             } finally {
                 if (rs != null) {
@@ -167,10 +183,34 @@ public class OrderDAO {
         }
         return orders;
     }
+  public int updateOrder(Order order) throws ClassNotFoundException, SQLException{
+       Connection con = null;
+        PreparedStatement stm = null;
+        int result = 0;
+        try {
+          con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [BirdPlatform].[dbo].[Order] SET status = ?"
+                        + " WHERE orderID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, order.getStatus());
+                stm.setInt(2, order.getOrderID());
+                result = stm.executeUpdate();      
+            }
+      } finally {
+             if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+      }
+        return result;
+  } 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        OrderDAO dao = new OrderDAO();
-        dao.getOrders();
-        List<Order> ordersDTOs = dao.getOrderList();
-        System.out.println(ordersDTOs.size());
+        Order order = new Order(1, null, 0, 0, null, "Delivered");
+        OrderDAO orderDAO = new OrderDAO();
+        orderDAO.updateOrder(order);
+        System.out.println(order);
     }
 }

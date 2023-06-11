@@ -54,7 +54,7 @@
                                 <span class="material-symbols-outlined">
                                     logout
                                 </span>
-                                <a href="">Log out</a>
+                                <a href="AdminLogOutServlet">Log out</a>
                             </li>
                         </ul>
                     </div>

@@ -35,18 +35,8 @@
                         </a>
                     </li>
                     <li class="sidebar-list-item">
-                        <a href="#" target="_blank">
-                            <span class="material-icons-outlined">category</span> Categories
-                        </a>
-                    </li>
-                    <li class="sidebar-list-item">
                         <a href="AccountManageController">
                             <span class="material-icons-outlined">groups</span> Account
-                        </a>
-                    </li>
-                    <li class="sidebar-list-item">
-                        <a href="#" target="_blank">
-                            <span class="material-icons-outlined">poll</span> Reports
                         </a>
                     </li>
                 </ul>

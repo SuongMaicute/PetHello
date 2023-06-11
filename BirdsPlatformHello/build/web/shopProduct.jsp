@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
         <!-- Material Icons -->
@@ -69,68 +69,60 @@
                                     <table class="table">
                                         <thead class="table-thead">
                                             <tr>
-                                                <th class="text-center" scope="col">SKU</th>
+                                                <th class="text-center" scope="col">ID</th>
                                                 <th class="text-center" scope="col">Name</th>
                                                 <th class="text-center" scope="col">Image</th>
-                                                <th class="text-center" scope="col">Price</th>
+                                                <th class="text-center" scope="col">Price($)</th>
                                                 <th class="text-center" scope="col">Quantity</th>
                                                 <th class="text-center" scope="col">Status</th>
                                                 <th class="text-center" scope="col">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center">
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getPriceIsEmptyError()}</p>
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getPriceIsNumberError()}</p>
-                                                </td>
-                                                <td class="text-center">  
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getQuantityIsEmptyError()}</p>
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getQuantityIsNumberError()}</p>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
                                             <c:set var="productList" value="${requestScope.PRODUCTS}"/>
                                             <c:if test="${not empty productList}">
-                                            <c:forEach var="product" items="${productList}">
-                                            <form action="AdminProductController" method="POST">
-                                                <tr>
-                                                    <td class="text-center">${product.sku}
-                                                        <input class="input-edit" type="hidden" name="sku" value="${dto.sku}"  />
-                                                    </td>
-                                                    <td class="text-center">${product.productName}</td>
-                                                    <td class="text-center">
-                                                        <img
-                                                            alt="..."
-                                                            src="${product.img}"                      
-                                                            class="rounded-circle img-table"
-                                                            />
-                                                    </td>
-                                                    <td class="text-center">
+                                                <c:forEach var="product" items="${productList}">
+                                                <form action="AdminProductController" method="POST">
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            ${product.productID}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            ${product.productName}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <img
+                                                                alt="..."
+                                                                src="${product.img}"                      
+                                                                class="rounded-circle img-table"
+                                                                />
+                                                        </td>
+                                                        <td class="text-center">
 
-                                                        <input class="input-edit" type="number" name="price" value="${product.priceIn}"  />
-                                                    </td>
+                                                            <input class="input-edit" type="number" name="price" value="${product.priceIn}"  />
+                                                        </td>
 
-                                                    <td class="text-center">
+                                                        <td class="text-center">
 
-                                                        <input class="input-edit" type="number" name="quantity" value="${product.quantity}"  />
+                                                            <input class="input-edit" type="number" name="quantity" value="${product.quantity}"  />
 
-                                                    </td>
-                                                        <td class="text-center">${product.status}</td>
-                                                    <td class="text-center">
-                                                        <input type="hidden" name="btAction" value="Update Product"/>
-                                                        <button
-                                                            type="submit"
-                                                            class="btn btn-sm btn-neutral"
-                                                            >
-                                                            <i class="fa fa-edit shop-btn_modify"></i
-                                                            ></button>
-                                                    </td>
-                                                </tr>
-                                            </form>
-                                        </c:forEach>
-                                            </c:if>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input class="input-edit" type="text" name="status" value="${product.status}"  />
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <input type="hidden" name="btAction" value="Update Product"/>
+                                                            <button
+                                                                type="submit"
+                                                                class="btn btn-sm btn-neutral"
+                                                                >
+                                                                <i class="fa fa-edit shop-btn_modify"></i
+                                                                ></button>
+                                                        </td>
+                                                    </tr>
+                                                </form>
+                                            </c:forEach>
+                                        </c:if>
                                         </tbody>
                                     </table>
                                 </div>                 

@@ -69,7 +69,7 @@
                                     <table class="table">
                                         <thead class="table-thead">
                                             <tr>
-                                                <th class="text-center" scope="col">SKU</th>
+                                                <th class="text-center" scope="col">ID</th>
                                                 <th class="text-center" scope="col">Name</th>
                                                 <th class="text-center" scope="col">Image</th>
                                                 <th class="text-center" scope="col">Price</th>
@@ -79,25 +79,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center">
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getPriceIsEmptyError()}</p>
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getPriceIsNumberError()}</p>
-                                                </td>
-                                                <td class="text-center">  
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getQuantityIsEmptyError()}</p>
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getQuantityIsNumberError()}</p>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
                                             <c:set var="productList" value="${requestScope.PRODUCT}"/>
                                             <c:if test="${not empty productList}">
                                             <c:forEach var="product" items="${productList}">
                                             <form action="AdminProductController" method="POST">
                                                 <tr>
-                                                    <td class="text-center">${product.sku}
-                                                        <input class="input-edit" type="hidden" name="sku" value="${dto.sku}"  />
+                                                    <td class="text-center">
+                                                        ${product.productID}
                                                     </td>
                                                     <td class="text-center">${product.productName}</td>
                                                     <td class="text-center">

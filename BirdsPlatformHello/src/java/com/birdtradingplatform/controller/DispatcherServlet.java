@@ -30,6 +30,7 @@ public class DispatcherServlet extends HttpServlet {
     private String UPDATEPASSCONTROLLER= "UpdateNewPass";
     private String CHECKMAILCONTROLLER= "CreateCodeController";
     private String CHANGEPASSCONTROLLER = "ChangePassController";
+    private String UPDATEORDERSHOPCONTROLLER = "shopSaveOrderController";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -64,6 +65,8 @@ public class DispatcherServlet extends HttpServlet {
                 url = CHECKMAILCONTROLLER;
             }else if(submit.equalsIgnoreCase("Update Pass")){
                 url = CHANGEPASSCONTROLLER;
+            } else if (submit.equalsIgnoreCase("Save all")) {
+                url = UPDATEORDERSHOPCONTROLLER;
             }
             
         }finally{

@@ -99,7 +99,7 @@
                             <div class="middle">
                                 <div class="left">
                                     <h3>Totals Orders</h3>
-                                    <h1>${ORDERS}</h1>                                         
+                                    <h1>${NUMBEROFORDER}</h1>                                         
                                 </div>
                                 <div class="progress">
                                     <svg>
@@ -124,7 +124,7 @@
                             <div class="middle">
                                 <div class="left">
                                     <h3>Total Income</h3>
-                                    <h1>200</h1>
+                                    <h1>${INCOMEOFSHOP}$</h1>
                                 </div>
                                 <div class="progress">
                                     <svg>

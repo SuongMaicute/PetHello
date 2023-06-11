@@ -58,16 +58,6 @@
                                 <div class="detail">
                                     <div class="detail-title" style="display: flex; justify-content: flex-end">
                                         <div style="display: flex; ">
-                                        <c:url var="loadcreateaccount" value="loadCreateAccountAction">
-                                        </c:url>
-                                        <div id="shoptitlebtn" class="shoptitle-btn">
-                                            <a
-                                                href=""
-                                                class="admin-btn"
-                                                >
-                                                Create user</a
-                                            >
-                                        </div>
                                         <div class="search">
                                             <form action="searchAccountAction" method="POST">
                                                 <input class="search-input" type="text" placeholder="Search by name" name="txtSearch" value="${txtSearch}"/>
@@ -105,7 +95,7 @@
                                                         </td>
                                                         <td class="text-center" >${user.username}</td>
                                                         <td class="text-center" >
-                                                            <input class="input-edit-user" type="text" name="password" value="${user.password}" />
+                                                            <input class="input-edit-user" type="password" name="password" value="${user.password}" />
                                                         </td>
                                                         <td class="text-center " >                            
                                                             <input class="input-edit-user" type="text" name="address" value="${user.regisDate}" />

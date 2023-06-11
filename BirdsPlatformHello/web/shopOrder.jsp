@@ -78,32 +78,36 @@
                                                 <th class="text-center" scope="col">Cancel</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            
+                                        <tbody>    
                                             <c:set var="orderList" value="${requestScope.ORDERS}"/>
-                                            <c:set var="productList" value="${requestScope.PRODUCTIMG}"/>
-                                            <c:if test="${not empty productList}">
+                                            <c:set var="customerList" value="${requestScope.USERNAMELIST}"/>
+                                            <c:if test="${not empty customerList}">
                                                 <c:forEach var="order" items="${orderList}">
-
                                                 <form action="shopOrdersController" method="POST">
                                                     <tr>                    
-                                                        <td class="text-center">${order.orderID}                               
+                                                        <td class="text-center">
+                                                            <a href="shopOrderDetailsController">
+                                                                <input type="hidden" name="orderID" value="${order.orderID}">
+                                                                ${order.orderID}
+                                                            </a>
                                                         </td>
                                                         <td class="text-center">
-                                                            <c:forEach var="entry" items="${productList}">
+                                                            <c:forEach var="entry" items="${customerList}">
                                                                 <c:if test="${entry.key eq order.orderID}">
-                                                                    <img alt="..." src="${entry.value}" class="rounded-circle img-table" />
+                                                                    ${entry.value}
                                                                 </c:if>
                                                             </c:forEach> 
                                                         </td>
                                                         <td class="text-center">
-                                                           ${order.total}
+                                                            ${order.total}
                                                         </td>
 
                                                         <td class="text-center">
                                                             ${order.shipDate}
                                                         </td>
-                                                        <td class="text-center">${order.status}</td>
+                                                        <td class="text-center">
+                                                            <input type="text" name="status" value="${order.status}">
+                                                        </td>
                                                         <td class="text-center">
                                                             <input type="hidden" name="btAction" value="Update Product"/>
                                                             <button
@@ -113,13 +117,16 @@
                                                                 <i class="fa fa-edit shop-btn_modify"></i
                                                                 ></button>
                                                         </td>
-                                                    </tr>
+                                                    </tr> 
                                                 </form>                                                
-
                                             </c:forEach>
                                         </c:if>
                                         </tbody>
                                     </table>
+                                            <form action="DispatcherServlet">
+                                                  <input class="" type="submit" name="MAIN" value="Save all">
+                                            </form>
+                                  
                                 </div>                 
                             </div>
                         </div>
