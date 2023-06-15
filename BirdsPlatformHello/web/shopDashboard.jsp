@@ -39,7 +39,7 @@
                     <div class="shop-begin">
                         <div class="main-title">
                             <div class="shop-details right">
-                                <img src="img/download.jpg" alt="alt"
+                                <img src="${sessionScope.SHOP_ADMIN_ROLE.avatar}" alt="alt"
                                      class=" img-table rounded-circle align-items-center"/>
                                 <h3 class="text-center ">My Shop</h3>
                                 <h4 class="text-center">Address</h4>
@@ -101,14 +101,7 @@
                                     <h3>Totals Orders</h3>
                                     <h1>${NUMBEROFORDER}</h1>                                         
                                 </div>
-                                <div class="progress">
-                                    <svg>
-                                    <circle cx='38' cy='38' r='36'></circle>
-                                    </svg>
-                                    <div class="number">
-                                        <p>81%</p>
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div> 
                         <small class="text-muted">Last month</small>
@@ -125,14 +118,6 @@
                                 <div class="left">
                                     <h3>Total Income</h3>
                                     <h1>${INCOMEOFSHOP}$</h1>
-                                </div>
-                                <div class="progress">
-                                    <svg>
-                                    <circle cx='38' cy='38' r='36'></circle>
-                                    </svg>
-                                    <div class="number">
-                                        <p>81%</p>
-                                    </div>
                                 </div>
                             </div>
                         </div> 

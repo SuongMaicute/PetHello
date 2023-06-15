@@ -8,8 +8,10 @@ package com.birdtradingplatform.controller;
 
 import com.birdtradingplatform.dao.AccountDAO;
 import com.birdtradingplatform.dao.CustomerDAO;
+import com.birdtradingplatform.dao.ShopDAO;
 import com.birdtradingplatform.model.Account;
 import com.birdtradingplatform.model.Customer;
+import com.birdtradingplatform.model.Shop;
 import com.birdtradingplatform.model.UserGoogleDto;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -51,6 +53,9 @@ public class LoginGoogleHandler extends HttpServlet {
         String accessToken = getToken(code);
         UserGoogleDto user = getUserInfo(accessToken);
 
+        
+       String url = "Homepage.jsp";
+        
         AccountDAO dao = new AccountDAO();
         Account dto = dao.CheckLoginbyGmail(user.getEmail());
        if (dto != null) {
@@ -59,7 +64,7 @@ public class LoginGoogleHandler extends HttpServlet {
             System.out.println("Check by Username IMg ne" + dto.getAvatar());
             
         } else {
-            session.setAttribute("GMAIL", user.getEmail());
+           session.setAttribute("GMAIL", user.getEmail());
             session.setAttribute("GOOGLE_ACC", user);
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
             dto = new Account(1, "USER", user.getEmail(), "123", 1,
@@ -69,37 +74,53 @@ public class LoginGoogleHandler extends HttpServlet {
             int ID = dao.GetIDByEmail(user.getEmail());
             CustomerDAO cusDAO = new CustomerDAO();
             cusDAO.Insert_new_into_Customer(new Customer(1, "  ", 0, ID));
-            System.out.println("Check by Username IMg ne" + user.getPicture());
+            System.out.println("Check by Username IMg ne" + user);
         }
 
+       if (dto.getRole()==2) {
+                    session.setAttribute("SHOP_ADMIN_ROLE", true);
+                    url = "AdminDashboardController";
+                    // HomePage controller for system admin nhe
+                }else  if (dto.getRole()== 3) {
+                    session.setAttribute("SYSTEM_ADMIN_ROLE", true);    
+                    url = "shopOrdersController";
+                    
+                    ShopDAO shopDao= new ShopDAO();
+                    Shop shop = shopDao.getShopInforByShopID(dto);           
+                    session.setAttribute("SHOP", shop);
+                    System.out.println("SHOP" +shop.getShopID());
+                    
+                }else{
+                    session.setAttribute("USER_ROLE", true);
+                }
         if (user != null) {
-            response.sendRedirect("HomePage.jsp");
+            response.sendRedirect(url);
         }
 
     }
 
     public static String getToken(String code) throws ClientProtocolException, IOException {
-        // call api to get token
-        String response = Request.Post(Constants.GOOGLE_LINK_GET_TOKEN)
-                .bodyForm(Form.form().add("client_id", Constants.GOOGLE_CLIENT_ID)
-                        .add("client_secret", Constants.GOOGLE_CLIENT_SECRET)
-                        .add("redirect_uri", Constants.GOOGLE_REDIRECT_URI).add("code", code)
-                        .add("grant_type", Constants.GOOGLE_GRANT_TYPE).build())
-                .execute().returnContent().asString();
+		// call api to get token
+		String response = Request.Post(Constants.GOOGLE_LINK_GET_TOKEN)
+				.bodyForm(Form.form().add("client_id", Constants.GOOGLE_CLIENT_ID)
+						.add("client_secret", Constants.GOOGLE_CLIENT_SECRET)
+						.add("redirect_uri", Constants.GOOGLE_REDIRECT_URI).add("code", code)
+						.add("grant_type", Constants.GOOGLE_GRANT_TYPE).build())
+				.execute().returnContent().asString();
 
-        JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
-        String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
-        return accessToken;
-    }
+		JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
+		String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
+		return accessToken;
+	}
 
-    public static UserGoogleDto getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
-        String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
-        String response = Request.Get(link).execute().returnContent().asString();
+	public static UserGoogleDto getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
+		String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
+		String response = Request.Get(link).execute().returnContent().asString();
 
-        UserGoogleDto googlePojo = new Gson().fromJson(response, UserGoogleDto.class);
+		UserGoogleDto googlePojo = new Gson().fromJson(response, UserGoogleDto.class);
 
-        return googlePojo;
-    }
+		return googlePojo;
+	}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the +
     // sign on the left to edit the code.">

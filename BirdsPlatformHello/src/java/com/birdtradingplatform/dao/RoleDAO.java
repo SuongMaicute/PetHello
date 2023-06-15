@@ -22,7 +22,7 @@ import com.birdtradingplatform.utils.DBHelper;
  * @author Minh Quan
  */
 public class RoleDAO {
-    
+
     private ArrayList<Role> roles;
 
     /**
@@ -31,27 +31,26 @@ public class RoleDAO {
     public ArrayList<Role> getRoles() {
         return roles;
     }
-    public ArrayList<Role> getAllRoles(List<Account> userList) throws ClassNotFoundException, SQLException{
-         Connection con = null;
+
+    public int getRole(String name) throws ClassNotFoundException, SQLException {
+        Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
+        int role = 0;
         try {
             con = DBHelper.makeConnection();
             if (con != null) {
-                String sql = "SELECT * FROM ROLE";
+                String sql = "SELECT * FROM ROLE WHERE roleName = ? ";
                 stm = con.prepareStatement(sql);
-                    rs = stm.executeQuery();
-                
+                stm.setString(1, name);
+                rs = stm.executeQuery();
+
                 while (rs.next()) {
-                    int role = rs.getInt("role");
+                     role = rs.getInt("role");
                     String roleName = rs.getString("roleName");
                     Role result = new Role(role, roleName);
-                    if (this.roles == null) {
-                        this.roles = new ArrayList<>();
-                    }
-                    this.roles.add(result);
                 }
-            
+
             }
         } finally {
             if (rs != null) {
@@ -65,14 +64,49 @@ public class RoleDAO {
             }
 
         }
-        return this.roles;        
+        return role;
     }
+
+    public ArrayList<Role> getAllRoles(List<Account> userList) throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "SELECT * FROM ROLE";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                    int role = rs.getInt("role");
+                    String roleName = rs.getString("roleName");
+                    Role result = new Role(role, roleName);
+                    if (this.roles == null) {
+                        this.roles = new ArrayList<>();
+                    }
+                    this.roles.add(result);
+                }
+
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+
+        }
+        return this.roles;
+    }
+
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        AccountDAO dao = new AccountDAO();
-        List<Account> user = dao.getUserList();
-        RoleDAO roleDAO = new RoleDAO();
-        roleDAO.getAllRoles(user);
-        List<Role> roles = roleDAO.getRoles();
-        System.out.println(roles.size());
+        Role r = new Role();
+        RoleDAO dAO = new RoleDAO();
+        System.out.println(dAO.getRole("user"));
     }
 }

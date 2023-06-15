@@ -41,7 +41,7 @@ public class CheckLoginbyUserName extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException {
         String url = "Login.jsp";
-        Account dto = null;
+//        Account dto = null;
         AccountDAO dao = new AccountDAO();
         PrintWriter out = response.getWriter();
         try {
@@ -50,7 +50,7 @@ public class CheckLoginbyUserName extends HttpServlet {
             String password = request.getParameter("pass");
              Account result = dao.CheckLoginbyUserName(username, password);
             //login by username and 
-            dto = dao.CheckLoginbyUserName(username, password);
+            Account dto = dao.CheckLoginbyUserName(username, password);
 
             HttpSession session = request.getSession();
 
@@ -62,24 +62,22 @@ public class CheckLoginbyUserName extends HttpServlet {
                 // System.out.println("Check by Username IMg ne" + dto.getImg());
 
                 if (dto.getRole()==2) {
-                    session.setAttribute("SHOP_ADMIN_ROLE", true);
+                    session.setAttribute("SYSTEM_ADMIN_ROLE", dto);
                     url = "AdminDashboardController";
                     // HomePage controller for system admin nhe
                 }else  if (dto.getRole()== 3) {
-                    session.setAttribute("SYSTEM_ADMIN_ROLE", true);    
+                    session.setAttribute("SHOP_ADMIN_ROLE", dto);    
                     url = "shopOrdersController";
                 }else{
                     session.setAttribute("USER_ROLE", true);
                 }
-                
-
             } else {
                 url = "Login.jsp";
                 request.setAttribute("validAcc", "false");
             }
              session.setAttribute("username", username);
              request.setAttribute("account", result);
-             if(!dto.getAvatar().isEmpty()){
+             if(dto.getAvatar()!=null && !dto.getAvatar().isEmpty()){
              session.setAttribute("IMG", dto.getAvatar());
              } else {
                  

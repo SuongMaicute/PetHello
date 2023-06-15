@@ -42,7 +42,7 @@
                             </li>
                             <li>
                                 <span class="material-icons-outlined">account_circle</span>
-                                <a href="adminProfile.jsp">My profile</a>
+                                <a href="shopProfile.jsp">My profile</a>
                             </li>
                             <li>
                                 <span class="material-symbols-outlined">

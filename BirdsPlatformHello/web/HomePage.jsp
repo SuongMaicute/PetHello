@@ -54,7 +54,7 @@
                     </a>
                 </c:if>
                 <c:if test="${not empty User}">
-                    <a href="userProfile_1.jsp">
+                    <a href="GetDataForUserProfile">
                         <div id="login-btn" class="ri-user-line"></div>
                     </a>
                 </c:if>

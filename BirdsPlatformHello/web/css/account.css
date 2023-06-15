@@ -175,10 +175,6 @@ body {
     font-size: 1.8rem;
     font-weight: bold;
 }
-
-.table {
-    margin-top: 30px;
-}
 tr,
 th {
     font-size: 1.6rem;
@@ -456,7 +452,8 @@ th {
     padding: 1rem 2rem 1rem 0;
 }
 .input-edit{
-    width:75px;
+    height: 30px;
+    width: 93px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -466,7 +463,7 @@ th {
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-left: 40px;
+    margin-left: 120px;
     padding: 5px 8px;
 }
 

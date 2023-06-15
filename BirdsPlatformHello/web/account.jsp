@@ -58,29 +58,26 @@
                                 <div class="detail">
                                     <div class="detail-title" style="display: flex; justify-content: flex-end">
                                         <div style="display: flex; ">
-                                        <div class="search">
-                                            <form action="searchAccountAction" method="POST">
-                                                <input class="search-input" type="text" placeholder="Search by name" name="txtSearch" value="${txtSearch}"/>
+                                            <div class="search">
+                                                <form action="searchAccountAction" method="POST">
+                                                    <input class="search-input" type="text" placeholder="Search by name" name="txtSearch" value="${txtSearch}"/>
                                                 <button type="submit" class="search-btn">Search</button>
                                             </form>
 
                                         </div>
                                     </div>
-                                </div>
-                                <p class="text-danger" style="font-size: 1.4rem"></p>
-                                <p class="text-danger" style="font-size: 1.4rem"></p>
-                                <p class="text-danger" style="font-size: 1.4rem"></p>
-                                <p class="text-danger" style="font-size: 1.4rem"></p>
+                                </div>       
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead class="table-thead">
                                             <tr>
+                                                <th class="text-center" scope="col">ID</th>
                                                 <th class="text-center" scope="col">Email</th>
                                                 <th class="text-center" scope="col">Full Name</th>
-                                                <th class="text-center" scope="col">Password</th>
                                                 <th class="text-center" scope="col">Registed day</th>
                                                 <th class="text-center" scope="col">Role</th>
-                                                <th class="text-center" scope="col">Action</th>
+                                                <th class="text-center" scope="col">Update</th>
+                                                <th class="text-center" scope="col">Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -88,38 +85,39 @@
                                             <c:set var="roleList" value="${requestScope.ROLES}" />
                                             <c:if test="${not empty userList}">
                                                 <c:forEach var="user" items="${userList}">
-                                                <form action="AccountManageController" method="POST">
+                                                <form action="UpdateAccountServlet" method="POST">
                                                     <tr>
+                                                        <td class="text-center" >
+                                                            ${user.accountID}
+                                                        </td>
                                                         <td class="text-center" >${user.email}
                                                             <input type="hidden" name="email" value="${user.email}"/>
                                                         </td>
                                                         <td class="text-center" >${user.username}</td>
-                                                        <td class="text-center" >
-                                                            <input class="input-edit-user" type="password" name="password" value="${user.password}" />
-                                                        </td>
-                                                        <td class="text-center " >                            
-                                                            <input class="input-edit-user" type="text" name="address" value="${user.regisDate}" />
+                                                        <td class="text-center" >                            
+                                                            ${user.regisDate}
                                                         </td>
                                                         <td class="text-center">
                                                             <c:if test="${not empty roleList}">
-                                                                <c:forEach var="role" items="${roleList}">
-                                                                    <c:if test="${role.role == user.role}">
-                                                                         <input class="input-edit-user" type="text" name="address" value="${role.roleName}" />
-                                                                    </c:if>
-                                                                </c:forEach>
+                                                                <select class="input-edit" name="roleId">
+                                                                    <c:forEach var="role" items="${roleList}">
+                                                                        <option 
+                                                                            <c:if test="${role.role == user.role}">
+                                                                                selected="selected"
+                                                                            </c:if> >                                                                    
+                                                                            ${role.roleName}</option>
+                                                                        </c:forEach>                                                                                                             
+                                                                </select>
                                                             </c:if>
                                                         </td>
-
-                                                        <td class="text-end">                                                         
-                                                            <a href="UpdateAccountServlet" class="btn btn-sm btn-square btn-neutral text-danger-hover"> 
+                                                        <td class="text-center">
+                                                            <button type="submit" class="btn btn-sm btn-neutral">
                                                                 <span class="material-symbols-outlined">
-                                                                    cached
-                                                                </span>
-                                                                     </a>  
-                                                           
-                                                                <c:url var="deleteaccount" value="DeleteAccountController">
-                                                                    <c:param name="email" value="${user.email}"></c:param>
-                                                                </c:url>
+                                                                    sync
+                                                                </span></button>
+                                                        </td>
+                                                        <td class="text-center">                                                         
+
                                                             <a
                                                                 href="${deleteaccount}"
                                                                 class="btn btn-sm btn-square btn-neutral text-danger-hover"
@@ -128,14 +126,18 @@
                                                                 <span class="material-symbols-outlined">
                                                                     delete
                                                                 </span>
-                                                            </a>
+
                                                         </td>
                                                     </tr>
-                                                </form>                                  
+
+                                                </form>
+
                                             </c:forEach>  
+
                                         </c:if>
                                         </tbody>
                                     </table>
+
                                 </div>
 
                                 <!-- <div class="card-footer border-0 py-5">

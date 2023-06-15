@@ -177,11 +177,8 @@ public class AccountDAO {
                     String avatar = rs.getString("avatar");
                     
                    dto = new Account(accountID, username, email, password, role, isDeleted, email, avatar);
-                    System.out.print(dto.getEmail());
                 }
-            } else {
-
-            }
+            } 
 
         } finally {
             if (rs != null) {
@@ -413,12 +410,11 @@ public class AccountDAO {
         int result = 0;
         try {
             con = DBHelper.makeConnection();
-            String sql = "UPDATE Account SET password = ?, role = ? WHERE email = ?";
+            String sql = "UPDATE Account SET role = ? WHERE email = ?";
             
             stm = con.prepareStatement(sql);
-            stm.setString(1, acc.getPassword());
-            stm.setInt(2, acc.getRole());
-            stm.setString(3, acc.getEmail());
+            stm.setInt(1, acc.getRole());
+            stm.setString(2, acc.getEmail());
             
             result = stm.executeUpdate();
             
@@ -469,10 +465,10 @@ public class AccountDAO {
         return result;
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException, NamingException {
         AccountDAO dao = new AccountDAO();
-        List<Account> accounts= 
-        dao.getUserList();
-        System.out.println(accounts.size());
+        Account account = new Account(0, null, "dashard1@vk.com", null, 2, true, null);
+        int row = 0;
+        row = dao.updateAccountByAdmin(account);
     }
 }

@@ -75,6 +75,7 @@
                                                 <th class="text-center" scope="col">Total ($)</th>
                                                 <th class="text-center" scope="col">Order day</th>
                                                 <th class="text-center" scope="col">Status</th>
+                                                <th class="text-center" scope="col">Update</th>
                                                 <th class="text-center" scope="col">Cancel</th>
                                             </tr>
                                         </thead>
@@ -83,11 +84,10 @@
                                             <c:set var="customerList" value="${requestScope.USERNAMELIST}"/>
                                             <c:if test="${not empty customerList}">
                                                 <c:forEach var="order" items="${orderList}">
-                                                <form action="shopOrdersController" method="POST">
+                                                <form action="shopSaveOrderController" method="POST">
                                                     <tr>                    
                                                         <td class="text-center">
-                                                            <a href="shopOrderDetailsController">
-                                                                <input type="hidden" name="orderID" value="${order.orderID}">
+                                                            <a href="shopOrderDetailsController">                                 
                                                                 ${order.orderID}
                                                             </a>
                                                         </td>
@@ -105,28 +105,39 @@
                                                         <td class="text-center">
                                                             ${order.shipDate}
                                                         </td>
-                                                        <td class="text-center">
-                                                            <input type="text" name="status" value="${order.status}">
+                                                        <td class="text-center">      
+                                                            <input type="hidden" name="orderID" value="${order.orderID}">
+                                                            <select class="input-edit" name="status">
+                                                                <option value="Processing" ${order.status eq 'Processing' ? 'selected' : ''}>Processing</option>
+                                                                <option value="Shipped" ${order.status eq 'Shipped' ? 'selected' : ''}>Shipped</option>
+                                                                <option value="Delivered" ${order.status eq 'Delivered' ? 'selected' : ''}>Delivered</option>
+                                                                <option value="Cancelled" ${order.status eq 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                                            </select>                               
                                                         </td>
                                                         <td class="text-center">
-                                                            <input type="hidden" name="btAction" value="Update Product"/>
+                                                            <button type="submit" class="btn btn-sm btn-neutral">
+                                                                <span class="material-symbols-outlined">
+                                                                    sync
+                                                                </span></button>
+                                                        </td>
+                                                        <td class="text-center">
+
                                                             <button
                                                                 type="submit"
                                                                 class="btn btn-sm btn-neutral"
                                                                 >
-                                                                <i class="fa fa-edit shop-btn_modify"></i
-                                                                ></button>
+                                                                <span class="material-symbols-outlined">
+                                                                    delete
+                                                                </span></button>
                                                         </td>
+
                                                     </tr> 
-                                                </form>                                                
+                                                </form> 
+
                                             </c:forEach>
                                         </c:if>
                                         </tbody>
                                     </table>
-                                            <form action="DispatcherServlet">
-                                                  <input class="" type="submit" name="MAIN" value="Save all">
-                                            </form>
-                                  
                                 </div>                 
                             </div>
                         </div>

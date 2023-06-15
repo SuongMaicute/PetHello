@@ -62,7 +62,7 @@
               
                 <input name="MAIN" type="submit" value="Login" class="sign-btn" />
               
-              <a href="https://accounts.google.com/o/oauth2/auth?scope=email&amp;redirect_uri=http://localhost:8081/swp/LoginGoogleHandler&amp;response_type=code&amp;client_id=1037707091680-1aq2v2s9f844d1qs4dapbn521vdi89pe.apps.googleusercontent.com&amp;approval_prompt=force" class="gg-btn">
+              <a href="https://accounts.google.com/o/oauth2/auth?scope=email&amp;redirect_uri=http://localhost:8080/BirdsPlatformHello/LoginGoogleHandler&amp;response_type=code&amp;client_id=1037707091680-1aq2v2s9f844d1qs4dapbn521vdi89pe.apps.googleusercontent.com&amp;approval_prompt=force" class="gg-btn">
                 <span class="btn-text">Google</span>
               </a>
                 

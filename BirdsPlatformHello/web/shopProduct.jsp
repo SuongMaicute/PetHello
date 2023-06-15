@@ -75,7 +75,8 @@
                                                 <th class="text-center" scope="col">Price($)</th>
                                                 <th class="text-center" scope="col">Quantity</th>
                                                 <th class="text-center" scope="col">Status</th>
-                                                <th class="text-center" scope="col">Action</th>
+                                                <th class="text-center" scope="col">Update</th>
+                                                <th class="text-center" scope="col">Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -107,8 +108,12 @@
                                                             <input class="input-edit" type="number" name="quantity" value="${product.quantity}"  />
 
                                                         </td>
-                                                        <td class="text-center">
-                                                            <input class="input-edit" type="text" name="status" value="${product.status}"  />
+                                                        <td class="text-center">                                 
+                                                            <input type="hidden" name="productName" value="${product.productName}">
+                                                            <select class="input-edit" name="productStatus">
+                                                                <option value="Available" ${product.status eq 'Available' ? 'selected' : ''}>Available</option>
+                                                                <option value="Not Available" ${product.status eq 'Not Available' ? 'selected' : ''}>Not Available</option>
+                                                            </select>
                                                         </td>
                                                         <td class="text-center">
                                                             <input type="hidden" name="btAction" value="Update Product"/>
@@ -116,8 +121,9 @@
                                                                 type="submit"
                                                                 class="btn btn-sm btn-neutral"
                                                                 >
-                                                                <i class="fa fa-edit shop-btn_modify"></i
-                                                                ></button>
+                                                                <span class="material-symbols-outlined">
+                                                                    delete
+                                                                </span></button>
                                                         </td>
                                                     </tr>
                                                 </form>

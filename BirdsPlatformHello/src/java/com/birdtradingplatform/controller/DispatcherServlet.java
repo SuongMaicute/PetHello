@@ -44,7 +44,6 @@ public class DispatcherServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url ="Err.html";
-        System.out.println("Dispatch controkker");
         try{
             String submit = request.getParameter("MAIN");
             if (submit.isEmpty()){

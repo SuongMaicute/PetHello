@@ -36,6 +36,49 @@ public class OrderDAO {
         return ordersList;
     }
 
+    public Order getOrderByID(int id) throws SQLException, ClassNotFoundException{
+          Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Order result = null;
+
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                con = DBHelper.makeConnection();
+                if (con != null) {
+                    String sql = "SELECT * FROM [BirdPlatform].[dbo].[Order]";
+                    stm = con.prepareStatement(sql);
+                    rs = stm.executeQuery();
+
+                    while (rs.next()) {
+                        int orderID = rs.getInt("orderID");
+                        Date orderDate = rs.getDate("orderDate");
+                        float total = rs.getFloat("total");
+                        int paymentID = rs.getInt("paymentID");
+                        int customerID = rs.getInt("customerID");
+                        int addressShipID = rs.getInt("addressShipID");
+                        Date shipDate = rs.getDate("shipDate");
+                        String status = rs.getString("status");
+
+                        result = new  Order(orderID, status, total, paymentID, customerID, addressShipID, status, status);                     
+                    }
+                }
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+    
     public void getOrders() throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -79,9 +122,7 @@ public class OrderDAO {
             if (con != null) {
                 con.close();
             }
-
         }
-
     }
  public List<OrderHistory> getOrderHistory(int accountID, String status) throws SQLException {
         Connection con = null;
@@ -208,9 +249,9 @@ public class OrderDAO {
         return result;
   } 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        Order order = new Order(1, null, 0, 0, null, "Delivered");
+        
         OrderDAO orderDAO = new OrderDAO();
-        orderDAO.updateOrder(order);
-        System.out.println(order);
+       Order dto = new Order(1, null, 0, 0, null, "Pending");
+       int row = orderDAO.updateOrder(dto);
     }
 }

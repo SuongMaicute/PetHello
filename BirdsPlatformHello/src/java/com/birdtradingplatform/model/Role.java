@@ -9,15 +9,26 @@ package com.birdtradingplatform.model;
  * @author Minh Quan
  */
 public class Role {
+
     private int role;
     private String roleName;
 
     public Role() {
     }
 
+  
+
+    public Role(String roleName) {
+        this.roleName = roleName;
+    }
+
     public Role(int role, String roleName) {
         this.role = role;
         this.roleName = roleName;
+    }
+
+    public Role(int role) {
+         this.role = role;
     }
 
     /**
@@ -47,6 +58,5 @@ public class Role {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
-    
-    
+
 }

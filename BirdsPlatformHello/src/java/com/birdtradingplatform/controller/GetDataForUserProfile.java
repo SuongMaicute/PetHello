@@ -6,7 +6,9 @@
 package com.birdtradingplatform.controller;
 
 import com.birdtradingplatform.dao.AccountDAO;
+import com.birdtradingplatform.dao.CustomerDAO;
 import com.birdtradingplatform.model.Account;
+import com.birdtradingplatform.model.Customer;
 import com.birdtradingplatform.model.UserGoogleDto;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -46,41 +48,32 @@ public class GetDataForUserProfile extends HttpServlet {
             AccountDAO dao = new AccountDAO();
             request.setAttribute("SERVLET", true);
             String gmail = null;
-            System.out.print("get Data Servlet ne"); 
-            
-            UserGoogleDto ggDTO = (UserGoogleDto) session.getAttribute("GOOGLE_ACC");
-            
 
-           if(ggDTO!= null){
-               gmail = ggDTO.getEmail();
-           }
-           
-           if(userDTO!= null){
-               gmail = userDTO.getEmail(); 
-           }
+
+            UserGoogleDto ggDTO = (UserGoogleDto) session.getAttribute("GOOGLE_ACC");
+            String changeGmail = (String) request.getAttribute("CHANGE_GMAIL"); 
             
-            
+            if(changeGmail!= null){
+                gmail = changeGmail;
+            }else if (ggDTO != null) {
+                gmail = ggDTO.getEmail();
+            }else if (userDTO != null) {
+                gmail = userDTO.getEmail();
+            }
             
             Account account = dao.CheckLoginbyGmail(gmail);
-            
-            if(account!= null){
+            Customer cusDTO = new Customer();
+            if (account != null) {
                 session.setAttribute("USERDTOBYUSERNAME", account);
                 request.setAttribute("ACCOUNT_EXIST_IN_DB", true);
+
+                CustomerDAO CusDAO = new CustomerDAO();
+                cusDTO = CusDAO.getCustomerByAccountID(account.getAccountID());
+                
+                
             }
-            ArrayList value = dao.GetPoint_PhoneNum(gmail);
-            System.out.println("Gmail nef" + gmail);
-            if(value != null){
-                System.out.println (value);
-                request.setAttribute("PHONE", value.get(0));
-                
-                System.out.print("Phine ne "+ value.get(0));
-                request.setAttribute("POINT",  value.get(1));
-                
-                System.out.print("POINT "+ value.get(1));
-                
-            }else{
-                System.out.println ("value arra is null");
-            }         
+            session.setAttribute("CUSTOMERDTO", cusDTO);
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(GetDataForUserProfile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -88,7 +81,7 @@ public class GetDataForUserProfile extends HttpServlet {
         } catch (NamingException ex) {
             Logger.getLogger(GetDataForUserProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
-        RequestDispatcher rd = request.getRequestDispatcher("userProfile.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("userProfile_1.jsp");
         rd.forward(request, response);
 
     }

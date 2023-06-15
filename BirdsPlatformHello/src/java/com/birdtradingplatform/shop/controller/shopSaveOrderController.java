@@ -9,6 +9,10 @@ import com.birdtradingplatform.dao.OrderDAO;
 import com.birdtradingplatform.model.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +27,9 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "shopSaveOrderController", urlPatterns = {"/shopSaveOrderController"})
 public class shopSaveOrderController extends HttpServlet {
+
     private final String UPDATED_PAGE = "shopOrdersController";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,18 +40,22 @@ public class shopSaveOrderController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+        String url = UPDATED_PAGE;
+        int row = 0;
         try {
-             int orderID = Integer.parseInt(request.getParameter("orderID"));
-            String status = request.getParameter("status");
-            Order order = new Order(orderID, null, 0, 0, null, status);
-            OrderDAO orderDAO = new OrderDAO();
-            orderDAO.updateOrder(order);        
-        } catch (Exception e) {
+           String orderID = request.getParameter("orderID");
+           String status = request.getParameter("status");
+           
+           OrderDAO orderDAO = new OrderDAO();
+           Order dto = new Order(Integer.parseInt(orderID), null, 0, 0, null, status);
+           row = orderDAO.updateOrder(dto);
+        
+        } finally {
             RequestDispatcher rd = request.getRequestDispatcher(UPDATED_PAGE);
             rd.forward(request, response);
-       }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,7 +70,11 @@ public class shopSaveOrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(shopSaveOrderController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -74,7 +88,11 @@ public class shopSaveOrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(shopSaveOrderController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

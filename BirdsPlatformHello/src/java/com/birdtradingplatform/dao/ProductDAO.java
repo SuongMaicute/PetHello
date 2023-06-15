@@ -28,7 +28,30 @@ public class ProductDAO {
         return productList;
     }
 
-    
+    public int updateProductStatus(Product product) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        int result = 0;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "UPDATE [BirdPlatform].[dbo].[Product] SET status = ? "
+                        + " WHERE productName = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, product.getStatus());
+                stm.setString(2, product.getProductName());
+                result = stm.executeUpdate();
+            }
+        } finally {
+              if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return  result;
+    }
     
      public ArrayList<Product> getProductByShopID(Shop shop) throws ClassNotFoundException, SQLException{
         ArrayList<Product> products = new ArrayList<>();

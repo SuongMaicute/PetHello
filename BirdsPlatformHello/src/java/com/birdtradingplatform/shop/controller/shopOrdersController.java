@@ -51,7 +51,6 @@ public class shopOrdersController extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            System.out.println("Shop order ");
             HttpSession session = request.getSession(false);
             if (session != null) {
                 String username = (String) session.getAttribute("username");

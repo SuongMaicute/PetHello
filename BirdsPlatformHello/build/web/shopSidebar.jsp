@@ -39,11 +39,6 @@
                     <span class="material-symbols-outlined">shopping_cart</span> Orders
                 </a>
             </li>
-            <li class="sidebar-list-item">
-                <a href="#" target="_blank">
-                    <span class="material-icons-outlined">poll</span> Reports
-                </a>
-            </li>
         </ul>
     </body>
 </html>
