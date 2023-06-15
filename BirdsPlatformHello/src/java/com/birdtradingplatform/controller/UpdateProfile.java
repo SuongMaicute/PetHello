@@ -8,12 +8,14 @@ package com.birdtradingplatform.controller;
 import com.birdtradingplatform.dao.AccountDAO;
 import com.birdtradingplatform.dao.CustomerDAO;
 import com.birdtradingplatform.model.Account;
+import com.birdtradingplatform.model.Customer;
 import com.birdtradingplatform.model.UserGoogleDto;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,7 +47,7 @@ public class UpdateProfile extends HttpServlet {
             Account userDTO = (Account) session.getAttribute("USERDTOBYUSERNAME");
             UserGoogleDto ggDTO = (UserGoogleDto) session.getAttribute("GOOGLE_ACC");
             String gmail_default = null;
-            
+
             if (ggDTO != null) {
                 gmail_default = ggDTO.getEmail();
             }
@@ -54,36 +56,53 @@ public class UpdateProfile extends HttpServlet {
                 gmail_default = userDTO.getEmail();
             }
 
-            String button = request.getParameter("Change");
-            System.out.println("we in Update profile Servlet" + button);
+            System.out.println("we in Update profile Servlet");
             AccountDAO userDAO = new AccountDAO();
             CustomerDAO cusDAO = new CustomerDAO();
-            
+
             int accountID = userDAO.GetIDByEmail(gmail_default);
-            
-            switch(button){
-                case "Update your name":{
-                    String name= request.getParameter("Name");
-                    userDAO.Update(gmail_default, name, "username");
-                    System.out.println(button); break;
-                    
-                }
-                case "Change your Gmail":{
-                    System.out.println(button);
-                    String gmail= request.getParameter("Gmail");
-                    userDAO.Update(gmail_default, gmail, "email");
-                    break;
-                    
-                }
-                case "Change your Phone Number":{
-                    String phone= request.getParameter("PhoneNumber");
-                    cusDAO.UpdatePhoneNumber(accountID, phone);
-                    break;
-                }
+            Customer cusDTO = cusDAO.getCustomerByAccountID(accountID);
+
+            String img = request.getParameter("imageInput");
+            if (img.isEmpty()) {
+                img = userDTO.getAvatar();
             }
+            System.out.println("image" + img);
+
+            String phone = request.getParameter("PhoneNumber");
+            if (phone.isEmpty()) {
+                phone = cusDTO.getPhonenumber();
+            }
+            System.out.println("phonenumber" + phone);
+
+            String name = request.getParameter("Name");
+            if (name.isEmpty()) {
+                name = userDTO.getUsername();
+            }
+            System.out.println("name" + name);
+
+            String gmail = request.getParameter("Gmail");
+            if (gmail.isEmpty()) {
+                gmail = gmail_default;
+            }
+            System.out.println("gmail" + gmail);
+
+            if (!name.equalsIgnoreCase(userDTO.getUsername())) {
+                userDAO.Update(gmail_default, name, "username");
+            } else if (!gmail.equalsIgnoreCase(gmail_default)) {
+                userDAO.Update(gmail_default, gmail, "email");
+                request.setAttribute("CHANGE_GMAIL", gmail);
+            } else if (!phone.equalsIgnoreCase(cusDTO.getPhonenumber())) {
+                cusDAO.UpdatePhoneNumber(accountID, phone);
+            } else if (!img.equalsIgnoreCase(userDTO.getAvatar())) {
+                userDAO.Update(gmail_default, img, "avatar");
+            } else {
+                request.setAttribute("UPDATE_ERROR", true);
+            }
+
+            session.setAttribute("USERDTOBYUSERNAME", userDTO);
+            session.setAttribute("GOOGLE_ACC", ggDTO);
             
-           session.setAttribute("USERDTOBYUSERNAME", userDTO);
-           session.setAttribute("GOOGLE_ACC", ggDTO);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(UpdateProfile.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,7 +111,8 @@ public class UpdateProfile extends HttpServlet {
         } catch (NamingException ex) {
             Logger.getLogger(UpdateProfile.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            response.sendRedirect("getDataforUserProfileController");
+            RequestDispatcher rd = request.getRequestDispatcher("GetDataForUserProfile");
+            rd.forward(request, response);
         }
     }
 

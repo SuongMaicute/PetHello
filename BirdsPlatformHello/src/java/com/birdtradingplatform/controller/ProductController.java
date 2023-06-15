@@ -42,22 +42,20 @@ public class ProductController extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
-
+        System.out.println("Productcontroller"); 
         if ("detail".equals(action)) {
             String productID = request.getParameter("pid");
 
             ProductDAO dao = new ProductDAO();
             Product product = dao.getProduct(productID);
-
+            
             if (product != null) {
                 request.setAttribute("productdetail", product);
                 request.setAttribute("action", "suggestedproduct");
-                request.getRequestDispatcher("productdetail.jsp").forward(request, response);
+                
             }
-        } else if ("suggestedproduct".equals(action)) {
-
-            String category = request.getParameter("category");
-            ProductDAO dao = new ProductDAO();
+             String category = product.getCategory();
+          
             int suggestionProduct = 15;
             int productPerPage = 3;
             int numPage = 5;
@@ -75,8 +73,8 @@ public class ProductController extends HttpServlet {
             request.setAttribute("totalpage", numPage);
             //current page
             request.setAttribute("currentpage", curPage);
-            request.getRequestDispatcher("productdetail.jsp")
-                    .forward(request, response);
+            request.getRequestDispatcher("productdetail.jsp").forward(request, response);
+        
         } else if ("feedback".equals(action)) {
             int productID;
             try {
@@ -86,6 +84,7 @@ public class ProductController extends HttpServlet {
             }
             FeedbackDAO feedbackDAO = new FeedbackDAO();
             List<FeedbackDetail> list = feedbackDAO.getFeedbackDetail(productID);
+             String s = list.get(0).toString();
             int totalfeedback = list.size();
             int fivestar = 0;
             int fourstar = 0;
@@ -125,34 +124,42 @@ public class ProductController extends HttpServlet {
             ProductDAO dao = new ProductDAO();
             String search = request.getParameter("search");
             String colSort = request.getParameter("colSort");
+            String sortType = request.getParameter("sortType");
             String category = request.getParameter("category");
+            String shopID = request.getParameter("shopID");
             if (colSort == null) {
-                colSort = "star";
+                colSort = "pRate.star";
+            }
+            if (search == null) {
+                search = "";
+            }
+            if (sortType == null) {
+                sortType = "";
             }
             if (colSort == null) {
                 colSort = "";
             }
-           
+
             int totalProduct = dao.getProductCount(search);
             int productPerPage = 16;
-            int numPage = (int)Math.ceil((double)totalProduct/(double)productPerPage);
+            int numPage = (int) Math.ceil((double) totalProduct / (double) productPerPage);
             int curPage;
             try {
                 curPage = Integer.parseInt(request.getParameter("curPage"));
             } catch (Exception e) {
                 curPage = 1;
             }
-//            List<ProductWithRate> shopProductList = dao.getShopProductListByPage(search, 
-//                    productPerPage, curPage, colSort, category);
+            List<ProductWithRate> shopProductList = dao.getShopProductListByPage(shopID,search,
+                    productPerPage, curPage, colSort, category, sortType);
             //List of suggested product
-//            request.setAttribute("suggestedlist", shopProductList);
+            request.setAttribute("shopProductList", shopProductList);
             //total page
             request.setAttribute("totalpage", numPage);
             //current page
             request.setAttribute("currentpage", curPage);
-            request.getRequestDispatcher("productdetail.jsp")
+            request.getRequestDispatcher("shop.jsp")
                     .forward(request, response);
-            
+
         }
     }
 

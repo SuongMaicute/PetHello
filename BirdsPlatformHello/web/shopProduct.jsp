@@ -69,13 +69,13 @@
                                     <table class="table">
                                         <thead class="table-thead">
                                             <tr>
-                                                <th class="text-center" scope="col">SKU</th>
+                                                <th class="text-center" scope="col">No.</th>
                                                 <th class="text-center" scope="col">Name</th>
                                                 <th class="text-center" scope="col">Image</th>
                                                 <th class="text-center" scope="col">Price</th>
                                                 <th class="text-center" scope="col">Quantity</th>
                                                 <th class="text-center" scope="col">Status</th>
-                                                <th class="text-center" scope="col">Action</th>
+                                                <th class="text-center" scope="col">Edit</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -93,11 +93,11 @@
                                             </tr>
                                             <c:set var="productList" value="${requestScope.PRODUCTS}"/>
                                             <c:if test="${not empty productList}">
-                                            <c:forEach var="product" items="${productList}">
-                                            <form action="AdminProductController" method="POST">
+                                                <c:forEach var="product" items="${productList}" varStatus="counter">
+                                            <form action="GetDataforUpdateProduct" method="POST">
                                                 <tr>
-                                                    <td class="text-center">${product.sku}
-                                                        <input class="input-edit" type="hidden" name="sku" value="${dto.sku}"  />
+                                                    <td class="text-center">
+                                                        ${counter.count}
                                                     </td>
                                                     <td class="text-center">${product.productName}</td>
                                                     <td class="text-center">
@@ -119,7 +119,7 @@
                                                     </td>
                                                         <td class="text-center">${product.status}</td>
                                                     <td class="text-center">
-                                                        <input type="hidden" name="btAction" value="Update Product"/>
+                                                        <input type="hidden" name="ProductID" value="${product.productID}"/>
                                                         <button
                                                             type="submit"
                                                             class="btn btn-sm btn-neutral"

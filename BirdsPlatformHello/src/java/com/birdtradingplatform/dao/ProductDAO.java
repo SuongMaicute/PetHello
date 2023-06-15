@@ -203,7 +203,8 @@ public class ProductDAO {
                             rs.getString("sku"),
                             new Shop(rs.getInt("shopID"),
                                     rs.getString("shopName"),
-                                    rs.getString("avatar"),
+                                    //rs.getString("avatar"),
+                                    "",
                                     rs.getDouble("rate"),
                                     rs.getString("contact"),
                                     rs.getInt("accountID"),
@@ -453,9 +454,9 @@ public class ProductDAO {
             if (con != null) {
                 String sql = "UPDATE Product "
                         + "SET status = 'NOT AVAILABLE' "
-                        + "WHERE sku like ?";
+                        + "WHERE productID like ?";
                 stm = con.prepareStatement(sql);
-                stm.setString(1, product.getSku());
+                stm.setInt(1, product.getProductID());
                 row = stm.executeUpdate();
                 if (row > 1) {
                     return true;
@@ -472,5 +473,194 @@ public class ProductDAO {
         return false;
     }
     
+    
+    public boolean deleteProductByID(int ID) throws ClassNotFoundException, SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int row = 0;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "delete from product where productID like ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, ID);
+                row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+             if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+    
+    
+    public boolean addProduct(Product product, int ShopID) throws ClassNotFoundException, SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int row = 0;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "insert into product values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, product.getProductName());
+                stm.setDouble(2,  product.getPriceIn());
+                stm.setString(3,  product.getType());
+                stm.setString(4,  product.getCategory());
+                stm.setInt(5,  product.getQuantity());
+                stm.setString(6,  product.getDescription());
+                stm.setString(7,  product.getStatus());
+                stm.setString(8,  product.getImg());
+                System.out.println("Product dao " +product.getImg());
+                stm.setString(9,  product.getSku());
+                stm.setInt(10,  ShopID);
+                stm.setDouble(11,  product.getPriceOut());
+                stm.setDouble(12,  product.getpSale());
+                stm.setString(13,  product.getDateIn());
+                
+                row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+             if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+    
+    
+    
+    public boolean UpdateProduct(Product product, int shopID) throws ClassNotFoundException, SQLException{
+        Connection con = null;
+        PreparedStatement stm = null;
+        int row = 0;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "update product  set productname = ?, pricein = ?, type = ?, "
+                        + " quantity = ?,category = ?, description = ?, [status] = ?,img = ?, shopID = ?,priceout = ?,pSale = ? "
+                        + "where productid =?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, product.getProductName());
+                stm.setDouble(2,  product.getPriceIn());//
+                stm.setString(3,  product.getType());//
+                stm.setInt(4,  product.getQuantity());//
+                stm.setString(5,  product.getCategory());
+                
+                stm.setString(6,  product.getDescription());
+                stm.setString(7,  product.getStatus());
+                stm.setString(8,  product.getImg());
+                stm.setInt(9,shopID);
+                stm.setDouble(10,  product.getPriceOut());
+                stm.setDouble(11,  product.getpSale());
+                stm.setDouble(12,  product.getProductID());
+                
+                row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } finally {
+             if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return false;
+    }
+    
+    
+    
+    
+    
+    
+    
+    public List<ProductWithRate> getShopProductListByPage(String shopID, String search, int productPerPage, int curPage, String colSort, String category, String sortType) throws SQLException {
+        List<ProductWithRate> productList = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBHelper.makeConnection();
+            if (conn != null) {
+                String sql;
+                if (category == null || category.isEmpty()) {
+                    sql = "select *, pRate.star"
+                            + " from [Product] left join ProductRate() as pRate "
+                            + " on Product.productID = pRate.productID"
+                            + " where (productName like ? or description like ?)"
+                            + " order by " + colSort + " " + sortType
+                            + " offset " + (curPage - 1) * productPerPage + " rows "
+                            + " fetch next ? rows only; ";
+                    pstm = conn.prepareStatement(sql);
+                    pstm.setString(1, "%" + search + "%");
+                    pstm.setString(2, "%" + search + "%");
+
+                    pstm.setInt(3, productPerPage);
+                } else {
+                    sql = "select *, pRate.star"
+                            + " from [Product] left join ProductRate() as pRate "
+                            + " on Product.productID = pRate.productID"
+                            + " where (category = ? and (productName like ? or description like ?)"
+                            + " order by " + colSort + " " + sortType
+                            + " offset " + (curPage - 1) * productPerPage + " rows "
+                            + " fetch next ? rows only; ";
+
+                    pstm.setString(1, search);
+                    pstm.setString(2, "%" + search + "%");
+                    pstm.setString(3, "%" + search + "%");
+                    pstm.setInt(4, productPerPage);
+                }
+
+                rs = pstm.executeQuery();
+                while (rs.next()) {
+                    productList.add(new ProductWithRate(rs.getInt("star"), rs.getInt("productID"),
+                            rs.getString("productName"),
+                            rs.getDouble("priceIn"),
+                            rs.getString("type"),
+                            rs.getString("category"),
+                            rs.getInt("quantity"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getString("img"),
+                            rs.getString("sku"),
+                            null,
+                            rs.getDouble("priceOut"),
+                            rs.getDouble("pSale"), ""));
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pstm != null) {
+                pstm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return productList;
+    }
+
 
 }

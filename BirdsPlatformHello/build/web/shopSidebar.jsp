@@ -44,6 +44,11 @@
                     <span class="material-icons-outlined">poll</span> Reports
                 </a>
             </li>
+            <li class="sidebar-list-item">
+                <a href="AddProduct.jsp" target="_blank">
+                    <span class="material-icons-outlined">poll</span> Add new product
+                </a>
+            </li>
         </ul>
     </body>
 </html>

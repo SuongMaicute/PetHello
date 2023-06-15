@@ -4,6 +4,7 @@
     Author     : leyen
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,7 +13,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>shop</title>
-
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" 
+              integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
         <!-- remix icon cdn link  -->
         <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet">
 
@@ -190,33 +192,84 @@
 
         <section class="products">
 
+
             <h1 class="title"> <span>our products</span> </h1>
 
+            <!-- sort section start -->
+            <c:if test="${requestScope.shopProductList!=null}">
+                <c:if test="S{${not empty requestScope.shopProductList}}">
+                    <section class="sort">
+                        <label for="sort-select">Sort by:</label>
+                        <select id="sort-select">
+                            <option value="default">Most favorite</option>
+                            <option href="product?action=pagingProductList&category=${param.category}&search=${param.search}&sortType=asc&colSort=price" value="price-low-to-high">Price: Low to High</option>
+                            <option href="product?action=pagingProductList&category=${param.category}&search=${param.search}&sortType=desc&colSort=price" value="price-high-to-low">Price: High to Low</option>
+                            <option href="product?action=pagingProductList&category=${param.category}&search=${param.search}&colSort=adddate&sortType=asc" value="newest">Newest</option>
+                        </select>
+                    </section>
+                </c:if>
+            </c:if>
+
+
+            <!-- sort section end -->
+
             <div class="box-container">
+                <c:if test="${requestScope.shopProductList!=null}">
+                    <c:if test="S{${not empty requestScope.shopProductList}}">
+                        <c:forEach var="product" items="${requestScope.shopProductList}">
+                            <div class="box">
+                                <div class="icons">
+                                    <a href="cart?action=addtocart&productID=${product.getProductID()}" class="ri-shopping-cart-line"></a>
+                                    <a href="product?action=detail&productID=${product.getProductID()}" class="ri-eye-line"></a>
+                                </div>
+                                <div class="image">
+                                    <img src="${product.getImg()}" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="price">${product.getPriceOut()*product.getpSale()}</div>
+                                    <h3>${product.getProductName()}</h3>
+                                    <div class="stars">
+                                        <p>star: ${product.getStar()}</p>
+                                        <p>sale: ${product.getpSale()} <p>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="ri-shopping-cart-line"></a>
-                        <a href="#" class="ri-eye-line"></a>
-                    </div>
-                    <div class="image">
-                        <img src="img/product-1.png" alt="">
-                    </div>
-                    <div class="content">
-                        <div class="price">$140.00</div>
-                        <h3>bird</h3>
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span> (50) </span>
-                        </div>
-                    </div>
-                </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:if>
+                </c:if>
 
-                
+
+
+            </div>
+            <div>
+                <c:if test="${requestScope.totalpage>1}">
+
+                    <c:set var="previous" value="${requestScope.currentpage - 1}"></c:set>
+                    <c:set var="next" value="${requestScope.currentpage +1}"></c:set>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item"><a class="page-link" href="product?action=pagingshopproductlist
+                                                         &search=${param.search}&curPage=${pageScope.previous}
+                                    &category=${param.category}&colSort=${param.colSort}&sortType=${param.sortType}">Previous</a></li>
+                                <c:forEach var="page" begin="1" end="${requestScope.totalpage}">
+                                <li class="page-item"><a class="page-link" 
+                                                         href="product?action=pagingshopproductlist
+                                                         &search=${param.search}&curPage=${pageScope.page}
+                                                         &category=${param.category}&colSort=${param.colSort}&sortType=${param.sortType}">${requestScope.currentpage}</a></li>
+                                </c:forEach>
+                            <li class="page-item"><a class="page-link" href="product?action=pagingshopproductlist
+                                                     &search=${param.search}&curPage=${pageScope.next}
+                                                     &category=${param.category}&colSort=${param.colSort}&sortType=${param.sortType}">Next</a></li>
+                        </ul>
+                    </nav>
+                </c:if>
+
             </div>
 
         </section>

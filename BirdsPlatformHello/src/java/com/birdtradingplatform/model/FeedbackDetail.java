@@ -12,8 +12,15 @@ public class FeedbackDetail extends Feedback{
     private String username;
     private String role;
     private String avatar;
-
+    private String productName;
+            
     public FeedbackDetail() {
+    }
+
+    public FeedbackDetail(String username, String productName, int feedbackID, String img, int star, String detail, int productID, int accID, String publishedDate) {
+        super(feedbackID, img, star, detail, productID, accID, publishedDate);
+        this.username = username;
+        this.productName = productName;
     }
 
     public FeedbackDetail(String username, String role, String avatar, int feedbackID, String img, int star, String detail, int productID, int accID, String publishedDate) {
@@ -47,6 +54,22 @@ public class FeedbackDetail extends Feedback{
         this.avatar = avatar;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProduct(String productName) {
+        this.productName = productName;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "FeedbackDetail{" + "username=" + username + ", role=" + role + ", avatar=" + avatar + ", productName=" + productName + '}';
+    }
+
+   
+    
+    
    
     
 }

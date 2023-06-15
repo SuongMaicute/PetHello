@@ -3,15 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/swp/PetHello/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/CheckLoginbyUserName.java</file>
-            <file>file:/D:/swp/PetHello/BirdsPlatformHello/web/shopDashboard.jsp</file>
-            <file>file:/D:/swp/PetHello/BirdsPlatformHello/web/Login.jsp</file>
-            <file>file:/D:/swp/PetHello/BirdsPlatformHello/web/Checkmail.jsp</file>
-            <file>file:/D:/swp/PetHello/BirdsPlatformHello/web/blog.html</file>
-            <file>file:/D:/swp/PetHello/BirdsPlatformHello/web/userProfile_1.jsp</file>
-            <file>file:/D:/swp/PetHello/BirdsPlatformHello/web/SignUpErr.jsp</file>
-            <file>file:/D:/swp/PetHello/BirdsPlatformHello/web/ChangePass.jsp</file>
-            <file>file:/D:/swp/PetHello/BirdsPlatformHello/src/java/com/birdtradingplatform/shop/controller/shopDashboardController.java</file>
+            <file>file:/D:/swp/PetHello/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/DispatcherServlet.java</file>
+            <file>file:/D:/swp/PetHello/BirdsPlatformHello/src/java/com/birdtradingplatform/shop/controller/ShopDeleteProductController.java</file>
+            <file>file:/D:/swp/PetHello/BirdsPlatformHello/web/updateProduct.jsp</file>
         </group>
     </open-files>
 </project-private>

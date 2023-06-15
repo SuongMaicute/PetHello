@@ -17,31 +17,32 @@ import java.sql.SQLException;
  * @author Minh Quan
  */
 public class ShopDAO {
-     public Shop getShopInforByShopID(Account shops) throws ClassNotFoundException, SQLException {
+
+    public Shop getShopInforByShopID(Account shops) throws ClassNotFoundException, SQLException {
         Connection con = null;
         ResultSet rs = null;
         PreparedStatement stm = null;
         Shop result = null;
         try {
             con = DBHelper.makeConnection();
-            String sql = "SELECT [shopID],[shopName],[avatar],[rate],[contact],[accountID],[addressID]"
-                    + "FROM [BirdPlatform].[dbo].[Shop] WHERE accountID = ?";
-                stm = con.prepareStatement(sql);
-                stm.setInt(1, shops.getAccountID());
-                rs = stm.executeQuery();
+            String sql = "SELECT [shopID],[shopName],[avatar],[rate],[contact],shop.accountID,[addressID] FROM shop,Account "
+                    + "WHERE shop.accountID like ? and shop.accountID = Account.accountID";
+            stm = con.prepareStatement(sql);
+            stm.setInt(1, shops.getAccountID());
+            rs = stm.executeQuery();
 
-                while (rs.next()) {
-                    int shopId = rs.getInt("shopID");
-                    String shopName = rs.getString("shopName");
-                    String avatar = rs.getString("avatar");
-                    double rate = rs.getDouble("rate");
-                    int accountID = rs.getInt("accountID");
-                    int addressID = rs.getInt("addressID");
-                    
-                    result = new Shop(shopId, shopName, avatar, rate, null, accountID, addressID);              
+            while (rs.next()) {
+                int shopId = rs.getInt("shopID");
+                String shopName = rs.getString("shopName");
+                String avatar = rs.getString("avatar");
+                double rate = rs.getDouble("rate");
+                int accountID = rs.getInt("accountID");
+                int addressID = rs.getInt("addressID");
+
+                result = new Shop(shopId, shopName, avatar, rate, null, accountID, addressID);
             }
         } finally {
-             if (rs != null) {
+            if (rs != null) {
                 rs.close();
             }
             if (stm != null) {
@@ -53,11 +54,12 @@ public class ShopDAO {
         }
         return result;
     }
+
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         AccountDAO accountDAO = new AccountDAO();
         Account acc1 = accountDAO.getAccountByUsername("bird");
         ShopDAO shopDAO = new ShopDAO();
-      Shop s =   shopDAO.getShopInforByShopID(acc1);
+        Shop s = shopDAO.getShopInforByShopID(acc1);
         System.out.println(s);
     }
 }

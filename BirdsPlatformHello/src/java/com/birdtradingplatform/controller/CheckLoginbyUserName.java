@@ -6,7 +6,9 @@
 package com.birdtradingplatform.controller;
 
 import com.birdtradingplatform.dao.AccountDAO;
+import com.birdtradingplatform.dao.ShopDAO;
 import com.birdtradingplatform.model.Account;
+import com.birdtradingplatform.model.Shop;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -68,6 +70,12 @@ public class CheckLoginbyUserName extends HttpServlet {
                 }else  if (dto.getRole()== 3) {
                     session.setAttribute("SYSTEM_ADMIN_ROLE", true);    
                     url = "shopOrdersController";
+                    
+                    ShopDAO shopDao= new ShopDAO();
+                    Shop shop = shopDao.getShopInforByShopID(dto);           
+                    session.setAttribute("SHOPEDITPRODUCT", shop);
+                    System.out.println("SHOP" +shop.getShopID());
+                    
                 }else{
                     session.setAttribute("USER_ROLE", true);
                 }

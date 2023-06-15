@@ -35,7 +35,7 @@
                         </a>
                     </li>
                     <li class="sidebar-list-item">
-                        <a href="#" target="_blank">
+                        <a href="#">
                             <span class="material-icons-outlined">category</span> Categories
                         </a>
                     </li>
