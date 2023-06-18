@@ -48,6 +48,27 @@ public class Product {
         this.dateIn = dateIn;
     }
 
+    public Product(int productID, String productName, double priceIn, String category, int quantity, String description, String status, String img, String sku, Shop shop, double priceOut, double pSale, String dateIn) {
+        this.productID = productID;
+        this.productName = productName;
+        this.priceIn = priceIn;
+        this.category = category;
+        this.quantity = quantity;
+        this.description = description;
+        this.status = status;
+        this.img = img;
+        this.sku = sku;
+        this.shop = shop;
+        this.priceOut = priceOut;
+        this.pSale = pSale;
+        this.dateIn = dateIn;
+    }
+    
+
+    public Product(String sku) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getProductID() {
         return productID;
     }

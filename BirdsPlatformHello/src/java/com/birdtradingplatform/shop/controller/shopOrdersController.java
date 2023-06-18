@@ -53,22 +53,24 @@ public class shopOrdersController extends HttpServlet {
         try {
             System.out.println("Shop order ");
             HttpSession session = request.getSession(false);
+            OrderDAO orderDAO = new OrderDAO();
+            
             if (session != null) {
                 String username = (String) session.getAttribute("username");
                 AccountDAO accountDAO = new AccountDAO();
                 Account user = accountDAO.getAccountByUsername(username);
-                OrderDAO orderDAO = new OrderDAO();
-                ShopDAO shopDAO = new ShopDAO();
+               
+               ShopDAO shopDAO = new ShopDAO();
                 OrderDetailDAO detailDAO = new OrderDetailDAO();
                 if (user != null) {
-                    Shop shop = shopDAO.getShopInforByShopID(user);
+                    Shop shop = (Shop) session.getAttribute("SHOP");
                     List<Order> orders = orderDAO.getOrderByShopID(shop);
                     List<OrderDetail> orderDetails = detailDAO.getImgByOrderID(orders);
                     Map<Integer, String> map = detailDAO.getMapImg();
                     request.setAttribute("PRODUCTIMG", map);
                     request.setAttribute("DETAILS", orderDetails);
                     request.setAttribute("ORDERS", orders);
-                }
+               }
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(SHOP_ORDERS);

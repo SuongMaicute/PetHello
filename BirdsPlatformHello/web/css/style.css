@@ -112,5 +112,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
   align-items: center;
   justify-content: center;
 }
-
+.btn-update {
+    background-color: #b18b7e;
+    font-size: 1rem;
+    color: white;
+    padding: 5% 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    text-decoration: none;
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 2px;
+    transform: translateY(-12px);
+  }
+  
+  .btn-update:hover {
+    background-color: #916f63;
+  }
 

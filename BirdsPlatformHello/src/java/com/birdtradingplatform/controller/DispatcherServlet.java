@@ -28,6 +28,12 @@ public class DispatcherServlet extends HttpServlet {
     private String UPDATECONTROLLER = "UpdateProfile";
     private String GETDATATOUSERPROFILECONTROLLE= "GetDataForUserProfile";
     private String UPDATEPASSCONTROLLER= "UpdateNewPass";
+    private String CHECKMAILCONTROLLER= "CreateCodeController";
+    private String CHANGEPASSCONTROLLER = "ChangePassController";
+    private String UPDATEPRODUCTCONTROLLER = "UpdateProduct";
+    private String ADDPRODUCTCONTROLLER = "AddProductController";
+    private String SHOPDELETEPRODUCTCONTROLLER = "ShopDeleteProductController";
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,7 +47,9 @@ public class DispatcherServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url ="Err.html";
+        System.out.println("Dispatch controkker");
         try{
+            System.out.println("dispatch");
             String submit = request.getParameter("MAIN");
             if (submit.isEmpty()){
                 
@@ -55,8 +63,19 @@ public class DispatcherServlet extends HttpServlet {
                 url = ResetPassccontroller;
             }else if(submit.equalsIgnoreCase("Please check your Gmail")){
                 url = GETKEYTORESETPASSCONTROLLER;
-            }else if(submit.equalsIgnoreCase("Update")){
+            }else if(submit.equalsIgnoreCase("Save Profile")){
                 url = UPDATECONTROLLER;
+            }else if(submit.equalsIgnoreCase("CheckMail")){
+                url = CHECKMAILCONTROLLER;
+            }else if(submit.equalsIgnoreCase("Update Pass")){
+                url = CHANGEPASSCONTROLLER;
+            }else if(submit.equalsIgnoreCase("Update product")){
+                url = UPDATEPRODUCTCONTROLLER;
+            }else if(submit.equalsIgnoreCase("Add product")){
+                url = ADDPRODUCTCONTROLLER;
+            }else if(submit.equalsIgnoreCase("Delete")){
+                System.out.println("doooooo");
+                url = SHOPDELETEPRODUCTCONTROLLER;
             }
             
         }finally{

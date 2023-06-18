@@ -48,16 +48,10 @@ public class shopProductController extends HttpServlet {
         try {
             HttpSession session = request.getSession(false);
             if (session != null) {
-                String username = (String) session.getAttribute("username");
-                AccountDAO accountDAO = new AccountDAO();
-                Account user = accountDAO.getAccountByUsername(username);
                 ProductDAO productDAO = new ProductDAO();
-                ShopDAO shopDAO = new ShopDAO();
-                if (user != null) {
-                    Shop shop = shopDAO.getShopInforByShopID(user);
-                  //  List<Product> products = productDAO.getProductByShopID(shop);
-                   // request.setAttribute("PRODUCTS", products);
-                }
+                    Shop shop = (Shop) session.getAttribute("SHOPEDITPRODUCT");
+                   List<Product> products = productDAO.getProductByShopID(shop);
+                    request.setAttribute("PRODUCTS", products);
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(SHOP_PAGE);

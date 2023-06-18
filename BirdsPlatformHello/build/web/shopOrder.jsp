@@ -71,63 +71,68 @@
                                         <thead class="table-thead">
                                             <tr>
                                                 <th class="text-center" scope="col">Order's ID</th>
-                                                <th class="text-center" scope="col">Product's Name</th>
-                                                <th class="text-center" scope="col">Image</th>
-                                                <th class="text-center" scope="col">Price</th>
-                                                <th class="text-center" scope="col">Quantity</th>
+                                                <th class="text-center" scope="col">Customer</th>
+                                                <th class="text-center" scope="col">Total ($)</th>
+                                                <th class="text-center" scope="col">Order day</th>
                                                 <th class="text-center" scope="col">Status</th>
-                                                <th class="text-center" scope="col">Action</th>
+                                                <th class="text-center" scope="col">Update</th>
+                                                <th class="text-center" scope="col">Cancel</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-center">
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getPriceIsEmptyError()}</p>
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getPriceIsNumberError()}</p>
-                                                </td>
-                                                <td class="text-center">  
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getQuantityIsEmptyError()}</p>
-                                                    <p class="text-danger" style="font-size: 1.4rem">${e.getQuantityIsNumberError()}</p>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                        <tbody>    
                                             <c:set var="orderList" value="${requestScope.ORDERS}"/>
-                                            <c:set var="productList" value="${requestScope.PRODUCTIMG}"/>
-                                            <c:if test="${not empty productList}">
+                                            <c:set var="customerList" value="${requestScope.USERNAMELIST}"/>
+                                            <c:if test="${not empty customerList}">
                                                 <c:forEach var="order" items="${orderList}">
-
-                                                <form action="shopOrdersController" method="POST">
+                                                <form action="shopSaveOrderController" method="POST">
                                                     <tr>                    
-                                                        <td class="text-center">${order.orderID}                               
-                                                        </td>
-                                                        <td class="text-center">${product.productName}</td>
                                                         <td class="text-center">
-                                                            <c:forEach var="entry" items="${productList}">
+                                                            <a href="shopOrderDetailsController">                                 
+                                                                ${order.orderID}
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <c:forEach var="entry" items="${customerList}">
                                                                 <c:if test="${entry.key eq order.orderID}">
-                                                                    <img alt="..." src="${entry.value}" class="rounded-circle img-table" />
+                                                                    ${entry.value}
                                                                 </c:if>
                                                             </c:forEach> 
                                                         </td>
                                                         <td class="text-center">
-                                                           ${order.total}
+                                                            ${order.total}
                                                         </td>
 
                                                         <td class="text-center">
                                                             ${order.shipDate}
                                                         </td>
-                                                        <td class="text-center">${order.status}</td>
+                                                        <td class="text-center">      
+                                                            <input type="hidden" name="orderID" value="${order.orderID}">
+                                                            <select class="input-edit" name="status">
+                                                                <option value="Processing" ${order.status eq 'Processing' ? 'selected' : ''}>Processing</option>
+                                                                <option value="Shipped" ${order.status eq 'Shipped' ? 'selected' : ''}>Shipped</option>
+                                                                <option value="Delivered" ${order.status eq 'Delivered' ? 'selected' : ''}>Delivered</option>
+                                                                <option value="Cancelled" ${order.status eq 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                                            </select>                               
+                                                        </td>
                                                         <td class="text-center">
-                                                            <input type="hidden" name="btAction" value="Update Product"/>
+                                                            <button type="submit" class="btn btn-sm btn-neutral">
+                                                                <span class="material-symbols-outlined">
+                                                                    sync
+                                                                </span></button>
+                                                        </td>
+                                                        <td class="text-center">
+
                                                             <button
                                                                 type="submit"
                                                                 class="btn btn-sm btn-neutral"
                                                                 >
-                                                                <i class="fa fa-edit shop-btn_modify"></i
-                                                                ></button>
+                                                                <span class="material-symbols-outlined">
+                                                                    delete
+                                                                </span></button>
                                                         </td>
-                                                    </tr>
-                                                </form>                                                
+
+                                                    </tr> 
+                                                </form> 
 
                                             </c:forEach>
                                         </c:if>

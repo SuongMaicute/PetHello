@@ -66,8 +66,7 @@ public class shopDashboardController extends HttpServlet {
                     List<Order> orders = orderDAO.getOrderByShopID(shop);
                     for (int i = 0; i < orders.size(); i++) {
                          total += orders.get(i).getTotal();
-                    
-                    List<OrderDetail> orderDetails = detailDAO.getImgByOrderID(orders);
+                         List<OrderDetail> orderDetails = detailDAO.getImgByOrderID(orders);
                     List<OrderDetail> productList = detailDAO.getTop5ProductOfShop();
                     Map<Integer, String> topProduct = detailDAO.getTopProductMap();
                     request.setAttribute("TOPPRODUCTOFSHOP", topProduct);

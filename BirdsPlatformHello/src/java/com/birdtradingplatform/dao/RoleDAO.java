@@ -31,6 +31,42 @@ public class RoleDAO {
     public ArrayList<Role> getRoles() {
         return roles;
     }
+    
+        public int getRole(String name) throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        int role = 0;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "SELECT * FROM ROLE WHERE roleName = ? ";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, name);
+                rs = stm.executeQuery();
+
+                while (rs.next()) {
+                     role = rs.getInt("role");
+                    String roleName = rs.getString("roleName");
+                    Role result = new Role(role, roleName);
+                }
+
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+
+        }
+        return role;
+    }
+    
     public ArrayList<Role> getAllRoles(List<Account> userList) throws ClassNotFoundException, SQLException{
          Connection con = null;
         PreparedStatement stm = null;

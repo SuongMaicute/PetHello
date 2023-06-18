@@ -4,14 +4,22 @@
  */
 package com.birdtradingplatform.controller;
 
+import com.birdtradingplatform.dao.CustomerDAO;
 import com.birdtradingplatform.dao.OrderDAO;
 import com.birdtradingplatform.model.Account;
+import com.birdtradingplatform.model.AddressShipment;
+import com.birdtradingplatform.model.Cart;
+import com.birdtradingplatform.model.Customer;
+import com.birdtradingplatform.model.Item;
+import com.birdtradingplatform.model.MutilShopCart;
 import com.birdtradingplatform.model.OrderHistory;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +44,7 @@ public class OrderController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
         if ("historyorder".equals(action)) {
@@ -44,20 +52,66 @@ public class OrderController extends HttpServlet {
             String status = request.getParameter("status");
             //get account login in this session with attribute name is LOGIN_ACCOUNT
             Account account = (Account) session.getAttribute("LOGIN_ACCOUNT");
-            
+
             OrderDAO odao = new OrderDAO();
             List<OrderHistory> orderList = odao.getOrderHistory(account.getAccountID(), status);
             double totalMoney = 0;
-            int totalOrder = orderList.size();            
+            int totalOrder = orderList.size();
             for (OrderHistory order : orderList) {
                 totalMoney += order.getTotal();
             }
-            
+
             request.setAttribute("ORDER_LIST", orderList);
             request.setAttribute("TOTAL_MONEY", totalMoney);
             request.setAttribute("TOTAL_ORDER", totalOrder);
             request.getRequestDispatcher("orderhistory.jsp").forward(request, response);
-                   
+
+        } else if ("Order".equals(action)) {
+            HttpSession session = request.getSession();
+            Account account = (Account) session.getAttribute("account");
+
+//            if (account == null) {
+//                request.getRequestDispatcher("Login.jsp").include(request, response);
+//            }
+            CustomerDAO cusDAO = new CustomerDAO();
+            AddressShipment addressShipment = cusDAO.getAddressShip(8);//test
+            //deliveryto
+            request.setAttribute("addressShipment", addressShipment);
+            Customer cus = cusDAO.getCustomerByAccountID(8);//test
+            if (cus != null) {
+                MutilShopCart allShopCart = (MutilShopCart) session.getAttribute("allShopCart");
+                MutilShopCart checkoutMap = (MutilShopCart) session.getAttribute("checkoutMap");
+                for (Map.Entry<Integer, Cart> en : checkoutMap.getMutilShopCart().entrySet()) {
+                    int key = en.getKey();
+                    Cart shopcart = en.getValue();
+                    if (allShopCart.getMutilShopCart().containsKey(key)) {
+                        for (Map.Entry<Integer, Item> entry : shopcart.getCart().entrySet()) {
+                            int pid = entry.getKey();
+                            Item item = entry.getValue();
+                            if (allShopCart.getMutilShopCart().get(key).getCart().containsKey(pid)) {
+                                allShopCart.deleteMutilShop(item.getProduct());
+                            }
+
+                        }
+                    }
+
+                }
+                OrderDAO odao = new OrderDAO();
+                odao.addOrder(cus.getCustomerID(), checkoutMap, 10);//test
+                String mess = "You ordered succeed. Your order will be processed as soon as possible";
+                request.setAttribute("message", mess);
+                session.setAttribute("checkoutMap", null);
+                session.setAttribute("totalpriceCheckout", null);
+                session.setAttribute("totalquantityCheckout", null);
+                
+                session.setAttribute("totalprice", allShopCart.getTotalMoneyAllShop());
+                session.setAttribute("totalquantity", allShopCart.getTotalCountAllShop());
+                if(allShopCart.getMutilShopCart().isEmpty()){
+                    allShopCart=null;
+                }
+                session.setAttribute("allShopCart", allShopCart);
+                request.getRequestDispatcher("checkout.jsp").forward(request, response);
+            }
         }
     }
 
@@ -77,6 +131,10 @@ public class OrderController extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -94,6 +152,10 @@ public class OrderController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
+            Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
             Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

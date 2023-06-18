@@ -432,7 +432,43 @@ public class AccountDAO {
         }
         return result;
         }
- 
+  public Account getAccountByUsername(String name) throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stm = null;
+        Account result = null;
+         
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "SELECT * FROM Account WHERE username like ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, "%" + name + "%");
+                rs = stm.executeQuery();
+                
+                if (rs.next()) {
+                   int accountID = rs.getInt("accountID");
+                    String username = rs.getString("username");
+                    String email = rs.getString("email");
+                    String password = rs.getString("password");
+                    int role = rs.getInt("role");
+                    boolean isDeleted = rs.getBoolean("isDeleted");
+                    String regisDate = rs.getString("regisDate");
+                    String avatar = rs.getString("avatar");
+                    result = new Account(accountID, username, email, password, role, isDeleted, regisDate, avatar);
+                }
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         AccountDAO dao = new AccountDAO();
         List<Account> accounts= 

@@ -15,6 +15,10 @@ public class ProductWithRate extends Product{
         super(productID, productName, priceIn, type, category, quantity, description, status, img, sku, shop, priceOut, pSale, dateIn);
         this.star = star;
     }
+    public ProductWithRate(double star, int productID, String productName, double priceIn, String category, int quantity, String description, String status, String img, String sku, Shop shop, double priceOut, double pSale, String dateIn) {
+        super(productID, productName, priceIn, category, quantity, description, status, img, sku, shop, priceOut, pSale, dateIn);
+        this.star = star;
+    }
 
     public double getStar() {
         return star;

@@ -1,6 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.birdtradingplatform.controller;
 
@@ -11,7 +12,6 @@ import com.birdtradingplatform.model.FeedbackDetail;
 import com.birdtradingplatform.model.Staff;
 import java.io.IOException;
 import java.sql.SQLException;
-import static java.util.Collections.list;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,26 +42,26 @@ public class FeedbackController extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
-        if ("feedbackliststaff".equals(action)) {
-             FeedbackDAO feedbackDAO = new FeedbackDAO();
-             StaffDAO staffDAO = new StaffDAO();
-            int entryNum = Integer.parseInt(request.getParameter("entryNum"));
-            int page = Integer.parseInt(request.getParameter("page"));
-            String sortCol = request.getParameter("sortCol");
-            String trend = request.getParameter("trend");
-            HttpSession session = request.getSession();
-            Account account = (Account)session.getAttribute("staff");
-            Staff staff = staffDAO.getStaff(account.getAccountID());
-            int totalFeedback = feedbackDAO.getTotalFeedbackOfShop(staff.getShopID());
-            List<FeedbackDetail> list = feedbackDAO.
-                    getFeedbackListStaff(entryNum, page, sortCol, trend, staff.getShopID());
-           request.setAttribute("listfeedbackstaffview", list);
-           request.setAttribute("page", page);
-           request.setAttribute("totalpage", totalFeedback/entryNum);
-           request.getRequestDispatcher("feedbacklist-staff.jsp")
-                   .forward(request, response);
-            
-        }
+//        if ("feedbackliststaff".equals(action)) {
+//             FeedbackDAO feedbackDAO = new FeedbackDAO();
+//             StaffDAO staffDAO = new StaffDAO();
+//            int entryNum = Integer.parseInt(request.getParameter("entryNum"));
+//            int page = Integer.parseInt(request.getParameter("page"));
+//            String sortCol = request.getParameter("sortCol");
+//            String trend = request.getParameter("trend");
+//            HttpSession session = request.getSession();
+//            Account account = (Account)session.getAttribute("staff");
+//            Staff staff = staffDAO.getStaff(account.getAccountID());
+//            int totalFeedback = feedbackDAO.getTotalFeedbackOfShop(staff.getShopID());
+//            List<FeedbackDetail> list = feedbackDAO.
+//                    getFeedbackListStaff(entryNum, page, sortCol, trend, staff.getShopID());
+//           request.setAttribute("listfeedbackstaffview", list);
+//           request.setAttribute("page", page);
+//           request.setAttribute("totalpage", totalFeedback/entryNum);
+//           request.getRequestDispatcher("feedbacklist-staff.jsp")
+//                   .forward(request, response);
+//            
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -9,58 +9,26 @@ package com.birdtradingplatform.model;
  * @author leyen
  */
 public class FeedbackDetail extends Feedback{
-    private String username;
-    private String role;
-    private String avatar;
-    private String productName;
-            
+    private Account account;
+
+    public FeedbackDetail(Account account, int feedbackID, String img, int star, String detail, int productID, int accID, String publishedDate) {
+        super(feedbackID, img, star, detail, productID, accID, publishedDate);
+        this.account = account;
+    }
+
     public FeedbackDetail() {
     }
 
-    public FeedbackDetail(String username, String productName, int feedbackID, String img, int star, String detail, int productID, int accID, String publishedDate) {
-        super(feedbackID, img, star, detail, productID, accID, publishedDate);
-        this.username = username;
-        this.productName = productName;
+    public Account getAccount() {
+        return account;
     }
 
-    public FeedbackDetail(String username, String role, String avatar, int feedbackID, String img, int star, String detail, int productID, int accID, String publishedDate) {
-        super(feedbackID, img, star, detail, productID, accID, publishedDate);
-        this.username = username;
-        this.role = role;
-        this.avatar = avatar;
+    public void setAccount(Account account) {
+        this.account = account;
     }
+    
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProduct(String productName) {
-        this.productName = productName;
-    }
+   
     
     
    

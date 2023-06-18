@@ -55,6 +55,9 @@ public class Cart {
         }
         if (this.cart.containsKey(id)) {
             this.cart.remove(id);
+//            if(this.cart.isEmpty()){
+//                this.cart=null;
+//            }
         }
     }
 

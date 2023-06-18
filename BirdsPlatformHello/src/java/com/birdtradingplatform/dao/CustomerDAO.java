@@ -5,6 +5,7 @@
  */
 package com.birdtradingplatform.dao;
 
+import com.birdtradingplatform.model.AddressShipment;
 import com.birdtradingplatform.model.Customer;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.naming.NamingException;
 import com.birdtradingplatform.utils.DBHelper;
+import java.sql.ResultSet;
 
 /**
  *
@@ -95,6 +97,93 @@ public class CustomerDAO implements Serializable{
 
         }
         return result;
+    }
+    
+    
+    public Customer getCustomerByAccountID(int accountID)
+            throws ClassNotFoundException, SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Customer result = null;
+        try {
+            //1. connect BD
+            con = DBHelper.makeConnection();
+            //2. write sql 
+            if (con != null) {
+                String sql = "select * from Customer where accountID = ? ";
+                //3. create stm
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, accountID);
+
+                //4.excute stm
+                rs = stm.executeQuery();
+                //5.process result 
+                if (rs.next()) {
+                    int ID = rs.getInt("customerID");
+                    String phone = rs.getString("phoneNumber");
+                    int point = rs.getInt("point");
+                    int AccID = rs.getInt("accountID");
+                    result = new Customer(ID, phone, point, accountID);
+                }
+            } else {
+
+            }
+
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+
+        }
+        return result;
+    }
+    
+     public AddressShipment getAddressShip(int account) throws SQLException {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        AddressShipment shipTo = null;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "select * from [AddressShipment] "
+                        + "left join [Customer] "
+                        + "on [AddressShipment].customerID=[Customer].customerID "
+                        + "left join [Account] "
+                        + "on [Customer].accountID = [Account].accountID "
+                        + "where accountID=?";
+                pstm = con.prepareStatement(sql);
+                pstm.setInt(1, account);
+                pstm.executeQuery();
+                if (rs != null) {
+                    shipTo = new AddressShipment(rs.getInt("addressShipID"), 
+                            rs.getString("phoneShipment"), 
+                            rs.getString("detail"), 
+                            rs.getString("district"), 
+                            rs.getString("province"),
+                            rs.getInt("customerID"));
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pstm != null) {
+                pstm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return shipTo;
     }
     
     

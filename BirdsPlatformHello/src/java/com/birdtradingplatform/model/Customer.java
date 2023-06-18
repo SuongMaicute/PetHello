@@ -12,13 +12,13 @@ package com.birdtradingplatform.model;
 public class Customer {
     
     private int customerID;
-    private String Phonenumber;
+    private String phonenumber;
     private int point;
     private int accountID;
 
     public Customer(int customerID, String Phonenumber, int point, int accountID) {
         this.customerID = customerID;
-        this.Phonenumber = Phonenumber;
+        this.phonenumber = Phonenumber;
         this.point = point;
         this.accountID = accountID;
     }
@@ -31,7 +31,7 @@ public class Customer {
     }
 
     public String getPhonenumber() {
-        return Phonenumber;
+        return phonenumber;
     }
 
     public int getPoint() {
@@ -47,7 +47,7 @@ public class Customer {
     }
 
     public void setPhonenumber(String Phonenumber) {
-        this.Phonenumber = Phonenumber;
+        this.phonenumber = Phonenumber;
     }
 
     public void setPoint(int point) {

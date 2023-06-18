@@ -7,90 +7,91 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In</title>
 
-    <head>
-        <meta charset="UTF-8" />
-        <title>PetHello</title>
-        <link
-            href="https://fonts.googleapis.com/css?family=Open+Sans"
-            rel="stylesheet"
-            />
+  <!-- remix icon cdn link  -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css" rel="stylesheet">
+  
+  <!-- custom css file link  -->
+  <link rel="stylesheet" href="./css/SignUpError.css" />
+</head>
 
-        <link
-            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-            rel="stylesheet"
-            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-            crossorigin="anonymous"
-            />
-        <link rel="stylesheet" href="css/style_1.css" />
-    </head>
-    <body>
-        <div class="container">
-            <!-- partial:index.partial.html -->
-            <div class="box-form">
-                <div class="left">
-                    <div class="overlay">
-                        <img src="img/pic1.png" width="500px" height="400px"/>
-                        <h2>Pet  Hello</h2>
-                        <p>Order by 2pm local time <br> to get free delivery <br> by orders
-
-                            $35+ today</p>
-                    </div>
-                </div>
-
-                <div class="right">
-                    <h3 style="padding-left: 35px;">Welcome</h3>
-                    <h3>to PetHello</h3>
-
-                    <form action="DispatcherServlet">
-                        <div class="inputs">
-                            <input type="text" placeholder="Username" name="username" />
-                            <br />
-                            <input type="password" placeholder="Password" name ="pass" />
-                        </div>
-
-                        <c:set var="valid" value="${requestScope.validAcc}"/>
-                        <c:if test="${not empty valid}">
-                            <h4 style="color: red; padding-left: 10px; margin-top: 16px; margin-bottom: 0;">
-                                Incorrect username or password
-                            </h4>
-                        </c:if>
-                        
-                        <div class="remember-me--forget-password">
-                            <label>
-                                <input type="checkbox" name="item" checked />
-                                <span class="text-checkbox">Remember me</span>
-                            </label>
-                            <p>Forgot Password?</p>
-                        </div>
-                        <input name="MAIN" class="loginBT" type="submit" value="Login" />
-                        <div class="loginBt">
-                            
-                        </div>
-                    </form>
-
-                    <div class="line" style="width: 80%; height: 1px; background-color: black;">
-                        <h4>OR</h4>
-                    </div>
-
-                    <div class="google" >
-                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email&amp;redirect_uri=http://localhost:8081/swp/LoginGoogleHandler&amp;response_type=code&amp;client_id=1037707091680-1aq2v2s9f844d1qs4dapbn521vdi89pe.apps.googleusercontent.com&amp;approval_prompt=force">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2008px-Google_%22G%22_Logo.svg.png" alt="google">
-                            <h2> Login With Google</h2>
-                            
-                        </a>
-
-                    </div>
-                    <div class="signUP">
-                        <a href="">Don't have one? Create account</a>
-                    </div>
-
-
-                </div>
+<body>
+  <!-- Sign In section starts  -->
+  <main>
+    <div class="box">
+      <div class="inner-box">
+        <div class="forms-wrap">
+          <form action="DispatcherServlet" autocomplete="off" class="sign-in-form">
+            <div class="logo">
+              <a href="" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
             </div>
-        </div>
 
-    </body>
-</html> 
+            <div class="heading">
+              <h2>Welcome Back</h2>
+              <h6>Not registred yet?</h6>
+              <a href="SignUpErr.jsp" class="toggle">Sign up</a>
+
+            </div>
+
+            <div class="actual-form">
+              <div class="input-wrap">
+                <input
+                    type="text" name="username"
+                    minlength="4" placeholder="Name"
+                  class="input-field"
+                  autocomplete="off"
+                  required
+                />
+              </div>
+
+              <div class="input-wrap">
+                <input
+                    type="password" name="pass"
+                  minlength="4"
+                  class="input-field" placeholder="PassWord"
+                  autocomplete="off"
+                  required
+                />
+              </div>
+              
+                <input name="MAIN" type="submit" value="Login" class="sign-btn" />
+              
+              <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8081/BirdsPlatformHello/LoginGoogleHandler&response_type=code
+		   &client_id=1037707091680-1aq2v2s9f844d1qs4dapbn521vdi89pe.apps.googleusercontent.com&approval_prompt=force" class="gg-btn">
+                <span class="btn-text">Google</span>
+              </a>
+                
+
+              <p class="text">
+                Forgotten your password or you login!!
+                <a href="Checkmail.jsp">Get help</a> signing in
+              </p>
+            </div>
+          </form>
+        </div>
+        <div class="carousel">
+          <div class="images-wrapper">
+              <img src="./img/home-img-1.png" />
+          </div>
+
+          <div class="text-slider">
+            <div class="text-wrap">
+              <div class="text-group">
+                
+              </div>
+            </div>
+
+            <div class="bullets">
+              <span class="active" data-value="1"></span>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

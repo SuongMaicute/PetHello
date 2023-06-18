@@ -26,95 +26,96 @@
 
 
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <table class="stars-counters">
-                                <tbody>
-                                    <tr class="">
-                                        <td>
-                                            <span>
-                                                <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">5 Stars</button>
-                                            </span>
-                                        </td>
-                                        <td class="progress-bar-container">
-                                            <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
-                                                <div class="fit-progressbar-background">
-                                                    <span class="progress-fill" style="width: ${requestScope.fivestar/requestScope.totalfeedback};"></span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="star-num">(${requestScope.fivestar})</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td>
-                                            <span>
-                                                <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">4 Stars</button>
-                                            </span>
-                                        </td>
-                                        <td class="progress-bar-container">
-                                            <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
-                                                <div class="fit-progressbar-background">
-                                                    <span class="progress-fill" style="width: ${requestScope.fourstar/requestScope.totalfeedback};"></span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="star-num">(${requestScope.fourstar})</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td>
-                                            <span>
-                                                <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">3 Stars</button>
-                                            </span>
-                                        </td>
-                                        <td class="progress-bar-container">
-                                            <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
-                                                <div class="fit-progressbar-background">
-                                                    <span class="progress-fill" style="width: ${requestScope.threestar/requestScope.totalfeedback};"></span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="star-num">(${requestScope.threestar})</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td>
-                                            <span>
-                                                <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">2 Stars</button>
-                                            </span>
-                                        </td>
-                                        <td class="progress-bar-container">
-                                            <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
-                                                <div class="fit-progressbar-background">
-                                                    <span class="progress-fill" style="width: ${requestScope.twostar/requestScope.totalfeedback};"></span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="star-num">(${requestScope.twostar})</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td>
-                                            <span>
-                                                <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">1 Stars</button>
-                                            </span>
-                                        </td>
-                                        <td class="progress-bar-container">
-                                            <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
-                                                <div class="fit-progressbar-background">
-                                                    <span class="progress-fill" style="width: ${requestScope.onestar/requestScope.totalfeedback};"></span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="star-num">(${requestScope.onestar})</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
 
-                    </div>
                 </div>
 
                 <div class="review-list">
                     <c:if test="${requestScope.feedbacklist!=null}">
                         <c:if test="${not empty requestScope.feedbacklist}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="stars-counters">
+                                        <tbody>
+                                            <tr class="">
+                                                <td>
+                                                    <span>
+                                                        <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">5 Stars</button>
+                                                    </span>
+                                                </td>
+                                                <td class="progress-bar-container">
+                                                    <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                                        <div class="fit-progressbar-background">
+                                                            <span class="progress-fill" style="width: ${requestScope.fivestar/requestScope.totalfeedback};"></span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="star-num">(${requestScope.fivestar})</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>
+                                                    <span>
+                                                        <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">4 Stars</button>
+                                                    </span>
+                                                </td>
+                                                <td class="progress-bar-container">
+                                                    <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                                        <div class="fit-progressbar-background">
+                                                            <span class="progress-fill" style="width: ${requestScope.fourstar/requestScope.totalfeedback};"></span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="star-num">(${requestScope.fourstar})</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>
+                                                    <span>
+                                                        <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">3 Stars</button>
+                                                    </span>
+                                                </td>
+                                                <td class="progress-bar-container">
+                                                    <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                                        <div class="fit-progressbar-background">
+                                                            <span class="progress-fill" style="width: ${requestScope.threestar/requestScope.totalfeedback};"></span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="star-num">(${requestScope.threestar})</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>
+                                                    <span>
+                                                        <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">2 Stars</button>
+                                                    </span>
+                                                </td>
+                                                <td class="progress-bar-container">
+                                                    <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                                        <div class="fit-progressbar-background">
+                                                            <span class="progress-fill" style="width: ${requestScope.twostar/requestScope.totalfeedback};"></span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="star-num">(${requestScope.twostar})</td>
+                                            </tr>
+                                            <tr class="">
+                                                <td>
+                                                    <span>
+                                                        <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">1 Stars</button>
+                                                    </span>
+                                                </td>
+                                                <td class="progress-bar-container">
+                                                    <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                                        <div class="fit-progressbar-background">
+                                                            <span class="progress-fill" style="width: ${requestScope.onestar/requestScope.totalfeedback};"></span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="star-num">(${requestScope.onestar})</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
                             <c:forEach var="feedback" items="requestScope.feedbacklist">
                                 <ul>
                                     <li>
@@ -126,7 +127,7 @@
                                             </div>
                                             <div class="right">
                                                 <h4>
-                                                    ${feedback.getUsername()}
+                                                   
                                                     <span class="gig-rating text-body-2">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
                                                         <path

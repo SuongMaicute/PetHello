@@ -6,7 +6,9 @@
 package com.birdtradingplatform.controller;
 
 import com.birdtradingplatform.dao.AccountDAO;
+import com.birdtradingplatform.dao.ShopDAO;
 import com.birdtradingplatform.model.Account;
+import com.birdtradingplatform.model.Shop;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -46,57 +48,50 @@ public class CheckLoginbyUserName extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
-            // use cookie to remember user 
-            Cookie[] cookie = null;
-            cookie = request.getCookies();
-
-            if (cookie != null) {
-                //2. get last cookies
-                Cookie lastCookie = cookie[cookie.length - 1];
-                String usernameC = lastCookie.getName();
-                String passwordC = lastCookie.getValue();
-                //3.Call model
-                Account result = dao.CheckLoginbyUserName(usernameC, passwordC);
-            }
-            String rememberMe = request.getParameter("item");
             String username = request.getParameter("username");
             String password = request.getParameter("pass");
-
+             Account result = dao.CheckLoginbyUserName(username, password);
             //login by username and 
             dto = dao.CheckLoginbyUserName(username, password);
 
             HttpSession session = request.getSession();
 
-            if (dto != null) {
+
+                if (dto != null) {
                 System.out.println(" result != null ");
                 url = "HomePage.jsp";
                 session.setAttribute("USERDTOBYUSERNAME", dto);
                 // System.out.println("Check by Username IMg ne" + dto.getImg());
 
-                /* if (dto.getRole().getRoleName().equalsIgnoreCase("admin")) {
-                    url = "HomePage.jsp";
+                if (dto.getRole()==2) {
+                    session.setAttribute("SHOP_ADMIN_ROLE", true);
+                    url = "AdminDashboardController";
                     // HomePage controller for system admin nhe
-                }else  if (dto.getRole().getRoleName().equalsIgnoreCase("sdmin")) {
-                    url = "HomePage.jsp";
-                    // HomePage controller for Shop nhe
-                
-                } else{
-                // Cusstomer ne 
-                }*/
-                if (rememberMe != null) {
-                    System.out.println(" Save ne ");
-                    System.out.println(" username :" + username);
-                    System.out.println(" pass :" + password);
-                    Cookie save = new Cookie(username, password);
-                    // save.setMaxAge(60*10);
-                    response.addCookie(save);
+                }else  if (dto.getRole()== 1) {
+                    session.setAttribute("SYSTEM_ADMIN_ROLE", true);    
+                    url = "shopOrdersController";
+                    
+                    ShopDAO shopDao= new ShopDAO();
+                    Shop shop = shopDao.getShopInforByShopID(dto);           
+                    session.setAttribute("SHOPEDITPRODUCT", shop);
+                    System.out.println("SHOP" +shop.getShopID());
+                    
+                }else{
+                    session.setAttribute("USER_ROLE", true);
                 }
+                
 
             } else {
                 url = "Login.jsp";
                 request.setAttribute("validAcc", "false");
             }
-
+             session.setAttribute("username", username);
+             request.setAttribute("account", result);
+             if(!dto.getAvatar().isEmpty()){
+             session.setAttribute("IMG", dto.getAvatar());
+             } else {
+                 
+             }
         } catch (ClassNotFoundException ex) {
             log("LoginServlet " + ex.getMessage());
         } catch (SQLException ex) {

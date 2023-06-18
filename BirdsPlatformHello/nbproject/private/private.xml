@@ -3,11 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/SWP391-Hello/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/ProductController.java</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/SWP391-Hello/BirdsPlatformHello/src/java/com/birdtradingplatform/model/Shop.java</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/SWP391-Hello/BirdsPlatformHello/src/java/com/birdtradingplatform/model/ProductWithRate.java</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/SWP391-Hello/BirdsPlatformHello/web/shop.jsp</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/SWP391-Hello/BirdsPlatformHello/src/java/com/birdtradingplatform/dao/ProductDAO.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/web/cartview.jsp</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/OrderController.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/CheckOutController.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/CheckLoginbyUserName.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/CartController.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/dao/CustomerDAO.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/model/MutilShopCart.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/model/Cart.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/web/checkout.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -830,9 +830,7 @@ section {
     font-size: 1.7rem;
 }
 
-.products .box-container .box .content .stars i {
-    color: gold;
-}
+
 
 .products .box-container .box .content .stars span {
     color: #b58d7e;
@@ -1356,6 +1354,63 @@ section {
     background: #f0e8e4;
     margin: 2%;
     border-radius: 3rem;
+}
+
+.sale{
+    background-color: rgb(215, 132, 132);
+    position: absolute;
+    top:0px;
+    left:0px;
+    padding: 5%;
+    font-size: 20px;
+    border-radius: 4px;
+    opacity: 0.7;
+}
+
+.price h4{
+    text-decoration: line-through;
+}
+.price{
+    display: flex;
+    justify-content: space-between;
+}
+.price #new{
+    color: red;
+    text-decoration: none;
+}
+
+img .image .box{
+    height: fit-content;
+    width: fit-content;
+}
+img .image .box{
+    height: fit-content;
+    width: fit-content;
+}
+
+.stars i{
+    padding: 0 10px;
+    margin-top: 2px;
+    justify-content: space-between;
+}
+.ShopGo{
+    font-weight: 700;
+    margin-top: -4px;
+    margin-right: 20px;
+}
+.ShopGo input{
+    font-size: 20px;
+}
+.ShopGo:hover{
+
+}
+.stars .fas{
+    margin: 0;
+    padding: 2px;
+}
+.rating{
+    background-color: inherit;
+    color: gold;
 }
 
 /* footer end */

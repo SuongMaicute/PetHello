@@ -39,7 +39,7 @@
     </session-config>
     <welcome-file-list>
         <welcome-file>
-           AdminDashboardController
+           GetDataForHomepage
         </welcome-file>
     </welcome-file-list>
 </web-app>

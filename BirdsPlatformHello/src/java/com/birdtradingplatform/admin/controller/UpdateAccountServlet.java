@@ -5,8 +5,10 @@
 package com.birdtradingplatform.admin.controller;
 
 import com.birdtradingplatform.dao.AccountDAO;
+import com.birdtradingplatform.dao.RoleDAO;
 import com.birdtradingplatform.model.Account;
 import com.birdtradingplatform.model.AccountInsertError;
+import com.birdtradingplatform.model.Role;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -25,9 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "UpdateAccountServlet", urlPatterns = {"/UpdateAccountServlet"})
 public class UpdateAccountServlet extends HttpServlet {
-
-    private final String ACCOUNT_PAGE = "account.jsp";
-    private final String UPDATE_PAGE = "adminUpdate.jsp";
+    private final String UPDATED_URL = "AccountManageController";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,36 +40,20 @@ public class UpdateAccountServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = UPDATE_PAGE;
-        boolean error = false;
-        AccountInsertError e = new AccountInsertError();
+        String url = UPDATED_URL;
         int row = 0;
         try {
             String email = request.getParameter("email").trim();
-            String password = request.getParameter("password").trim();
-            String role = request.getParameter("role").trim();
-            if (password.length() < 8 || password.length() > 20) {
-                e.setPasswordLengthError("Password must be at least 8 characters and at most 20 characters.");
-                error = true;
-
-            }
-            if (password.length() == 0) {
-                e.setPasswordLengthError("Password cannot be left empty..");
-                error = true;
-
-            }
-            if (error == true) {
-                request.setAttribute("INSERTERR", e);
-            }
-            if (error == false) {
-                Account dto = new Account(0, null, email, password, Integer.parseInt(role), true, null);
-                AccountDAO dao = new AccountDAO();
-                row = dao.updateAccountByAdmin(dto);
-            }
+            String role = request.getParameter("roleId").trim();   
+            RoleDAO roleDAO = new RoleDAO();
+            int roleID = roleDAO.getRole(role);
+            
+            Account dto = new Account(0, null, email, null, roleID, true, null);
+            AccountDAO dao = new AccountDAO();
+            row = dao.updateAccountByAdmin(dto);
         } finally {
-              RequestDispatcher rd = request.getRequestDispatcher(url);
-              rd.forward(request, response);
-              response.sendRedirect(ACCOUNT_PAGE);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
     }
 
@@ -87,9 +71,7 @@ public class UpdateAccountServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UpdateAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(UpdateAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -107,9 +89,7 @@ public class UpdateAccountServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UpdateAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(UpdateAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
