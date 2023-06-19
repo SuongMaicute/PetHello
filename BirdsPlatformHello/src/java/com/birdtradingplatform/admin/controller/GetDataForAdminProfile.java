@@ -62,7 +62,7 @@ public class GetDataForAdminProfile extends HttpServlet {
             
             Account account = dao.CheckLoginbyGmail(gmail);
             if (account != null) {
-                session.setAttribute("ADMINDTOBYUSERNAME", account);
+                session.setAttribute("SYSTEM_ADMIN_ROLE", account);
                 request.setAttribute("ACCOUNT_EXIST_IN_DB", true);
                 
                 AccountDAO accountDAO = new AccountDAO();

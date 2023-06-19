@@ -31,18 +31,16 @@ private final String LOGIN_PAGE = "Login.jsp";
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            HttpSession session = request.getSession(false);
-               Account account = (Account) session.getAttribute("account");
+        HttpSession session = request.getSession(false);
+        System.out.println("logout servlet ");
+        Account account = (Account) session.getAttribute("account");
         if (account != null) {
             session.removeAttribute("account");
         }
         response.sendRedirect(LOGIN_PAGE);
-        } finally {
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

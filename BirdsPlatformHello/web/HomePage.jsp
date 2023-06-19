@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +22,9 @@
         <!-- font awesome cdn link  -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+        <!-- font awesome cdn link  -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
         <!-- custom css file link  -->
         <link rel="stylesheet" href="css/total.css">
 
@@ -32,7 +36,7 @@
         <!-- header section starts  -->
 
         <header class="header">
-            <a href="./Homepage.html" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
+            <a href="./HomePage.jsp" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
 
             <form action="#" class="search-form">
                 <input type="search" placeholder="Search here..." id="search-box">
@@ -42,7 +46,15 @@
             <div class="icons">
                 <div id="menu-btn" class="ri-menu-line"></div>
                 <div id="search-btn" class="ri-search-line"></div>
-                <div id="cart-btn" class="ri-shopping-cart-line"></div>
+
+
+                <a href="cartview.jsp">
+                    <div id="cart-btn" class="ri-shopping-cart-line"></div> 
+                </a>
+
+
+
+
 
                 <c:set var="User" value="${sessionScope.USERDTOBYUSERNAME}" /> 
                 <c:if test="${empty User}">
@@ -54,15 +66,19 @@
                     </a>
                 </c:if>
                 <c:if test="${not empty User}">
-                    <a href="GetDataForUserProfile">
+                    <a href="userProfile_1.jsp">
                         <div id="login-btn" class="ri-user-line"></div>
                     </a>
                 </c:if>
-                
+
             </div>
         </header>
 
         <!-- header section ends  -->
+
+
+
+
 
 
         <!-- closer btn  -->
@@ -72,7 +88,7 @@
         <!-- navbar start  -->
 
         <nav class="navbar">
-            <a href="./Homepage.html">home</a>
+            <a href="./HomePage.jsp">home</a>
             <a href="shop.html">shop</a>
             <a href="about.html">about</a>
             <a href="team.html">team</a>
@@ -83,60 +99,7 @@
         <!-- navbar end  -->
 
 
-        <!-- shopping cart start  -->
-
-        <div class="shopping-cart">
-
-            <div class="box">
-                <i class="ri-close-line close-icon"></i>
-                <img src="img/cart-img-1.jpg" alt="">
-                <div class="content">
-                    <h3>modern furniture</h3>
-                    <span class="quantity"> 1 </span>
-                    <span class="multiply"> x </span>
-                    <span class="price"> $ </span>
-                </div>
-            </div>
-
-            <div class="box">
-                <i class="ri-close-line close-icon"></i>
-                <img src="img/cart-img-1.jpg" alt="">
-                <div class="content">
-                    <h3>modern furniture</h3>
-                    <span class="quantity"> 1 </span>
-                    <span class="multiply"> x </span>
-                    <span class="price"> $ </span>
-                </div>
-            </div>
-
-            <div class="box">
-                <i class="ri-close-line close-icon"></i>
-                <img src="img/cart-img-1.jpg" alt="">
-                <div class="content">
-                    <h3>modern furniture</h3>
-                    <span class="quantity"> 1 </span>
-                    <span class="multiply"> x </span>
-                    <span class="price"> $1</span>
-                </div>
-            </div>
-
-            <div class="box">
-                <i class="ri-close-line close-icon"></i>
-                <img src="img/cart-img-1.jpg" alt="">
-                <div class="content">
-                    <h3>modern furniture</h3>
-                    <span class="quantity"> 1 </span>
-                    <span class="multiply"> x </span>
-                    <span class="price"> $1 </span>
-                </div>
-            </div>
-
-            <h3 class="total"> total : <span>$560.00</span> </h3>
-            <a href="#" class="btn">checkout cart</a>
-
-        </div>
-
-        <!-- shopping cart end  -->
+        >
 
 
 
@@ -220,61 +183,143 @@
 
 
 
+        <!-- products section start -->
+
+        <section class="products">
+            <h3 style="font-size: 30px;"> The product your image about on Pet Hello ! </h3>
 
 
-        <!-- footer section start  -->
-        <section class="footer">
             <div class="box-container">
 
-                <div class="box">
-                    <h3>quick links</h3>
-                    <a href="home.html"> <i class="ri-arrow-right-line"></i> Home </a>
-                    <a href="shop.html"> <i class="ri-arrow-right-line"></i> Shop </a>
-                    <a href="about.html"> <i class="ri-arrow-right-line"></i> About </a>
-                    <a href="team.html"> <i class="ri-arrow-right-line"></i> Team </a>
-                    <a href="blog.html"> <i class="ri-arrow-right-line"></i> Blog </a>
-                    <a href="contact.html"> <i class="ri-arrow-right-line"></i> Contact </a>
-                </div>
+                <c:if test="${empty requestScope.LIST}">
+                    <h3 style="font-size: 30px;"> No Product on Sale, Please comeback later. </h3>
+                    </c:if>
+                    <c:if test="${ not empty requestScope.LIST}">
+                        <c:forEach var="dto" items="${requestScope.LIST}">
+                            <div class="box">
+                                <div class="icons">
+                                    <form action="product">
+                                        <a href="#" class="ri-eye-line"></a>
+                                        <input type="hidden" name="productID" value="${dto.productID}" />
+                                        <input type="hidden" name="action" value="detail" /> 
+                                        <input style="background-color: inherit;" type="submit" name="" value="View product">
+                                    </form>
 
-                <div class="box">
-                    <h3>extra links</h3>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Order </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Wishlist </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Account </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Favorite </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> Terms of user </a>
-                </div>
-
-                <div class="box">
-                    <h3>extra links</h3>
-                    <a href="#"> <i class="ri-facebook-fill"></i> Facebook </a>
-                    <a href="#"> <i class="ri-twitter-fill"></i> Twitter </a>
-                    <a href="#"> <i class="ri-instagram-fill"></i> Instagram </a>
-                    <a href="#"> <i class="ri-linkedin-box-fill"></i> Linkedin </a>
-                    <a href="#"> <i class="ri-pinterest-fill"></i> Pinterest </a>
-                </div>
-
-                <div class="box">
-                    <h3>newsletter</h3>
-                    <p>subscribe for latest updates</p>
-                    <form action="#">
-                        <input type="email" name="" placeholder="enter your email" id="">
-                        <input type="submit" value="subscribe" class="MAIN">
-                    </form>
-                </div>
-
-            </div>
-        </section>
-
-        <section class="credit">
-            shopemail@gmail.com|+84 123456789
-        </section>
-        <!-- footer section end  -->
+                                </div>
+                                <div class="image">
+                                    <img style="object-fit: cover;" src="${dto.img}" alt="">
+                                </div>
+                                <div class="content">
 
 
-        <!-- custom js file link  -->
-        <script src="js/total.js"></script>
 
-    </body>
+                                    <c:set var = "salee"  value = "${dto.pSale}"/>
+                                    <c:if test = "${salee <1}">
+                                        <div class="sale">
+                                            <h1> <c:out value = "${ Math.round(100 - dto.pSale*100)} %"/><h1>
 
-</html>
+                                                    </div>
+
+                                                    <div class="price">
+                                                        <h4>${dto.priceOut} $</h4>
+                                                        <h4 id="new">${Math.round(dto.priceOut*dto.pSale)} $ </h4>
+                                                    </div>
+
+
+                                                </c:if>
+
+
+                                                <c:if test="${salee >= 1}">
+                                                    <div class="price">
+                                                        <h4 style="text-decoration: none;">${dto.priceOut} $</h4>
+                                                    </div>
+                                                </c:if>
+
+
+
+
+
+                                                <h3>${dto.productName}</h3>
+                                                <div style="display: flex;" class="stars">
+                                                    <i style="color: #5e473e;" class="fa-solid fa-shop"></i>
+                                                    <form class="ShopGo" action="">
+                                                        <input type="hidden" name="shopID" value="${dto.shop.shopID}" /> 
+                                                        <input style="color: #5e473e;" type="Submit" name="MAIN" value="${dto.shop.shopName}">
+                                                    </form>
+                                                    <div class="${dto.shop.rate}">
+                                                        <span> (4,5 </span>
+                                                        <i style="color: gold" class="fas fa-star"></i>
+                                                        <span> ) </span>
+                                                    </div>
+
+                                                </div>
+                                                </div>
+                                                </div>
+
+                                            </c:forEach>
+                                        </c:if>
+                                        </div>
+
+                                        </section>
+
+                                        <!-- products section end -->
+
+
+
+
+                                        <!-- footer section start  -->
+                                        <section class="footer">
+                                            <div class="box-container">
+
+                                                <div class="box">
+                                                    <h3>quick links</h3>
+                                                    <a href="home.html"> <i class="ri-arrow-right-line"></i> Home </a>
+                                                    <a href="shop.html"> <i class="ri-arrow-right-line"></i> Shop </a>
+                                                    <a href="about.html"> <i class="ri-arrow-right-line"></i> About </a>
+                                                    <a href="team.html"> <i class="ri-arrow-right-line"></i> Team </a>
+                                                    <a href="blog.html"> <i class="ri-arrow-right-line"></i> Blog </a>
+                                                    <a href="contact.html"> <i class="ri-arrow-right-line"></i> Contact </a>
+                                                </div>
+
+                                                <div class="box">
+                                                    <h3>extra links</h3>
+                                                    <a href="#"> <i class="ri-arrow-right-line"></i> My Order </a>
+                                                    <a href="#"> <i class="ri-arrow-right-line"></i> My Wishlist </a>
+                                                    <a href="#"> <i class="ri-arrow-right-line"></i> My Account </a>
+                                                    <a href="#"> <i class="ri-arrow-right-line"></i> My Favorite </a>
+                                                    <a href="#"> <i class="ri-arrow-right-line"></i> Terms of user </a>
+                                                </div>
+
+                                                <div class="box">
+                                                    <h3>extra links</h3>
+                                                    <a href="#"> <i class="ri-facebook-fill"></i> Facebook </a>
+                                                    <a href="#"> <i class="ri-twitter-fill"></i> Twitter </a>
+                                                    <a href="#"> <i class="ri-instagram-fill"></i> Instagram </a>
+                                                    <a href="#"> <i class="ri-linkedin-box-fill"></i> Linkedin </a>
+                                                    <a href="#"> <i class="ri-pinterest-fill"></i> Pinterest </a>
+                                                </div>
+
+                                                <div class="box">
+                                                    <h3>newsletter</h3>
+                                                    <p>subscribe for latest updates</p>
+                                                    <form action="#">
+                                                        <input type="email" name="" placeholder="enter your email" id="">
+                                                        <input type="submit" value="subscribe" class="MAIN">
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </section>
+
+                                        <section class="credit">
+                                            shopemail@gmail.com|+84 123456789
+                                        </section>
+                                        <!-- footer section end  -->
+
+
+                                        <!-- custom js file link  -->
+                                        <script src="js/total.js"></script>
+
+                                        </body>
+
+                                        </html>

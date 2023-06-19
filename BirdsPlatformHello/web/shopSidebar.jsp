@@ -39,6 +39,20 @@
                     <span class="material-symbols-outlined">shopping_cart</span> Orders
                 </a>
             </li>
+            <li class="sidebar-list-item">
+                <a href="AddProduct.jsp">
+                    <span class="material-symbols-outlined">
+                        add_box
+                    </span> Add new product
+                </a>
+            </li>
+            <li class="sidebar-list-item">
+                <a href="shopFeedback.jsp">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span> Feedback
+                </a>
+            </li>
         </ul>
     </body>
 </html>

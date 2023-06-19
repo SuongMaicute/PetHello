@@ -6,7 +6,9 @@
 package com.birdtradingplatform.controller;
 
 import com.birdtradingplatform.dao.AccountDAO;
+import com.birdtradingplatform.dao.ShopDAO;
 import com.birdtradingplatform.model.Account;
+import com.birdtradingplatform.model.Shop;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -41,7 +43,7 @@ public class CheckLoginbyUserName extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException {
         String url = "Login.jsp";
-//        Account dto = null;
+        Account dto = null;
         AccountDAO dao = new AccountDAO();
         PrintWriter out = response.getWriter();
         try {
@@ -50,7 +52,7 @@ public class CheckLoginbyUserName extends HttpServlet {
             String password = request.getParameter("pass");
              Account result = dao.CheckLoginbyUserName(username, password);
             //login by username and 
-            Account dto = dao.CheckLoginbyUserName(username, password);
+            dto = dao.CheckLoginbyUserName(username, password);
 
             HttpSession session = request.getSession();
 
@@ -68,16 +70,24 @@ public class CheckLoginbyUserName extends HttpServlet {
                 }else  if (dto.getRole()== 3) {
                     session.setAttribute("SHOP_ADMIN_ROLE", dto);    
                     url = "shopOrdersController";
+                    
+                    ShopDAO shopDao= new ShopDAO();
+                    Shop shop = shopDao.getShopInforByShopID(dto);           
+                    session.setAttribute("SHOPEDITPRODUCT", shop);
+                    System.out.println("SHOP" +shop.getShopID());
+                    
                 }else{
                     session.setAttribute("USER_ROLE", true);
                 }
+                
+
             } else {
                 url = "Login.jsp";
                 request.setAttribute("validAcc", "false");
             }
              session.setAttribute("username", username);
              request.setAttribute("account", result);
-             if(dto.getAvatar()!=null && !dto.getAvatar().isEmpty()){
+             if(!dto.getAvatar().isEmpty()){
              session.setAttribute("IMG", dto.getAvatar());
              } else {
                  

@@ -25,6 +25,46 @@ public class AccountDAO {
         public List<Account> getAccountList() {
         return accountList;
     }
+    public Account getAccountByCustomerID(int id) throws ClassNotFoundException, SQLException{
+         Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Account result = null;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "SELECT * FROM Account WHERE accountID = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, id);
+                rs = stm.executeQuery();
+                
+                while (rs.next()) {    
+                    int accountID = rs.getInt("accountID");
+                    String username = rs.getString("username");
+                    String email = rs.getString("email");
+                    String password = rs.getString("password");
+                    int role = rs.getInt("role");
+                    boolean isDeleted = rs.getBoolean("isDeleted");
+                    String regisDate = rs.getString("regisDate");
+                    String avatar = rs.getString("avatar");
+                    
+                    result = new Account(accountID, username, email, password, role, isDeleted, regisDate, avatar);
+                }
+            }
+        } finally {
+             if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+           return result;
+    }
+        
     public ArrayList<Account> getUserList() throws ClassNotFoundException, SQLException{
         ArrayList<Account> userList = new ArrayList<>();
         Connection con = null;
@@ -177,8 +217,11 @@ public class AccountDAO {
                     String avatar = rs.getString("avatar");
                     
                    dto = new Account(accountID, username, email, password, role, isDeleted, email, avatar);
+                    System.out.print(dto.getEmail());
                 }
-            } 
+            } else {
+
+            }
 
         } finally {
             if (rs != null) {
@@ -410,11 +453,12 @@ public class AccountDAO {
         int result = 0;
         try {
             con = DBHelper.makeConnection();
-            String sql = "UPDATE Account SET role = ? WHERE email = ?";
+            String sql = "UPDATE Account SET password = ?, role = ? WHERE email = ?";
             
             stm = con.prepareStatement(sql);
-            stm.setInt(1, acc.getRole());
-            stm.setString(2, acc.getEmail());
+            stm.setString(1, acc.getPassword());
+            stm.setInt(2, acc.getRole());
+            stm.setString(3, acc.getEmail());
             
             result = stm.executeUpdate();
             
@@ -465,10 +509,9 @@ public class AccountDAO {
         return result;
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException, NamingException {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
         AccountDAO dao = new AccountDAO();
-        Account account = new Account(0, null, "dashard1@vk.com", null, 2, true, null);
-        int row = 0;
-        row = dao.updateAccountByAdmin(account);
+        Account account = dao.getAccountByCustomerID(10);
+        System.out.println(account);
     }
 }

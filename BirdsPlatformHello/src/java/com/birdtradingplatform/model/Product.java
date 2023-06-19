@@ -29,10 +29,6 @@ public class Product {
     public Product() {
     }
 
-     public Product(String productName, String status) {
-       this.productName = productName;  
-       this.status = status;
-    }
     public Product(int productID, String productName, double priceIn, String type,
             String category, int quantity, String description, String status,
             String img, String sku, Shop shop, double priceOut, double pSale, String dateIn) {

@@ -28,7 +28,12 @@ public class OrderDetailDAO {
     public Map<Integer, String> mapImg;
     public Map<Integer, String> productNameMap;
     public Map<Integer, String> topProductMap;
+    public Map<Integer, String> typeOfProduct;
 
+    public Map<Integer, String> getTypeOfProduct() {
+        return typeOfProduct;
+    }
+    
     public Map<Integer, String> getTopProductMap() {
         return topProductMap;
     }
@@ -44,7 +49,7 @@ public class OrderDetailDAO {
     public Map<Integer, String> getProductNameMap() {
         return productNameMap;
     }
-
+    
     public float getIncome() throws ClassNotFoundException, SQLException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -115,7 +120,7 @@ public class OrderDetailDAO {
         }
     }
 
-    public List<OrderDetail> getImgByOrderID(List<Order> orders) throws ClassNotFoundException, SQLException {
+    public List<OrderDetail> getImgByOrderID(int id) throws ClassNotFoundException, SQLException {
         ArrayList<OrderDetail> orderDetails = new ArrayList<>();
         Connection con = null;
         ResultSet rs = null;
@@ -124,31 +129,29 @@ public class OrderDetailDAO {
         if (this.mapImg == null) {
             mapImg = new HashMap<>();
         }
+        if (this.typeOfProduct == null) {
+            typeOfProduct = new HashMap<>();
+        }
         try {
             con = DBHelper.makeConnection();
             if (con != null) {
-                String sql = "SELECT TOP (1000) [orderDetailID] "
-                        + "      ,[OrderDetail].[quantity] "
-                        + "      ,[OrderDetail].[price] "
-                        + "      ,[OrderDetail].[productID] "
-                        + "      ,[orderID], "
-                        + "	  img "
-                        + "  FROM [BirdPlatform].[dbo].[OrderDetail], Product  "
-                        + "  where [OrderDetail].productID = Product.productID";
-                // for (Order order : orders) {
+                String sql = "SELECT  OD.[orderDetailID],OD.[quantity],OD.[productID],OD.[orderID],P.img, P.category "
+                              + " FROM [BirdPlatform].[dbo].[OrderDetail] OD JOIN Product P "
+                              + " ON OD.productID = P.productID WHERE orderID = ?";
                 stm = con.prepareStatement(sql);
+                stm.setInt(1, id);
                 rs = stm.executeQuery();
-
                 while (rs.next()) {
                     int orderDetailID = rs.getInt("orderDetailID");
                     int quantity = rs.getInt("quantity");
-                    float price = rs.getFloat("price");
                     int productID = rs.getInt("productID");
                     int orderID = rs.getInt("orderID");
                     String img = rs.getString("img");
-                    result = new OrderDetail(orderDetailID, quantity, price, productID, orderID);
+                    String category = rs.getString("category");
+                    result = new OrderDetail(orderDetailID, quantity, 0, productID, orderID);
                     orderDetails.add(result);
                     mapImg.put(productID, img);
+                    typeOfProduct.put(productID, category);
                 }
             }
             //}
@@ -275,12 +278,9 @@ public class OrderDetailDAO {
         OrderDAO orderDAO = new OrderDAO();
         ShopDAO shopDAO = new ShopDAO();
         OrderDetailDAO detailDAO = new OrderDetailDAO();
-        Shop shop = shopDAO.getShopInforByShopID(user);
-        List<Order> orders = orderDAO.getOrderByShopID(shop);
-        List<OrderDetail> orderDetails = detailDAO.getTop5ProductOfShop();
-         Map<Integer, String> productNameMap = detailDAO.getTopProductMap();
-         System.out.println(productNameMap.values());
-          
+       List<OrderDetail> list = detailDAO.getImgByOrderID(1);
+           Map<Integer, String> imgMap = detailDAO.getMapImg();
+           System.out.println(imgMap);
 
     }
 }

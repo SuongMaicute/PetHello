@@ -61,11 +61,9 @@ public class shopOrdersController extends HttpServlet {
                 OrderDetailDAO detailDAO = new OrderDetailDAO();
                 if (user != null) {
                     Shop shop = shopDAO.getShopInforByShopID(user);
-                    List<Order> orders = orderDAO.getOrderByShopID(shop);
-                    List<OrderDetail> orderDetails = detailDAO.getImgByOrderID(orders);
+                    List<Order> orders = orderDAO.getOrdersByShopID(shop);
                     Map<Integer, String> usernameMap = orderDAO.getUsernameMap();
                     request.setAttribute("USERNAMELIST", usernameMap);
-                    request.setAttribute("DETAILS", orderDetails);
                     request.setAttribute("ORDERS", orders);
                 }
             }

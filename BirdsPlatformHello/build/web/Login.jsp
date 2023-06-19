@@ -27,7 +27,7 @@
     <div class="box">
       <div class="inner-box">
         <div class="forms-wrap">
-          <form action="DispatcherServlet" autocomplete="off" class="sign-in-form">
+            <form action="DispatcherServlet" autocomplete="off" class="sign-in-form" method="POST">
             <div class="logo">
               <a href="" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
             </div>
@@ -62,7 +62,8 @@
               
                 <input name="MAIN" type="submit" value="Login" class="sign-btn" />
               
-              <a href="https://accounts.google.com/o/oauth2/auth?scope=email&amp;redirect_uri=http://localhost:8080/BirdsPlatformHello/LoginGoogleHandler&amp;response_type=code&amp;client_id=1037707091680-1aq2v2s9f844d1qs4dapbn521vdi89pe.apps.googleusercontent.com&amp;approval_prompt=force" class="gg-btn">
+              <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/BirdsPlatformHello/LoginGoogleHandler&response_type=code
+		   &client_id=1037707091680-1aq2v2s9f844d1qs4dapbn521vdi89pe.apps.googleusercontent.com&approval_prompt=force" class="gg-btn">
                 <span class="btn-text">Google</span>
               </a>
                 

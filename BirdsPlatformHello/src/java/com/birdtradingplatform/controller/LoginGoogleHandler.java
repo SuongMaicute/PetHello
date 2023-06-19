@@ -78,11 +78,11 @@ public class LoginGoogleHandler extends HttpServlet {
         }
 
        if (dto.getRole()==2) {
-                    session.setAttribute("SHOP_ADMIN_ROLE", true);
+                    session.setAttribute("SHOP_ADMIN_ROLE", dto);
                     url = "AdminDashboardController";
                     // HomePage controller for system admin nhe
                 }else  if (dto.getRole()== 3) {
-                    session.setAttribute("SYSTEM_ADMIN_ROLE", true);    
+                    session.setAttribute("SYSTEM_ADMIN_ROLE", dto);    
                     url = "shopOrdersController";
                     
                     ShopDAO shopDao= new ShopDAO();

@@ -43,12 +43,13 @@ public class GetDataForUserProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NamingException {
         try {
+            System.out.println("get Profile here");
             HttpSession session = request.getSession();
             Account userDTO = (Account) session.getAttribute("USERDTOBYUSERNAME");
             AccountDAO dao = new AccountDAO();
             request.setAttribute("SERVLET", true);
             String gmail = null;
-
+            System.out.print("get Data Servlet ne");
 
             UserGoogleDto ggDTO = (UserGoogleDto) session.getAttribute("GOOGLE_ACC");
             String changeGmail = (String) request.getAttribute("CHANGE_GMAIL"); 
@@ -60,10 +61,12 @@ public class GetDataForUserProfile extends HttpServlet {
             }else if (userDTO != null) {
                 gmail = userDTO.getEmail();
             }
+            System.out.println("Gmail ở get profile :" +gmail);
             
             Account account = dao.CheckLoginbyGmail(gmail);
             Customer cusDTO = new Customer();
             if (account != null) {
+                System.out.println("GEt profiile, account new í fine");
                 session.setAttribute("USERDTOBYUSERNAME", account);
                 request.setAttribute("ACCOUNT_EXIST_IN_DB", true);
 

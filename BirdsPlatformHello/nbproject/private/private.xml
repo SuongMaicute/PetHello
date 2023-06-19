@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Documents/CodeJava/PetHello/PetHello/BirdsPlatformHello/src/java/com/birdtradingplatform/shop/controller/shopProductController.java</file>
-            <file>file:/D:/Documents/CodeJava/PetHello/PetHello/BirdsPlatformHello/src/java/com/birdtradingplatform/shop/controller/shopSaveOrderController.java</file>
-            <file>file:/D:/Documents/CodeJava/PetHello/PetHello/BirdsPlatformHello/web/shopProduct.jsp</file>
-            <file>file:/D:/Documents/CodeJava/PetHello/PetHello/BirdsPlatformHello/src/java/com/birdtradingplatform/dao/ProductDAO.java</file>
-            <file>file:/D:/Documents/CodeJava/PetHello/PetHello/BirdsPlatformHello/web/updateProduct.jsp</file>
-            <file>file:/D:/Documents/CodeJava/PetHello/PetHello/BirdsPlatformHello/src/java/com/birdtradingplatform/shop/controller/shopUpdateProductStatus.java</file>
+            <file>file:/D:/Documents/CodeJava/BirdsPlatformHello%20(1)/web/css/shopFeedback.css</file>
+            <file>file:/D:/Documents/CodeJava/BirdsPlatformHello%20(1)/src/java/com/birdtradingplatform/shop/controller/shopOrderDetailsController.java</file>
+            <file>file:/D:/Documents/CodeJava/BirdsPlatformHello%20(1)/web/shopOrder.jsp</file>
+            <file>file:/D:/Documents/CodeJava/BirdsPlatformHello%20(1)/src/java/com/birdtradingplatform/dao/OrderDetailDAO.java</file>
         </group>
     </open-files>
 </project-private>

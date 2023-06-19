@@ -38,18 +38,12 @@
                     <div class="account-menu">
                         <ul class="navbar-list">
                             <li>
-                                <h4 class="user-name">Hey,.....</h4>
+                                <h4 class="user-name">Hey, ${sessionScope.SHOP_ADMIN_ROLE.username}</h4>
                             </li>
                             <li>
                                 <span class="material-icons-outlined">account_circle</span>
                                 <a href="shopProfile.jsp">My profile</a>
-                            </li>
-                            <li>
-                                <span class="material-symbols-outlined">
-                                    settings
-                                </span>
-                                <a href="">Setting</a>
-                            </li>
+                            </li>            
                             <li>
                                 <span class="material-symbols-outlined">
                                     logout

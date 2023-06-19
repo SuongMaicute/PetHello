@@ -97,6 +97,16 @@
                     <h3 style="color: red"> Comfirm  is not match </h3>
                 </c:if>
               </div>
+                
+                <div class="input-wrap">
+                <input style="margin-left: 30px;"
+                  type="checkbox" id="codepen"
+                  minlength="4"
+                  class="input-field"
+                  autocomplete="off" name="roleRegist" 
+                />
+                <label for="codepen">Sign up as Shop</label>
+              </div>
 
                 <input name="MAIN" type="submit" value="Register" class="sign-btn" />
               

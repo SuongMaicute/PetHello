@@ -168,9 +168,13 @@
                         <c:forEach var="dto" items="${requestScope.LIST}">
                             <div class="box">
                                 <div class="icons">
-                                    <a href="#" class="ri-shopping-cart-line"></a>
-                                    <a href="#" class="ri-heart-line"></a>
-                                    <a href="#" class="ri-eye-line"></a>
+                                    <form action="product">
+                                        <a href="#" class="ri-eye-line"></a>
+                                        <input type="hidden" name="productID" value="${dto.productID}" />
+                                        <input type="hidden" name="action" value="detail" /> 
+                                        <input style="background-color: inherit;" type="submit" name="" value="View product">
+                                    </form>
+                                    
                                 </div>
                                 <div class="image">
                                     <img style="object-fit: cover;" src="${dto.img}" alt="">

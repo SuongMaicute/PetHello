@@ -17,6 +17,8 @@ import com.birdtradingplatform.model.Shop;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -58,24 +60,25 @@ public class shopDashboardController extends HttpServlet {
                 ShopDAO shopDAO = new ShopDAO();
                 ProductDAO productDAO = new ProductDAO();
                 OrderDetailDAO detailDAO = new OrderDetailDAO();
+                 Map<Integer, String> topProduct = new HashMap<>();
+                  List<OrderDetail> productList = new ArrayList<>();
                 double total = 0;
-                double income = 0;
                 if (user != null) {
                     Shop shop = shopDAO.getShopInforByShopID(user);
                     List<Product> products =  productDAO.getProductByShopID(shop);
                     List<Order> orders = orderDAO.getOrderByShopID(shop);
+                    
                     for (int i = 0; i < orders.size(); i++) {
-                         total += orders.get(i).getTotal();
-                         List<OrderDetail> orderDetails = detailDAO.getImgByOrderID(orders);
-                    List<OrderDetail> productList = detailDAO.getTop5ProductOfShop();
-                    Map<Integer, String> topProduct = detailDAO.getTopProductMap();
+                    total += orders.get(i).getTotal();
+                     productList = detailDAO.getTop5ProductOfShop();
+                     topProduct = detailDAO.getTopProductMap();
+                    }
                     request.setAttribute("TOPPRODUCTOFSHOP", topProduct);
                     request.setAttribute("QUANTITY", productList);
                     request.setAttribute("NUMBEROFORDER", orders.size());
                     request.setAttribute("INCOMEOFSHOP", total);
                     request.setAttribute("INCOME", orders);
                     request.setAttribute("NUMBEROFPRODUCT", products.size());
-                    }
                 }
             }
             

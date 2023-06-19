@@ -33,22 +33,16 @@
                 </form>
                 <div class="header-right">
                     <div class="profile-user" onclick="menuToggle();">
-                        <img src="${sessionScope.IMG}" alt="">
+                        <img src="${sessionScope.SYSTEM_ADMIN_ROLE.avatar}" alt="">
                     </div> 
                     <div class="account-menu">
                         <ul class="navbar-list">
                             <li>
-                                <h4 class="user-name">Hey, Admin</h4>
+                                <h4 class="user-name">Hey, ${sessionScope.SYSTEM_ADMIN_ROLE.username}</h4>
                             </li>
                             <li>
                                 <span class="material-icons-outlined">account_circle</span>
                                 <a href="adminProfile.jsp">My profile</a>
-                            </li>
-                            <li>
-                                <span class="material-symbols-outlined">
-                                    settings
-                                </span>
-                                <a href="">Setting</a>
                             </li>
                             <li>
                                 <span class="material-symbols-outlined">

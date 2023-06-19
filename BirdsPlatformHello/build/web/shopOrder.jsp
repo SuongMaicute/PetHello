@@ -87,13 +87,12 @@
                                                 <form action="shopSaveOrderController" method="POST">
                                                     <tr>                    
                                                         <td class="text-center">
-                                                            <a href="shopOrderDetailsController">                                 
-                                                                ${order.orderID}
-                                                            </a>
+                                                            <input type="hidden" name="orderID" value="${order.orderID}">
+                                                            ${order.orderID}
                                                         </td>
                                                         <td class="text-center">
                                                             <c:forEach var="entry" items="${customerList}">
-                                                                <c:if test="${entry.key eq order.orderID}">
+                                                                <c:if test="${entry.key eq order.orderID}">                                              
                                                                     ${entry.value}
                                                                 </c:if>
                                                             </c:forEach> 
@@ -109,10 +108,10 @@
                                                             <input type="hidden" name="orderID" value="${order.orderID}">
                                                             <select class="input-edit" name="status">
                                                                 <option value="Processing" ${order.status eq 'Processing' ? 'selected' : ''}>Processing</option>
-                                                                <option value="Shipped" ${order.status eq 'Shipped' ? 'selected' : ''}>Shipped</option>
+                                                                <option value="Delivered" ${order.status eq 'Delivering' ? 'selected' : ''}>Delivered</option>
                                                                 <option value="Delivered" ${order.status eq 'Delivered' ? 'selected' : ''}>Delivered</option>
-                                                                <option value="Cancelled" ${order.status eq 'Cancelled' ? 'selected' : ''}>Cancelled</option>
-                                                            </select>                               
+                                                            </select>     
+                                                            <input type="hidden" name="status" value="${order.status}">
                                                         </td>
                                                         <td class="text-center">
                                                             <button type="submit" class="btn btn-sm btn-neutral">
@@ -130,9 +129,18 @@
                                                                     delete
                                                                 </span></button>
                                                         </td>
-
+                                                         </form> 
+                                                        <td>
+                                                            <form action="shopOrderDetailsController" method="POST">
+                                                                <input type="hidden" name="orderID" value="${order.orderID}">
+                                                                <input type="hidden" name="status" value="${order.status}">
+                                                                <input type="hidden" name="total" value="${order.total}">
+                                                                
+                                                                <input type="submit" value="View order's detail" />
+                                                            </form> 
+                                                        </td>
                                                     </tr> 
-                                                </form> 
+                                               
 
                                             </c:forEach>
                                         </c:if>

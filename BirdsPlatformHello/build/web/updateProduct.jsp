@@ -29,7 +29,7 @@
   </head>
   <body>
     <header class="header">
-      <a href="home.html" class="logo">
+      <a href="HomePage.jsp" class="logo">
         <i class="ri-store-2-line"></i> Pet.Hello | Pet Hero
       </a>
 
@@ -48,7 +48,7 @@
     <!-- navbar start  -->
 
     <nav class="navbar">
-      <a href="home.html">home</a>
+      <a href="HomePage.jsp">home</a>
       <a href="shop.html">shop</a>
       <a href="about.html">view sale</a>
       <a href="blog.html">blog</a>
@@ -84,12 +84,13 @@
 
      <!-- img product start -->
     <section class="userInfo">
+        <c:set var="dto" value="${requestScope.PRODUCT}"/>
      
       <div class="form-group product">
           <figure class="form-product-img">
               <img class="img-product"  id="image" src="" alt="">
 
-               <img  id="NeedHide" class="rounded-circle" src="${sessionScope.USERDTOBYUSERNAME.avatar}" alt="">
+               <img  id="NeedHide" class="img-product" src="${dto.img}" alt="">
                                     
           </figure>
           <div class="form-inline col-md-10 col-sm-9 col-xs-12">
@@ -99,9 +100,8 @@
 
               <form action="DispatcherServlet">
               <input id="inputTag" type="hidden" value="" name="imageInput" >
+              <input type="hidden" value="${dto.productID}" name="ID" >
            
-              
-              
               
             
           </div>
@@ -113,16 +113,19 @@
     <!-- update info -->
 
     <section class="userInfo">
+        
+        
 	<h3>Update product</h3>
 	<div class="user__details">
 		<div class="input__box">
 		  <span class="details">Product name</span>
-                  <input name="productname" type="text" placeholder="" required>
+                  <input name="productname" type="text" placeholder="" value="${dto.productName}" required>
 		</div>
 	
     <div class="input__box">
 		  <span class="details">Category</span>
       <select style="padding: 10px;"  class="details" name="category" >
+        <option style="padding: 10px;" value="${dto.category}"> ${dto.category}</option>
         <option style="padding: 10px;" value="Bird"> Bird</option>
         <option value="Bird"> Food</option>
         <option value="Bird"> Bird toy</option>
@@ -132,12 +135,12 @@
 	
     <div class="input__box">
 		  <span class="details"> Species  </span>
-                  <input name="type" type="text" placeholder="" required>
+                  <input value="${dto.type}" name="type" type="text" placeholder="" required>
 		</div>
 
     <div class="input__box">
 		  <span class="details"> Quantity  </span>
-                  <input name="quantity" type="number" placeholder="" required>
+                  <input value="${dto.quantity}" name="quantity" type="number" placeholder="" required>
 		</div>
 	      </div>
   
@@ -152,12 +155,12 @@
       <div class="user__details">
         <div class="input__box">
           <span class="details">Description </span>
-          <input name="description" type="text" placeholder="" required>
+          <input value="${dto.description}" name="description" type="text" placeholder="" required>
         </div>
       
         <div class="input__box">
           <span class="details">Price</span>
-          <input name="price" type="text" placeholder="" required>
+          <input value="${dto.priceIn}" name="price" type="text" placeholder="" required>
         </div>
             </div>
         </section>
@@ -171,15 +174,16 @@
         
         <div class="input__box">
           <span class="details">Sale</span>
-          <input type="text" placeholder="" pattern="[0-9]{1,2}(\.[0-9]{1,2})?%?" title="Enter a value between 0% and 90%" required>
+          <input value="${dto.pSale}" type="text" placeholder="" pattern="[0-9]{1,2}(\.[0-9]{1,2})?%?" title="Enter a value between 0% and 90%" required>
           <div class="error-message">Please enter a valid value between 0% and 90%.</div>
         </div>
         
         <div class="input__box">
           <span class="details">Status </span>
           <select  style="padding: 10px;"  class="details" name="status" >
-            <option style="padding: 10px;" value="av"> Available</option>
-            <option value="na"> Not available</option>
+            <option style="padding: 10px;" value="${dto.status}"> ${dto.status}</option>
+            <option style="padding: 10px;" value="Available"> Available</option>
+            <option value="Not available"> Not available</option>
           </select>
         </div>
             </div>
@@ -201,7 +205,6 @@
 	</div>
     </section>
         <!-- insert productID here  -->
-        <input type="hidden" name="productID" value="1" />
         </form>
 
     <section class="credit">

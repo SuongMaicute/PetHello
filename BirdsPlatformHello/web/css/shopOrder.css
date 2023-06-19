@@ -198,7 +198,7 @@ body {
 }
 
 .table {
-
+  
 }
 
 tr,
@@ -481,7 +481,6 @@ th {
     padding: 1rem 2rem 1rem 0;
 }
 .input-edit{
-    height: 30px;
     width: 170px;
     border: 1px solid #ccc;
     border-radius: 5px;

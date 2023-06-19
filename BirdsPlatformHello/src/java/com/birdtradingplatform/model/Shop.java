@@ -11,7 +11,6 @@ package com.birdtradingplatform.model;
 public class Shop {
     private int shopID;
     private String shopName;
-    private String avatar;
     private double rate;
     private String contact;
     private int accountID;
@@ -20,10 +19,9 @@ public class Shop {
     public Shop() {
     }
 
-    public Shop(int shopID, String shopName, String avatar, double rate, String contact, int accountID, int addressID) {
+    public Shop(int shopID, String shopName, double rate, String contact, int accountID, int addressID) {
         this.shopID = shopID;
         this.shopName = shopName;
-        this.avatar = avatar;
         this.rate = rate;
         this.contact = contact;
         this.accountID = accountID;
@@ -46,13 +44,7 @@ public class Shop {
         this.shopName = shopName;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
+  
 
     public double getRate() {
         return rate;
@@ -88,7 +80,7 @@ public class Shop {
 
     @Override
     public String toString() {
-        return "Shop{" + "shopID=" + shopID + ", shopName=" + shopName + ", avatar=" + avatar + ", rate=" + rate + ", contact=" + contact + ", accountID=" + accountID + ", addressID=" + addressID + '}';
+        return "Shop{" + "shopID=" + shopID + ", shopName=" + shopName + ", avatar="  + ", rate=" + rate + ", contact=" + contact + ", accountID=" + accountID + ", addressID=" + addressID + '}';
     }
 
     

@@ -101,7 +101,14 @@
                                     <h3>Totals Orders</h3>
                                     <h1>${NUMBEROFORDER}</h1>                                         
                                 </div>
-                               
+                                <div class="progress">
+                                    <svg>
+                                    <circle cx='38' cy='38' r='36'></circle>
+                                    </svg>
+                                    <div class="number">
+                                        <p>81%</p>
+                                    </div>
+                                </div>
                             </div>
                         </div> 
                         <small class="text-muted">Last month</small>
@@ -117,7 +124,15 @@
                             <div class="middle">
                                 <div class="left">
                                     <h3>Total Income</h3>
-                                    <h1>${INCOMEOFSHOP}$</h1>
+                                    <h1>200</h1>
+                                </div>
+                                <div class="progress">
+                                    <svg>
+                                    <circle cx='38' cy='38' r='36'></circle>
+                                    </svg>
+                                    <div class="number">
+                                        <p>81%</p>
+                                    </div>
                                 </div>
                             </div>
                         </div> 
@@ -136,7 +151,7 @@
 
 
                     <div class="charts-card">
-                        <h2 class="chart-title">Purchase and Sales Orders</h2>
+                        <h2 class="chart-title">Purchase Orders</h2>
                         <div id="area-chart"></div>
                     </div>     
                 </div>
@@ -246,9 +261,6 @@
                 series: [{
                         name: 'Purchase Orders',
                         data: [31, 40, 28, 51, 42, 109, 100]
-                    }, {
-                        name: 'Sales Orders',
-                        data: [11, 32, 45, 32, 34, 52, 41]
                     }],
                 chart: {
                     height: 350,
@@ -257,7 +269,7 @@
                         show: false,
                     },
                 },
-                colors: ["#4f35a1", "#246dec"],
+                colors: ["#4f35a1"],
                 dataLabels: {
                     enabled: false,
                 },
@@ -272,15 +284,6 @@
                     {
                         title: {
                             text: 'Purchase Orders',
-                            style: {
-                                color: "black"
-                            }
-                        },
-                    },
-                    {
-                        opposite: true,
-                        title: {
-                            text: 'Sales Orders',
                             style: {
                                 color: "black"
                             }

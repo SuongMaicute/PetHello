@@ -7,21 +7,26 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>User profile</title>
-        <link rel="stylesheet" href="css/userProfile_1.css">
+        <link rel="stylesheet" href="./css/user.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 
     </head>
     <body>
 
 
+        <c:if test="${empty sessionScope.CUSTOMERDTO}">
+            <c:redirect url="GetDataForUserProfile">
+
+            </c:redirect>
+        </c:if>
 
         <c:if test="${not empty requestScope.UPDATE_ERROR}">
-            <h3 style="color: red;"> Nothing to update, please check your information</h3>
-        </c:if>
+                <h3 style="color: red;"> Nothing to update, please check your information</h3>
+            </c:if>
 
 
         <div class="main-content">
-
+            
             <!-- Top navbar -->
             <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
                 <div class="container-fluid">
@@ -132,7 +137,7 @@
 
                                             </div>
                                             <form action="DispatcherServlet">
-                                                <input id="inputTag" type="hidden" value="" name="imageInput" >
+                                                <input  id="inputTag" type="hidden" value="" name="imageInput" >
                                                 <input style="margin-top: 38%; line-height: 28px; border-radius: 4px; margin-left:-20px ; border: 1.5px solid #767676;"
                                                        type="Submit" name="MAIN" value="Save Profile" />
 
@@ -217,7 +222,7 @@
 
                 <div class="block">
                     <h3>Quick links</h3>
-                    <a href="./Homepage.html"> <i class="ri-arrow-right-line"></i> Home </a> <br>
+                    <a href="./HomePage.jsp"> <i class="ri-arrow-right-line"></i> Home </a> <br>
                     <a href="./shop.html"> <i class="ri-arrow-right-line"></i> Shop </a><br>
                     <a href="./about.html"> <i class="ri-arrow-right-line"></i> About </a><br>
                     <a href="./team.html"> <i class="ri-arrow-right-line"></i> Team </a><br>
@@ -291,12 +296,17 @@
                                                                     console.log(url);
                                                                     alert('image uploaded successfully');
                                                                     document.querySelector("#image").src = url;
-                                                                    var element = document.querySelector("#NeedHide");
-                                                                    element.style.display = "none";
-                                                                    if (url != "") {
+                                                                   
+            
+                                                                     if (url != "") {
                                                                         document.querySelector("#inputTag").value = url;
 
                                                                     }
+            
+            
+                                                                    var element = document.querySelector("#NeedHide");
+                                                                    element.style.display = "none";
+                                                                   
 
                                                                 })
                                                                 .catch(console.error);

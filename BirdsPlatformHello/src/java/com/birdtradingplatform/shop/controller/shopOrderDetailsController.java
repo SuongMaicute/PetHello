@@ -1,82 +1,91 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.birdtradingplatform.shop.controller;
 
+import com.birdtradingplatform.dao.AccountDAO;
+import com.birdtradingplatform.dao.AddressShipmentDAO;
+import com.birdtradingplatform.dao.CustomerDAO;
 import com.birdtradingplatform.dao.OrderDAO;
+import com.birdtradingplatform.dao.OrderDetailDAO;
+import com.birdtradingplatform.model.Account;
+import com.birdtradingplatform.model.AddressShipment;
+import com.birdtradingplatform.model.Customer;
+import com.birdtradingplatform.model.Order;
+import com.birdtradingplatform.model.OrderDetail;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Minh Quan
- */
 @WebServlet(name = "shopOrderDetailsController", urlPatterns = {"/shopOrderDetailsController"})
 public class shopOrderDetailsController extends HttpServlet {
+    private final String SHOP_ORDERDETAILS = "shopOrderDetails.jsp";
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String url = SHOP_ORDERDETAILS;
+        
         try {
-       
-        } catch (Exception e) {
+            String orderID = request.getParameter("orderID");
+            String total = request.getParameter("total");
+            String status = request.getParameter("status");
+            
+            OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
+            OrderDAO orderDAO = new OrderDAO();
+            AccountDAO accountDAO = new AccountDAO();
+            AddressShipmentDAO shipmentDAO = new AddressShipmentDAO();
+            
+            Order order = orderDAO.getOrdersByID(orderID);
+            Customer customer = orderDAO.getCustomerByOrderID(orderID);
+            Account account = accountDAO.getAccountByCustomerID(customer.getAccountID());
+            AddressShipment addressShipment = shipmentDAO.getAddressShipmentByID(order.getAddressShipID());
+            
+            String customerName = account.getUsername();
+            String phoneNumber = customer.getPhonenumber();
+            String address = addressShipment.getDetail() + " " + addressShipment.getDistrict() + " " + addressShipment.getProvince();
+
+            List<OrderDetail> details = orderDetailDAO.getImgByOrderID(order.getOrderID());
+            Map<Integer, String> imgMap = orderDetailDAO.getMapImg();
+            Map<Integer, String> productType = orderDetailDAO.getTypeOfProduct();
+                    
+            request.setAttribute("details", details);
+            request.setAttribute("imgMap", imgMap);
+            request.setAttribute("address", address);
+            request.setAttribute("customerName", customerName);
+            request.setAttribute("phoneNumber", phoneNumber);
+            request.setAttribute("status", status);
+            request.setAttribute("total", total);
+            request.setAttribute("productType", productType);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(shopOrderDetailsController.class.getName()).log(Level.SEVERE, null, ex);
+            // Optionally, you can redirect to an error page here
         }
+
+        RequestDispatcher rd = request.getRequestDispatcher(url);
+        rd.forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
+    }
 }

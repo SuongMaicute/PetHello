@@ -5,14 +5,17 @@
  */
 package com.birdtradingplatform.shop.controller;
 
+import com.birdtradingplatform.dao.AccountDAO;
 import com.birdtradingplatform.dao.ShopDAO;
 import com.birdtradingplatform.model.Account;
 import com.birdtradingplatform.model.Shop;
+import com.birdtradingplatform.model.UserGoogleDto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,9 +41,37 @@ public class shopGetDataForProfile extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
-      
+        String url = SHOP_PROFILE;
+        try {
+            HttpSession session = request.getSession();
+            Account shopDTO = (Account) session.getAttribute("SHOP_ADMIN_ROLE");
+            Account shopAdmin = new Account();
+            AccountDAO accountDAO = new AccountDAO();
+            request.setAttribute("SERVLET", true);
+            String gmail = null;
+            
+            UserGoogleDto ggDTO = (UserGoogleDto) session.getAttribute("GOOGLE_ACC");
+            String changeGmail = (String) request.getAttribute("CHANGE_GMAIL");
+            
+            if (changeGmail != null) {
+                gmail = changeGmail;
+            } else if (ggDTO != null) {
+                gmail = ggDTO.getEmail();
+            }else if (shopDTO != null) {
+                gmail = shopDTO.getEmail();
+            }
+            
+            Account account = accountDAO.CheckLoginbyGmail(gmail);
+            if (account != null) {
+                session.setAttribute("SHOP_ADMIN_ROLE", account);
+                request.setAttribute("ACCOUNT_EXIST_IN_DB", true);
+                
+                
+            }
+        } finally {
+        }
            
     }
 
@@ -62,6 +93,8 @@ public class shopGetDataForProfile extends HttpServlet {
             Logger.getLogger(shopGetDataForProfile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(shopGetDataForProfile.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(shopGetDataForProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -81,6 +114,8 @@ public class shopGetDataForProfile extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(shopGetDataForProfile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(shopGetDataForProfile.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
             Logger.getLogger(shopGetDataForProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
