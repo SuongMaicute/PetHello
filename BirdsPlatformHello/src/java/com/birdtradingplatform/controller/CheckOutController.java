@@ -65,7 +65,10 @@ public class CheckOutController extends HttpServlet {
             String checkoutList[] = request.getParameterValues("checkoutlist");
             if (checkoutList == null || checkoutList.length==0) {
                 MutilShopCart allShopCart = (MutilShopCart) session.getAttribute("allShopCart");
+//                MutilShopCart bet = allShopCart;
+//                MutilShopCart checkoutMap = bet;
                 MutilShopCart checkoutMap = allShopCart;
+
                 session.setAttribute("checkoutMap", checkoutMap);
                 session.setAttribute("totalpriceCheckout", checkoutMap.getTotalMoneyAllShop());
                 session.setAttribute("totalquantityCheckout", checkoutMap.getTotalCountAllShop());

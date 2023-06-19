@@ -55,7 +55,7 @@ public class OrderDAO {
                     pstm.setInt(1, customerID);
                     pstm.setInt(2, addressShipID);
                     pstm.setInt(3, shopID);
-                    pstm.setDouble(4, shopcart.getTotalMoney());
+                    pstm.setDouble(4, shopcart.getTotalMoney()+5);
                     pstm.executeUpdate();
                     //addOrderDetail
                     String sqlOrderID = "select top 1 orderID from [Order] "
@@ -71,7 +71,7 @@ public class OrderDAO {
                             PreparedStatement pstm2 = con.prepareStatement(sqlOrderDetail);
                             pstm2.setInt(1, orderID);
                             pstm2.setInt(2, productID);
-                            pstm2.setDouble(3, item.getProduct().getPriceOut());
+                            pstm2.setDouble(3, item.getProduct().getPriceOut()*item.getProduct().getpSale());
                             pstm2.setInt(4, item.getQuantity());
                             pstm2.executeUpdate();
                         }

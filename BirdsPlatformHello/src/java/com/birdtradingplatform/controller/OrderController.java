@@ -90,29 +90,33 @@ public class OrderController extends HttpServlet {
             //deliveryto
             request.setAttribute("addressShipment", addressShipment);
             Customer cus = cusDAO.getCustomerByAccountID(account.getAccountID());//test
+            MutilShopCart allShopCart = (MutilShopCart) session.getAttribute("allShopCart");
+            MutilShopCart checkoutMap = (MutilShopCart) session.getAttribute("checkoutMap");
+            OrderDAO odao = new OrderDAO();
+            odao.addOrder(cus.getCustomerID(), checkoutMap, addressShipment.getAddressShipID());//test
             if (cus != null) {
-                MutilShopCart allShopCart = (MutilShopCart) session.getAttribute("allShopCart");
-                MutilShopCart checkoutMap = (MutilShopCart) session.getAttribute("checkoutMap");
-                for (Map.Entry<Integer, Cart> en : checkoutMap.getMutilShopCart().entrySet()) {
-                    int key = en.getKey();
-                    Cart shopcart = en.getValue();
-                    if (allShopCart.getMutilShopCart().containsKey(key)) {
-                        for (Map.Entry<Integer, Item> entry : shopcart.getCart().entrySet()) {
-                            int pid = entry.getKey();
-                            Item item = entry.getValue();
-                            try {
-                                if (allShopCart.getMutilShopCart().get(key).getCart().containsKey(pid)) {
-                                    allShopCart.deleteMutilShop(item.getProduct());
+                try {
+                    for (Map.Entry<Integer, Cart> en : checkoutMap.getMutilShopCart().entrySet()) {
+                        int key = en.getKey();
+                        Cart shopcart = en.getValue();
+                        if (allShopCart.getMutilShopCart().containsKey(key)) {
+                            for (Map.Entry<Integer, Item> entry : shopcart.getCart().entrySet()) {
+                                int pid = entry.getKey();
+                                Item item = entry.getValue();
+                                try {
+                                    if (allShopCart.getMutilShopCart().get(key).getCart().containsKey(pid)) {
+                                        allShopCart.deleteMutilShop(item.getProduct());
+                                    }
+                                } catch (Exception e) {
                                 }
-                            } catch (Exception e) {
+
                             }
-
                         }
-                    }
 
+                    }
+                } catch (Exception e) {
                 }
-                OrderDAO odao = new OrderDAO();
-                odao.addOrder(cus.getCustomerID(), checkoutMap, addressShipment.getAddressShipID());//test
+
                 String mess = "You ordered succeed. Your order will be processed as soon as possible";
                 request.setAttribute("message", mess);
                 session.setAttribute("checkoutMap", null);
