@@ -33,6 +33,7 @@ public class DispatcherServlet extends HttpServlet {
     private String UPDATEPRODUCTCONTROLLER = "UpdateProduct";
     private String ADDPRODUCTCONTROLLER = "AddProductController";
     private String SHOPDELETEPRODUCTCONTROLLER = "ShopDeleteProductController";
+    private String SEARCHCONTROLLER = "SearchController";
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -74,8 +75,11 @@ public class DispatcherServlet extends HttpServlet {
             }else if(submit.equalsIgnoreCase("Add product")){
                 url = ADDPRODUCTCONTROLLER;
             }else if(submit.equalsIgnoreCase("Delete")){
-                System.out.println("doooooo");
+                System.out.println("delete");
                 url = SHOPDELETEPRODUCTCONTROLLER;
+            }else if(submit.equalsIgnoreCase("Search")){
+                System.out.println("search eiiiii");
+                url = SEARCHCONTROLLER;
             }
             
         }finally{

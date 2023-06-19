@@ -38,7 +38,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-5">                        
-                        <image style="width: 80px" src="${requestScope.shop.getAvatar()}"/>
+                        <image style="width: 80px" src=""/>
                         <h1>${requestScope.shop.getShopName()}</h1>
                         <p>Rating: ${requestScope.shop.getRate()} <i class="fas fa-star"></i></p> 
                     </div>

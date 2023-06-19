@@ -10,6 +10,7 @@ import com.birdtradingplatform.dao.ProductDAO;
 import com.birdtradingplatform.model.Account;
 import com.birdtradingplatform.model.AddressShipment;
 import com.birdtradingplatform.model.Cart;
+import com.birdtradingplatform.model.Customer;
 import com.birdtradingplatform.model.Item;
 import com.birdtradingplatform.model.MutilShopCart;
 import com.birdtradingplatform.model.Product;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,24 +44,35 @@ public class CheckOutController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
         if ("Check-out".equals(action)) {
             HttpSession session = request.getSession();
-            Account account = (Account) session.getAttribute("account");
+            Account account = (Account) session.getAttribute("USERDTOBYUSERNAME");
+            if (account == null) {
+                request.getRequestDispatcher("Login.jsp").include(request, response);
+            }
+            CustomerDAO cusDAO = new CustomerDAO();
+            Customer customer = cusDAO.getCustomerByAccountID(account.getAccountID());
+            if (customer == null) {
+                response.sendRedirect("err.html");
+            }
+            AddressShipment addressShipment = cusDAO.getAddressShipmentByCusID(customer.getCustomerID());//test
+            //deliveryto
+            request.setAttribute("addressShipment", addressShipment);
 
-//            if (account == null) {
-//                request.getRequestDispatcher("Login.jsp").include(request, response);
-//            }
-//            if (account != null) {
-//                CustomerDAO cusDAO = new CustomerDAO();
-//                AddressShipment addressShipment = cusDAO.getAddressShip(account.getAccountID());
-//                //deliveryto
-//                request.setAttribute("addressShipment", addressShipment);
-//            }
             String checkoutList[] = request.getParameterValues("checkoutlist");
-            if (checkoutList != null) {
+            if (checkoutList == null || checkoutList.length==0) {
+                MutilShopCart allShopCart = (MutilShopCart) session.getAttribute("allShopCart");
+                MutilShopCart checkoutMap = allShopCart;
+                session.setAttribute("checkoutMap", checkoutMap);
+                session.setAttribute("totalpriceCheckout", checkoutMap.getTotalMoneyAllShop());
+                session.setAttribute("totalquantityCheckout", checkoutMap.getTotalCountAllShop());
+
+                request.getRequestDispatcher("checkout.jsp").forward(request, response);
+
+            } else if (checkoutList != null) {
                 MutilShopCart checkoutMap = new MutilShopCart();
                 for (String value : checkoutList) {
                     int productID = Integer.parseInt(value);
@@ -86,9 +99,9 @@ public class CheckOutController extends HttpServlet {
                 session.setAttribute("totalquantityCheckout", checkoutMap.getTotalCountAllShop());
 
                 request.getRequestDispatcher("checkout.jsp").forward(request, response);
-            } //else {
-//                response.sendRedirect("err.html");
-//            }
+            } else {
+                response.sendRedirect("err.html");
+            }
 
         }
     }
@@ -111,6 +124,10 @@ public class CheckOutController extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(CheckOutController.class
                     .getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CheckOutController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(CheckOutController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -131,6 +148,10 @@ public class CheckOutController extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(CheckOutController.class
                     .getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CheckOutController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(CheckOutController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

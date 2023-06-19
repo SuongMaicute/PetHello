@@ -38,15 +38,22 @@
         <header class="header">
             <a href="./HomePage.jsp" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
 
-            <form action="#" class="search-form">
-                <input type="search" placeholder="Search here..." id="search-box">
-                <label for="search-box" class="ri-search-line"></label>
+            <form action="DispatcherServlet" class="search-form"method="POST">
+                <input name="searchValue" type="search" placeholder="Search here..." id="search-box">
+                <input type="hidden" name="MAIN" value="Search" />
+                <button id="Search-btn" type="submit">
+                    <div id="search-btn" class="ri-search-line"></div>
+                </button> 
+                
+               
+                
+                <label for="Search-btn" class="ri-search-line"></label>
+                
             </form>
 
             <div class="icons">
                 <div id="menu-btn" class="ri-menu-line"></div>
-                <div id="search-btn" class="ri-search-line"></div>
-
+               
 
                 <a href="cartview.jsp">
                     <div id="cart-btn" class="ri-shopping-cart-line"></div> 

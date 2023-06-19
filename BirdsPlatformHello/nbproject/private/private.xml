@@ -3,15 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/web/cartview.jsp</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/OrderController.java</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/CheckOutController.java</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/CheckLoginbyUserName.java</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/CartController.java</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/dao/CustomerDAO.java</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/model/MutilShopCart.java</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/src/java/com/birdtradingplatform/model/Cart.java</file>
-            <file>file:/D:/STUDY/se5-summer2023/SWP/Jun162023/BirdsPlatformHello/BirdsPlatformHello/web/checkout.jsp</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/fixorder/BirdsPlatformHello%20(1)/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/OrderController.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/fixorder/BirdsPlatformHello%20(1)/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/ProductController.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/fixorder/BirdsPlatformHello%20(1)/BirdsPlatformHello/src/java/com/birdtradingplatform/model/AddressShipment.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/fixorder/BirdsPlatformHello%20(1)/BirdsPlatformHello/web/productdetail_ver2.jsp</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/fixorder/BirdsPlatformHello%20(1)/BirdsPlatformHello/src/java/com/birdtradingplatform/dao/CustomerDAO.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/fixorder/BirdsPlatformHello%20(1)/BirdsPlatformHello/web/checkout.jsp</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/fixorder/BirdsPlatformHello%20(1)/BirdsPlatformHello/src/java/com/birdtradingplatform/dao/OrderDAO.java</file>
+            <file>file:/D:/STUDY/se5-summer2023/SWP/fixorder/BirdsPlatformHello%20(1)/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/CheckOutController.java</file>
         </group>
     </open-files>
 </project-private>

@@ -41,30 +41,18 @@
 
 
 
-        <div class="card-body cart">
-            <div class="col-sm-12 empty-cart-cls text-center">
-
-                
-                <c:if test="${requestScope.message!=null}">
-                    <c:if test="${not emptyrequestScope.message}">
-                        <h3><strong>${requestScope.message}</strong></h3>
-                        <a href="" class="btn-empty" data-abc="true">continue shopping</a>
-                        <a href="" class="btn-empty" data-abc="true">view my order</a>
-
-                    </c:if>
-                </c:if>
-            </div>
-        </div>
+       
         <!-- user info -->
-        <c:if test="${sessionScope.account!=null}">
-            <c:if test="${not empty sessionScope.account}">
+        <c:set var="account" value="${sessionScope.USERDTOBYUSERNAME}" />
+        <c:if test="${account!=null}">
+            <c:if test="${not empty account}">
                 <section class="userInfo">
                     <div>
                         <div class="line-cl"></div>
                         <h3>User information</h3>
                         <div class="user__details">
-                            <span class="bold">${sessionScope.account.getUsername()}</span><span class="bold">${requestScope.addressShipment.getPhoneShipment()}</span>
-                            <span > ${requestScope.addressShipment.getDetail()}, ${requestScope.addressShipment.getDistrict()}, ${requestScope.addressShipment.getProvince()}</span>
+                            <span class="bold">${account.username}</span><span class="bold">${requestScope.addressShipment.phoneShipment}</span>
+                            <span > ${requestScope.addressShipment.detail}, ${requestScope.addressShipment.district}, ${requestScope.addressShipment.province}</span>
                         </div>
 
                     </div>
@@ -168,6 +156,7 @@
                                             <span class="all-pay">$${sessionScope.totalpriceCheckout+pageScope.shipFee}</span>
                                         </div>
                                     </div>
+                                        <input type="hidden" name="addressShip" value="${requestScope.addressShipment.getAddressShipID()}" >
                                     <input class="order" type="submit" name="action" value="Order" >
 
                                 </div>
@@ -179,7 +168,20 @@
             </c:if>
 
         </form>
+         <div class="card-body cart">
+            <div class="col-sm-12 empty-cart-cls text-center">
 
+                
+                <c:if test="${requestScope.message!=null}">
+                    <c:if test="${not empty requestScope.message}">
+                        <h3><strong>${requestScope.message}</strong></h3>
+                        <div><a href="HomePage.jsp" class="btn-empty" data-abc="true">continue shopping</a></div>
+                        <div><a href="">view my order</a></div>
+
+                    </c:if>
+                </c:if>
+            </div>
+        </div>
 
         <!-- cart end -->
 

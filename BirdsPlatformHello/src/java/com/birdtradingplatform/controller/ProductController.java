@@ -106,10 +106,12 @@ public class ProductController extends HttpServlet {
                 int onestar = feedbackDAO.getFeedbackCountConditon(Integer.parseInt(productID), colStar, "=1");
                 int comment = feedbackDAO.getFeedbackCountConditon(Integer.parseInt(productID), "datalength(detail)!=0 and img is not null", "");
                 int img = feedbackDAO.getFeedbackCountConditon(Integer.parseInt(productID), "datalength(img)!=0 and img is not null", "");
+
                 List<ProductWithRate> favouritedList = dao.getFovouritedProduct(12);
 
                 //
                 request.setAttribute("favouritedList", favouritedList);
+
                 request.setAttribute("feedbacklist", list);
                 request.setAttribute("totalfeedback", totalfeedback);
                 request.setAttribute("comment", comment);
@@ -119,7 +121,7 @@ public class ProductController extends HttpServlet {
                 request.setAttribute("threestar", threestar);
                 request.setAttribute("twostar", twostar);
                 request.setAttribute("onestar", onestar);
-                request.setAttribute("curPage", curPage);
+                request.setAttribute("page", curPage);
                 request.setAttribute("limit", limit);
                 //feedback                 
                 request.setAttribute("shopaccount", acc);

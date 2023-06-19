@@ -27,7 +27,7 @@
     <div class="box">
       <div class="inner-box">
         <div class="forms-wrap">
-          <form action="DispatcherServlet" autocomplete="off" class="sign-in-form">
+            <form action="DispatcherServlet" autocomplete="off" class="sign-in-form" method="POST">
             <div class="logo">
               <a href="" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
             </div>

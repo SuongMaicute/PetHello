@@ -38,7 +38,6 @@
     </section>
 
     <!-- heading section end -->
-
     <!-- cart start -->
 
     <c:if test="${sessionScope.allShopCart==null}">
@@ -62,23 +61,27 @@
         <c:if test="${not empty sessionScope.allShopCart}">
             <c:if test="${sessionScope.allShopCart.getMutilShopCart().values()!=null}">
                 <c:if test="${not empty sessionScope.allShopCart.getMutilShopCart().values()}">
-                        <div class="cart-head">
-                            <p class="name-product">Product</p>
-                            <div class="cart-head_description">
-                                <p>type</p>
-                                <p>price</p>
-                                <p>quantity</p>
-                                <p>amount</p>
-                                <p>Operation</p>
-                            </div>
-                        </div>
-                        <c:forEach var="shopproductlist" items="${sessionScope.allShopCart.getMutilShopCart().values()}">
-                            <c:if test="${shopproductlist.getCart().values()!=null}">
-                                <c:if test="${not empty shopproductlist.getCart().values()}">
-                                    <div class="shop">
-                                        <h3 class="shop__name">${(shopproductlist.getCart().values().toArray())[0].getProduct().getShop().getShopName()}</h3>
 
-                                        <c:forEach var="item" items="${shopproductlist.getCart().values()}">
+                    <div class="cart-head">
+                        <p class="name-product">Product</p>
+                        <div class="cart-head_description">
+                            <p>type</p>
+                            <p>price</p>
+                            <p>quantity</p>
+                            <p>amount</p>
+                            <p>Operation</p>
+                        </div>
+                    </div>
+
+                    <c:forEach var="shopproductlist" items="${sessionScope.allShopCart.getMutilShopCart().values()}">
+                        <c:if test="${shopproductlist.getCart().values()!=null}">
+                            <c:if test="${not empty shopproductlist.getCart().values()}">
+                                <div class="shop">
+                                    <h3 class="shop__name">${(shopproductlist.getCart().values().toArray())[0].getProduct().getShop().getShopName()}</h3>
+
+                                    <c:forEach var="item" items="${shopproductlist.getCart().values()}">
+                                        <form action="cart">
+
                                             <div class="shop__product">
                                                 <div class="line"></div>
                                                 <div class="shop__product--name">
@@ -89,15 +92,15 @@
                                                 </div>
                                                 <div class="flex-dis">
                                                     <div class="shop__product--description">
-                                                        <c:set var="quan" value="${item.getQuantity()}"></c:set>
+
                                                         <p class="mg-top">${item.getProduct().getCategory()}</p>
                                                         <p class="mg-top">$${item.getProduct().getPriceOut()*item.getProduct().getpSale()}</p>
                                                         <div class="quantity-wrap">
                                                             <div class="">
                                                                 <p class="minus">-</p>
                                                             </div>
-                                                            <input type="number" max="item.getProduct().getQuantity()" value="${pageScope.quan}" />
-                                                            <div>
+                                                            <input name="quantity" type="number" max="item.getProduct().getQuantity()" value="${item.getQuantity()}" />
+                                                            <div class="">
                                                                 <p class="add">+</p>
                                                             </div>
                                                         </div>
@@ -114,16 +117,15 @@
                                                                     d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"
                                                                     />
                                                                 </svg></a>
-                                                            <a href="cart?action=update&productID=${item.getProduct().getProductID()}" class="btn-update">Update</a>
+                                                            <!--<a href="cart?action=update&productID=${item.getProduct().getProductID()}" class="btn-update">Update</a>-->
+                                                            <input type="hidden" name="productID" value="${item.getProduct().getProductID()}">
+                                                            <button type="submit" value="update" name="action" class="btn-update">Update</button>
                                                             <div class="confirm-delete">
                                                                 <p>Do you want to delete ${item.getQuantity()} products ?</p>
                                                                 <div>
                                                                     <button class="btn-back">Back</button>
-                                                                    <form action="cart" >
-                                                                        <input type="hidden" name="action" value="removeitem">
-                                                                        <input type="hidden" name="productID" value="${item.getProduct().getProductID()}">
-                                                                        <input type="submit" value="Accept" class="btn-delete"></input>
-                                                                    </form>
+
+                                                                    <a href="cart?action=removeitem&productID=${item.getProduct().getProductID()}" class="btn-delete">Accept</a>
 
                                                                 </div>
 
@@ -133,49 +135,50 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </c:forEach>
-                                    </div>
-                                </c:if>
-                            </c:if>
-                        </c:forEach>
-                                                 <form action="checkout">
-
-                        <section class="check-out">
-                            <div class="voucher">
-                                <input type="text" >
-                                <span>Pet Hello voucher</span>
-                            </div>
-                            <div class="confirm-box">
-                                <div class="line"></div>
-                                <input type="" value="Delete" class="check-out__delete">
-                                <div class="ip-checkout">
-                                    <span>Total (${sessionScope.totalquantity} products): </span>
-                                    <span class="total">${sessionScope.totalprice}$</span>
-                                    <input type="submit" name="action" value="Check-out">
+                                    </c:forEach>
                                 </div>
+                            </c:if>
+                        </c:if>
+                    </c:forEach>
+
+
+                    <section class="check-out">
+                        <div class="voucher">
+                            <input type="text" >
+                            <span>Pet Hello voucher</span>
+                        </div>
+                        <div class="confirm-box">
+                            <div class="line"></div>
+                            <input type="" value="Delete" class="check-out__delete">
+                            <div class="ip-checkout">
+                                <span>Total (${sessionScope.totalquantity} products): </span>
+                                <span class="total">${sessionScope.totalprice}$</span>
+                                <input type="submit" name="action" value="Check-out">
                             </div>
-                        </section>
-                        </form>
-                </c:if>
+                        </div>
+                    </section>
+                </form>
+
             </c:if>
-            <!-- check out start -->
-
-
-
-            <!-- check out end -->
         </c:if>
+        <!-- check out start -->
+
+
+
+        <!-- check out end -->
     </c:if>
+</c:if>
 
 
 
 
-    <!-- cart end -->
+<!-- cart end -->
 
 
 
 
-    <%@include file="footer.jsp" %>
+<%@include file="footer.jsp" %>
 
-    <script src="js/script.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>

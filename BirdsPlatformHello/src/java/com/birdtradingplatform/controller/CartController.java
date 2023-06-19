@@ -58,19 +58,22 @@ public class CartController extends HttpServlet {
 
             if (allShopCart != null) {
                 allShopCart.deleteMutilShop(product);
-                 for (Map.Entry<Integer, Cart> entry : allShopCart.getMutilShopCart().entrySet()) {
-                    Integer key = entry.getKey();
-                    Cart cart = entry.getValue();
-                    if (cart.getCart().isEmpty()) {
-                        allShopCart.getMutilShopCart().remove(key);
+                try {
+                    for (Map.Entry<Integer, Cart> entry : allShopCart.getMutilShopCart().entrySet()) {
+                        Integer key = entry.getKey();
+                        Cart cart = entry.getValue();
+                        if (cart.getCart().isEmpty()) {
+                            allShopCart.getMutilShopCart().remove(key);
+                        }
                     }
+                } catch (Exception e) {
                 }
-                
+
                 //session.setAttribute("cartlist", Cart.getItemlist(cart));
                 session.setAttribute("totalprice", allShopCart.getTotalMoneyAllShop());
                 session.setAttribute("totalquantity", allShopCart.getTotalCountAllShop());
-                if(allShopCart.getMutilShopCart().isEmpty()){
-                    allShopCart=null;
+                if (allShopCart.getMutilShopCart().isEmpty()) {
+                    allShopCart = null;
                 }
                 session.setAttribute("allShopCart", allShopCart);
                 request.getRequestDispatcher("cartview.jsp").forward(request, response);
@@ -134,6 +137,8 @@ public class CartController extends HttpServlet {
             session.setAttribute("totalquantity", allShopCart.getTotalCountAllShop());
             //session.setAttribute("cartlist", Cart.getItemlist(cart));
             request.getRequestDispatcher("cartview.jsp").forward(request, response);
+        }else if ("Check-out".equals(action)){
+            request.getRequestDispatcher("checkout").forward(request, response);
         }
     }
 

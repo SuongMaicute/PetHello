@@ -76,6 +76,62 @@ public class ProductDAO {
         }
         return products;        
     }
+     
+      public ArrayList<Product> getProductBySearchFunction(String searchValue, String field) throws ClassNotFoundException, SQLException{
+        ArrayList<Product> products = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Product result = null;
+        
+          System.out.println("feil nè" + field);
+        con = DBHelper.makeConnection();
+        if (con != null) {
+            try {
+                String  sql = "select * from product,Shop,account "
+                        + "where Shop.shopID = Product.shopID "
+                        + "and account.accountID =shop.accountID and " + field + " like  ?  ";
+                stm = con.prepareStatement(sql);
+                 stm.setString(1,"%" + searchValue + "%");
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    products.add(new Product(rs.getInt("productID"),
+                            rs.getString("productName"),
+                            rs.getDouble("priceIn"),
+                            rs.getString("type"),
+                            rs.getString("category"),
+                            rs.getInt("quantity"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getString("img"),
+                            rs.getString("sku"),
+                            new Shop(rs.getInt("shopID"),
+                                    rs.getString("shopName"),
+                                    rs.getDouble("rate"),
+                                    rs.getString("contact"),
+                                    rs.getInt("accountID"),
+                                    rs.getInt("addressID")),
+                            rs.getDouble("priceOut"),
+                            rs.getDouble("pSale"), ""));
+                    
+                    System.out.println(rs.getInt("productID") + "quantity" + rs.getInt("quantity"));
+                }
+            } finally {
+               if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            } 
+            }
+        }
+        return products;        
+    }
+     
+     
     public ArrayList<Product> printProductList() throws ClassNotFoundException, SQLException {
         ArrayList suggestedList = new ArrayList<>();
         Connection con = null;
@@ -104,7 +160,6 @@ public class ProductDAO {
                             rs.getString("sku"),
                             new Shop(rs.getInt("shopID"),
                                     rs.getString("shopName"),
-                                    rs.getString("avatar"),
                                     rs.getDouble("rate"),
                                     rs.getString("contact"),
                                     rs.getInt("accountID"),
@@ -204,6 +259,7 @@ public class ProductDAO {
                     product = new Product(rs.getInt("productID"),
                             rs.getString("productName"),
                             rs.getDouble("priceIn"),
+                            rs.getString("type"),
                             rs.getString("category"),
                             rs.getInt("quantity"),
                             rs.getString("description"),
@@ -213,7 +269,7 @@ public class ProductDAO {
                             new Shop(rs.getInt("shopID"),
                                     rs.getString("shopName"),
                                     //rs.getString("avatar"),
-                                    "",
+                                    //"",
                                     rs.getDouble("rate"),
                                     rs.getString("contact"),
                                     rs.getInt("accountID"),
@@ -239,62 +295,61 @@ public class ProductDAO {
         return product;
     }
 
-//    public List<Product> getSuggestion(String relation, int limit, int page) throws SQLException {
-//        List<Product> suggestedList = new ArrayList<>();
-//        Connection con = null;
-//        PreparedStatement pstm = null;
-//        ResultSet rs = null;
-//
-//        try {
-//            con = DBHelper.makeConnection();
-//            if (con != null) {
-//                String sql = "select *"
-//                        + " from [Product] left join [Shop] on "
-//                        + " product.shopID = shop.shopID where category = ?"
-//                        + " order by rate " + " offset " + (page - 1) * limit + " rows "
-//                        + " fetch next ? rows only";
-//                pstm = con.prepareStatement(sql);
-//                pstm.setString(1, relation);
-//                pstm.setInt(2, limit);
-//
-//                rs = pstm.executeQuery();
-//                while (rs.next()) {
-//                    suggestedList.add(new Product(rs.getInt("productID"),
-//                            rs.getString("productName"),
-//                            rs.getDouble("priceIn"),
-//                            rs.getString("type"),
-//                            rs.getString("category"),
-//                            rs.getInt("quantity"),
-//                            rs.getString("description"),
-//                            rs.getString("status"),
-//                            rs.getString("img"),
-//                            rs.getString("sku"),
-//                            new Shop(rs.getInt("shopID"),
-//                                    rs.getString("shopName"),
-//                                    rs.getString("avatar"),
-//                                    rs.getDouble("rate"),
-//                                    rs.getString("contact"),
-//                                    rs.getInt("accountID"),
-//                                    rs.getInt("addressID")),
-//                            rs.getDouble("priceOut"),
-//                            rs.getDouble("pSale"), ""));
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (rs != null) {
-//                rs.close();
-//            }
-//            if (pstm != null) {
-//                pstm.close();
-//            }
-//            if (con != null) {
-//                con.close();
-//            }
-//        }
-//        return suggestedList;
-//    }
+    public List<Product> getSuggestion(String relation, int limit, int page) throws SQLException {
+        List<Product> suggestedList = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "select *"
+                        + " from [Product] left join [Shop] on "
+                        + " product.shopID = shop.shopID where category = ?"
+                        + " order by rate " + " offset " + (page - 1) * limit + " rows "
+                        + " fetch next ? rows only";
+                pstm = con.prepareStatement(sql);
+                pstm.setString(1, relation);
+                pstm.setInt(2, limit);
+
+                rs = pstm.executeQuery();
+                while (rs.next()) {
+                    suggestedList.add(new Product(rs.getInt("productID"),
+                            rs.getString("productName"),
+                            rs.getDouble("priceIn"),
+                            rs.getString("type"),
+                            rs.getString("category"),
+                            rs.getInt("quantity"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getString("img"),
+                            rs.getString("sku"),
+                            new Shop(rs.getInt("shopID"),
+                                    rs.getString("shopName"),
+                                    rs.getDouble("rate"),
+                                    rs.getString("contact"),
+                                    rs.getInt("accountID"),
+                                    rs.getInt("addressID")),
+                            rs.getDouble("priceOut"),
+                            rs.getDouble("pSale"), ""));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pstm != null) {
+                pstm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return suggestedList;
+    }
 
     public ArrayList getSaleList() throws SQLException {
         ArrayList suggestedList = new ArrayList<>();
@@ -324,7 +379,6 @@ public class ProductDAO {
                             rs.getString("sku"),
                             new Shop(rs.getInt("shopID"),
                                     rs.getString("shopName"),
-                                    rs.getString("avatar"),
                                     rs.getDouble("rate"),
                                     rs.getString("contact"),
                                     rs.getInt("accountID"),
@@ -398,7 +452,62 @@ public class ProductDAO {
         return 0;
     }
 
-   
+    public List<ProductWithRate> getShopProductListByPage(String search, int productPerPage, int curPage, String colSort, String category, String sortType) throws SQLException {
+        List<ProductWithRate> productList = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBHelper.makeConnection();
+            if (conn != null) {
+                String sql = "select *, pRate.star"
+                        + " from [Product] left join ProductRate() as pRate "
+                        + " on Product.productID = pRate.productID"
+                        + " where (category = ? and (productName like ? or description like ?)"
+                        + " order by " + colSort + " " + sortType
+                        + " offset " + (curPage - 1) * productPerPage + " rows "
+                        + " fetch next ? rows only; ";
+
+                pstm = conn.prepareStatement(sql);
+                pstm.setString(1, "%" + search + "%");
+                pstm.setString(2, "%" + search + "%");
+                pstm.setString(3, search);
+                pstm.setInt(4, productPerPage);
+
+                rs = pstm.executeQuery();
+                while (rs.next()) {
+                    productList.add(new ProductWithRate(rs.getInt("star"), rs.getInt("productID"),
+                            rs.getString("productName"),
+                            rs.getDouble("priceIn"),
+                            rs.getString("type"),
+                            rs.getString("category"),
+                            rs.getInt("quantity"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getString("img"),
+                            rs.getString("sku"),
+                            null,
+                            rs.getDouble("priceOut"),
+                            rs.getDouble("pSale"), ""));
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pstm != null) {
+                pstm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return productList;
+    }
 
     public boolean deleteProduct(Product product) throws ClassNotFoundException, SQLException{
         Connection con = null;
@@ -605,66 +714,49 @@ public class ProductDAO {
             conn = DBHelper.makeConnection();
             if (conn != null) {
                 String sql;
-                if (category != null) {
+                if (category == null || category.isEmpty()) {
                     sql = "select *, pRate.star"
                             + " from [Product] left join ProductRate() as pRate "
                             + " on Product.productID = pRate.productID"
-                            + " where shopID= ? and (category = ? and (productName like ? or description like ?)"
+                            + " where (productName like ? or description like ?)"
                             + " order by " + colSort + " " + sortType
                             + " offset " + (curPage - 1) * productPerPage + " rows "
                             + " fetch next ? rows only; ";
                     pstm = conn.prepareStatement(sql);
-                    pstm.setString(1, shopID);
-                    pstm.setString(2, category);
-                    pstm.setString(3, "%" + search + "%");
-                    pstm.setString(4, "%" + search + "%");
-                    pstm.setInt(5, productPerPage);
+                    pstm.setString(1, "%" + search + "%");
+                    pstm.setString(2, "%" + search + "%");
 
+                    pstm.setInt(3, productPerPage);
                 } else {
                     sql = "select *, pRate.star"
                             + " from [Product] left join ProductRate() as pRate "
                             + " on Product.productID = pRate.productID"
-                            + " where shopID= ? and (productName like ? or description like ?)"
+                            + " where (category = ? and (productName like ? or description like ?)"
                             + " order by " + colSort + " " + sortType
                             + " offset " + (curPage - 1) * productPerPage + " rows "
                             + " fetch next ? rows only; ";
-                    pstm = conn.prepareStatement(sql);
-                    pstm.setString(1, shopID);
+
+                    pstm.setString(1, search);
                     pstm.setString(2, "%" + search + "%");
                     pstm.setString(3, "%" + search + "%");
                     pstm.setInt(4, productPerPage);
                 }
-                
-                    rs = pstm.executeQuery();
 
+                rs = pstm.executeQuery();
                 while (rs.next()) {
-                    int star = rs.getInt("star");
-                    int productID = rs.getInt("productID");
-                    String productName = rs.getString("productName");
-                    double priceIn = rs.getDouble("priceIn");
-                    String categoryt = rs.getString("category");
-                    int quantity = rs.getInt("quantity");
-                    String description = rs.getString("description");
-                    String status = rs.getString("status");
-                    String img = rs.getString("img");
-                    String sku = rs.getString("sku");
-                    double priceOut = rs.getDouble("priceOut");
-                    double pSale = rs.getDouble("pSale");
-                     ProductWithRate p = new ProductWithRate(star, productID, productName, priceIn, category, quantity, description, status, img, sku, null, priceOut, pSale, "");
-                     productList.add(new ProductWithRate(star, productID, productName, priceIn, category, quantity, description, status, img, sku, null, priceOut, pSale, ""));
-//                    productList.add(new ProductWithRate(rs.getInt("star"), rs.getInt("productID"),
-//                            rs.getString("productName"),
-//                            rs.getDouble("priceIn"),
-//                            rs.getString("type"),
-//                            rs.getString("category"),
-//                            rs.getInt("quantity"),
-//                            rs.getString("description"),
-//                            rs.getString("status"),
-//                            rs.getString("img"),
-//                            rs.getString("sku"),
-//                            null,
-//                            rs.getDouble("priceOut"),
-//                            rs.getDouble("pSale"), rs.getString("dateIn")));
+                    productList.add(new ProductWithRate(rs.getInt("star"), rs.getInt("productID"),
+                            rs.getString("productName"),
+                            rs.getDouble("priceIn"),
+                            rs.getString("type"),
+                            rs.getString("category"),
+                            rs.getInt("quantity"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getString("img"),
+                            rs.getString("sku"),
+                            null,
+                            rs.getDouble("priceOut"),
+                            rs.getDouble("pSale"), ""));
 
                 }
             }
@@ -683,6 +775,9 @@ public class ProductDAO {
         }
         return productList;
     }
+
+    
+    
     //suggestion top favourited product
     public List<ProductWithRate> getFovouritedProduct(int nummberOfProduct) throws SQLException {
         List<ProductWithRate> list = new ArrayList<>();
@@ -693,13 +788,13 @@ public class ProductDAO {
         try {
             con = DBHelper.makeConnection();
             if (con != null) {
-                String sql = "select top ? * "
+                String sql = "select top 12 * "
                         + " from [Product] left join ProductRate() as pRate"
                         + " on Product.productID = pRate.productID"
                         + " order by pRate.star desc";
               
                 pstm = con.prepareStatement(sql);
-                pstm.setInt(1, nummberOfProduct);
+//                pstm.setInt(1, nummberOfProduct);
                // pstm.setInt(1, shopID);
 
                 rs = pstm.executeQuery();
@@ -734,6 +829,5 @@ public class ProductDAO {
         }
         return list;
     }
-
-
+    
 }

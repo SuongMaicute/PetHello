@@ -17,6 +17,7 @@ import com.birdtradingplatform.model.Shop;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -51,26 +52,32 @@ public class shopOrdersController extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            System.out.println("Shop order ");
+            System.out.println("after try");
             HttpSession session = request.getSession(false);
-            OrderDAO orderDAO = new OrderDAO();
-            
             if (session != null) {
+                System.out.println("after session != null");
                 String username = (String) session.getAttribute("username");
                 AccountDAO accountDAO = new AccountDAO();
                 Account user = accountDAO.getAccountByUsername(username);
-               
-               ShopDAO shopDAO = new ShopDAO();
+                System.out.println("after get account user ");
+                OrderDAO orderDAO = new OrderDAO();
+                ShopDAO shopDAO = new ShopDAO();
                 OrderDetailDAO detailDAO = new OrderDetailDAO();
+                
                 if (user != null) {
-                    Shop shop = (Shop) session.getAttribute("SHOP");
-                    List<Order> orders = orderDAO.getOrderByShopID(shop);
+                    System.out.println("after user != null");
+                    Shop shop = shopDAO.getShopInforByShopID(user);
+                    ArrayList<Order> orders = orderDAO.getOrderByShopID(shop);
+                    System.out.println("after get orders");
                     List<OrderDetail> orderDetails = detailDAO.getImgByOrderID(orders);
-                    Map<Integer, String> map = detailDAO.getMapImg();
-                    request.setAttribute("PRODUCTIMG", map);
+                    System.out.println("after get order detail");
+                    Map<Integer, String> usernameMap = orderDAO.getUsernameMap();
+                    System.out.println("after get user map");
+                    System.out.println("user Map" + usernameMap);
+                    request.setAttribute("USERNAMELIST", usernameMap);
                     request.setAttribute("DETAILS", orderDetails);
                     request.setAttribute("ORDERS", orders);
-               }
+                }
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(SHOP_ORDERS);

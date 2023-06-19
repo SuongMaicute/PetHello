@@ -66,10 +66,13 @@ public class MutilShopCart {
         if (this.mutilShopCart.containsKey(product.getShop().getShopID())) {
             this.mutilShopCart.get(product.getShop().getShopID()).delete(product.getProductID());
         }
-//       
-//        if (this.mutilShopCart.isEmpty()) {
-//            this.mutilShopCart = null;
-//        }
+        for (Map.Entry<Integer, Cart> entry : this.mutilShopCart.entrySet()) {
+            Integer key = entry.getKey();
+            Cart cart = entry.getValue();
+            if (cart.getCart().isEmpty()) {
+                mutilShopCart.remove(key);
+            }
+        }
     }
 
     public void updateMutilShop(Product product, Item newItem) {

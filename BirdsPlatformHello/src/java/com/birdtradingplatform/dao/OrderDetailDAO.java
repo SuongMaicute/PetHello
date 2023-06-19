@@ -277,8 +277,8 @@ public class OrderDetailDAO {
         OrderDetailDAO detailDAO = new OrderDetailDAO();
         Shop shop = shopDAO.getShopInforByShopID(user);
         List<Order> orders = orderDAO.getOrderByShopID(shop);
-        List<OrderDetail> orderDetails = detailDAO.getTop5ProductOfShop();
-         Map<Integer, String> productNameMap = detailDAO.getTopProductMap();
+        List<OrderDetail> orderDetails = detailDAO.getImgByOrderID(orders);
+         Map<Integer, String> productNameMap = detailDAO.getMapImg();
          System.out.println(productNameMap.values());
           
 

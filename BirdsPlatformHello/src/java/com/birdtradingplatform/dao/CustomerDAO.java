@@ -19,9 +19,9 @@ import java.sql.ResultSet;
  *
  * @author Admin
  */
-public class CustomerDAO implements Serializable{
-    
-    public Boolean Insert_new_into_Customer(Customer dto )
+public class CustomerDAO implements Serializable {
+
+    public Boolean Insert_new_into_Customer(Customer dto)
             throws ClassNotFoundException, SQLException, NamingException {
         Connection con = null;
         PreparedStatement stm = null;
@@ -32,17 +32,17 @@ public class CustomerDAO implements Serializable{
             con = DBHelper.makeConnection();
             //2. write sql 
             if (con != null) {
-                String sql = "insert into Customer(phoneNumber,point,accountID) " +
-                                "values (?,0,?);";
+                String sql = "insert into Customer(phoneNumber,point,accountID) "
+                        + "values (?,0,?);";
                 //3. create stm
                 stm = con.prepareStatement(sql);
                 stm.setString(1, dto.getPhonenumber());
                 stm.setInt(2, dto.getAccountID());
                 //4.excute stm
-                int row  = stm.executeUpdate();
+                int row = stm.executeUpdate();
                 //5.process result 
                 if (row > 0) {
-                    sucess =true;
+                    sucess = true;
                 }
             } else {
 
@@ -59,7 +59,7 @@ public class CustomerDAO implements Serializable{
         }
         return sucess;
     }
-    
+
     public Boolean UpdatePhoneNumber(int accountID, String PhoneNumber)
             throws ClassNotFoundException, SQLException, NamingException {
         Connection con = null;
@@ -98,8 +98,7 @@ public class CustomerDAO implements Serializable{
         }
         return result;
     }
-    
-    
+
     public Customer getCustomerByAccountID(int accountID)
             throws ClassNotFoundException, SQLException, NamingException {
         Connection con = null;
@@ -131,9 +130,6 @@ public class CustomerDAO implements Serializable{
             }
 
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
             if (stm != null) {
                 stm.close();
             }
@@ -144,8 +140,8 @@ public class CustomerDAO implements Serializable{
         }
         return result;
     }
-    
-     public AddressShipment getAddressShip(int account) throws SQLException {
+
+    public AddressShipment getAddressShip(int account) throws SQLException {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
@@ -158,17 +154,19 @@ public class CustomerDAO implements Serializable{
                         + "on [AddressShipment].customerID=[Customer].customerID "
                         + "left join [Account] "
                         + "on [Customer].accountID = [Account].accountID "
-                        + "where accountID=?";
+                        + "where Account.accountID = ?";
                 pstm = con.prepareStatement(sql);
                 pstm.setInt(1, account);
-                pstm.executeQuery();
-                if (rs != null) {
-                    shipTo = new AddressShipment(rs.getInt("addressShipID"), 
-                            rs.getString("phoneShipment"), 
-                            rs.getString("detail"), 
-                            rs.getString("district"), 
-                            rs.getString("province"),
-                            rs.getInt("customerID"));
+                rs = pstm.executeQuery();
+
+                if (rs.next()) {
+                    String phoneShipment = rs.getString("phoneShipment");
+                    int addressShipID = rs.getInt("addressShipID");
+                    String detail = rs.getString("detail");
+                    String district = rs.getString("district");
+                    String province = rs.getString("province");
+                    int customerID = rs.getInt("customerID");
+                    shipTo = new AddressShipment(addressShipID, phoneShipment, detail, district, province, customerID);
                 }
             }
         } catch (Exception e) {
@@ -186,5 +184,79 @@ public class CustomerDAO implements Serializable{
         return shipTo;
     }
     
-    
+    public AddressShipment getAddressShipmentByCusID(int cusID) throws SQLException{
+         Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        AddressShipment shipTo = null;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "select * from [AddressShipment] where customerID = ?";
+                pstm = con.prepareStatement(sql);
+                pstm.setInt(1, cusID);
+                rs = pstm.executeQuery();
+
+                if (rs.next()) {
+                    String phoneShipment = rs.getString("phoneShipment");
+                    int addressShipID = rs.getInt("addressShipID");
+                    String detail = rs.getString("detail");
+                    String district = rs.getString("district");
+                    String province = rs.getString("province");
+                    int customerID = rs.getInt("customerID");
+                    shipTo = new AddressShipment(addressShipID, phoneShipment, detail, district, province, customerID);
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pstm != null) {
+                pstm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return shipTo;
+    }
+    public AddressShipment getAddressShipmentByID(int ID) throws SQLException{
+         Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        AddressShipment shipTo = null;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "select * from [AddressShipment] where addressShipID = ?";
+                pstm = con.prepareStatement(sql);
+                pstm.setInt(1, ID);
+                rs = pstm.executeQuery();
+
+                if (rs.next()) {
+                    String phoneShipment = rs.getString("phoneShipment");
+                    int addressShipID = rs.getInt("addressShipID");
+                    String detail = rs.getString("detail");
+                    String district = rs.getString("district");
+                    String province = rs.getString("province");
+                    int customerID = rs.getInt("customerID");
+                    shipTo = new AddressShipment(addressShipID, phoneShipment, detail, district, province, customerID);
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pstm != null) {
+                pstm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return shipTo;
+    }
+
 }

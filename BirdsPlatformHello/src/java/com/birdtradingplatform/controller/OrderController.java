@@ -68,16 +68,28 @@ public class OrderController extends HttpServlet {
 
         } else if ("Order".equals(action)) {
             HttpSession session = request.getSession();
-            Account account = (Account) session.getAttribute("account");
-
-//            if (account == null) {
-//                request.getRequestDispatcher("Login.jsp").include(request, response);
-//            }
+            Account account = (Account) session.getAttribute("USERDTOBYUSERNAME");
+            int addressID;
+            AddressShipment addressShipment;
+            if (account == null) {
+                request.getRequestDispatcher("Login.jsp").include(request, response);
+            }
             CustomerDAO cusDAO = new CustomerDAO();
-            AddressShipment addressShipment = cusDAO.getAddressShip(8);//test
+            Customer customer = cusDAO.getCustomerByAccountID(account.getAccountID());
+            if (customer == null) {
+                response.sendRedirect("err.html");
+            }
+            try {
+                addressID = Integer.parseInt(request.getParameter("addressShip"));
+                addressShipment = cusDAO.getAddressShipmentByID(addressID);
+
+            } catch (Exception e) {
+                addressShipment = cusDAO.getAddressShipmentByCusID(customer.getCustomerID());
+            }
+
             //deliveryto
             request.setAttribute("addressShipment", addressShipment);
-            Customer cus = cusDAO.getCustomerByAccountID(8);//test
+            Customer cus = cusDAO.getCustomerByAccountID(account.getAccountID());//test
             if (cus != null) {
                 MutilShopCart allShopCart = (MutilShopCart) session.getAttribute("allShopCart");
                 MutilShopCart checkoutMap = (MutilShopCart) session.getAttribute("checkoutMap");
@@ -88,8 +100,11 @@ public class OrderController extends HttpServlet {
                         for (Map.Entry<Integer, Item> entry : shopcart.getCart().entrySet()) {
                             int pid = entry.getKey();
                             Item item = entry.getValue();
-                            if (allShopCart.getMutilShopCart().get(key).getCart().containsKey(pid)) {
-                                allShopCart.deleteMutilShop(item.getProduct());
+                            try {
+                                if (allShopCart.getMutilShopCart().get(key).getCart().containsKey(pid)) {
+                                    allShopCart.deleteMutilShop(item.getProduct());
+                                }
+                            } catch (Exception e) {
                             }
 
                         }
@@ -97,18 +112,21 @@ public class OrderController extends HttpServlet {
 
                 }
                 OrderDAO odao = new OrderDAO();
-                odao.addOrder(cus.getCustomerID(), checkoutMap, 10);//test
+                odao.addOrder(cus.getCustomerID(), checkoutMap, addressShipment.getAddressShipID());//test
                 String mess = "You ordered succeed. Your order will be processed as soon as possible";
                 request.setAttribute("message", mess);
                 session.setAttribute("checkoutMap", null);
                 session.setAttribute("totalpriceCheckout", null);
                 session.setAttribute("totalquantityCheckout", null);
-                
-                session.setAttribute("totalprice", allShopCart.getTotalMoneyAllShop());
-                session.setAttribute("totalquantity", allShopCart.getTotalCountAllShop());
-                if(allShopCart.getMutilShopCart().isEmpty()){
-                    allShopCart=null;
+
+                if (allShopCart != null) {
+                    session.setAttribute("totalprice", allShopCart.getTotalMoneyAllShop());
+                    session.setAttribute("totalquantity", allShopCart.getTotalCountAllShop());
+                    if (allShopCart.getMutilShopCart().isEmpty()) {
+                        allShopCart = null;
+                    }
                 }
+
                 session.setAttribute("allShopCart", allShopCart);
                 request.getRequestDispatcher("checkout.jsp").forward(request, response);
             }

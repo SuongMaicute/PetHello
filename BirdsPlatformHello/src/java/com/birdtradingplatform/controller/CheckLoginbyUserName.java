@@ -54,7 +54,7 @@ public class CheckLoginbyUserName extends HttpServlet {
             //login by username and 
             dto = dao.CheckLoginbyUserName(username, password);
 
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(true);
 
 
                 if (dto != null) {
@@ -67,9 +67,10 @@ public class CheckLoginbyUserName extends HttpServlet {
                     session.setAttribute("SHOP_ADMIN_ROLE", true);
                     url = "AdminDashboardController";
                     // HomePage controller for system admin nhe
-                }else  if (dto.getRole()== 1) {
+                }else  if (dto.getRole()== 3) {
                     session.setAttribute("SYSTEM_ADMIN_ROLE", true);    
-                    url = "shopOrdersController";
+                    url = "shopOrdersController"
+                            + "";
                     
                     ShopDAO shopDao= new ShopDAO();
                     Shop shop = shopDao.getShopInforByShopID(dto);           

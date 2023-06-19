@@ -26,7 +26,7 @@ public class ShopDAO {
         Shop result = null;
         try {
             con = DBHelper.makeConnection();
-            String sql = "SELECT [shopID],[shopName],[avatar],[rate],[contact],[accountID],[addressID]"
+            String sql = "SELECT [shopID],[shopName],[rate],[contact],[accountID],[addressID]"
                     + "FROM [BirdPlatform].[dbo].[Shop] WHERE accountID = ?";
             stm = con.prepareStatement(sql);
             stm.setInt(1, shops.getAccountID());
@@ -35,12 +35,12 @@ public class ShopDAO {
             while (rs.next()) {
                 int shopId = rs.getInt("shopID");
                 String shopName = rs.getString("shopName");
-                String avatar = rs.getString("avatar");//Nhi: account co avatar nen xoa avatar o table Shop, chi xoa o SQL
+                //String avatar = rs.getString("avatar");//Nhi: account co avatar nen xoa avatar o table Shop, chi xoa o SQL
                 double rate = rs.getDouble("rate");
                 int accountID = rs.getInt("accountID");
                 int addressID = rs.getInt("addressID");
 
-                result = new Shop(shopId, shopName, avatar, rate, null, accountID, addressID);
+                result = new Shop(shopId, shopName, rate, null, accountID, addressID);
             }
         } finally {
             if (rs != null) {
@@ -55,6 +55,44 @@ public class ShopDAO {
         }
         return result;
     }
+    
+    public Shop getShopInforByShopName(String name) throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        ResultSet rs = null;
+        PreparedStatement stm = null;
+        Shop result = null;
+        try {
+            con = DBHelper.makeConnection();
+            String sql = "SELECT [shopID],[shopName],[rate],[contact],[accountID],[addressID]"
+                    + "FROM [BirdPlatform].[dbo].[Shop] WHERE shopName like ?";
+            stm = con.prepareStatement(sql);
+            stm.setString(1,"%"+ name +"%");
+            rs = stm.executeQuery();
+
+            while (rs.next()) {
+                int shopId = rs.getInt("shopID");
+                String shopName = rs.getString("shopName");
+                //String avatar = rs.getString("avatar");//Nhi: account co avatar nen xoa avatar o table Shop, chi xoa o SQL
+                double rate = rs.getDouble("rate");
+                int accountID = rs.getInt("accountID");
+                int addressID = rs.getInt("addressID");
+
+                result = new Shop(shopId, shopName, rate, null, accountID, addressID);
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
+    
 
     public Shop getShop(String shopID) throws SQLException {
         Connection con = null;
@@ -73,7 +111,7 @@ public class ShopDAO {
                 pstm.setString(1, shopID);
                 rs = pstm.executeQuery();
                 if (rs.next()) {
-                    shop = new Shop(rs.getInt("shopID"), rs.getString("shopName"), rs.getString("avatar"), rs.getDouble("rate"), rs.getString("contact"), rs.getInt("accountID"), rs.getInt("addressID"));
+                    shop = new Shop(rs.getInt("shopID"), rs.getString("shopName"), rs.getDouble("rate"), rs.getString("contact"), rs.getInt("accountID"), rs.getInt("addressID"));
                 }
                 
                 
