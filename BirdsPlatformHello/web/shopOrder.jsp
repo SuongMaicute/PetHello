@@ -48,7 +48,6 @@
         <link rel="stylesheet" href="css/responsive.css"/>
     </head>
     <body>
-        ${sessionScope.SHOPEDITPRODUCT}
         <div class="grid-container"> 
             <!-- Header -->
             <header class="header">

@@ -18,7 +18,6 @@
         <c:if test="${empty Servlet}">
             <c:redirect url="GetKeyToResetPass"> </c:redirect>
         </c:if>
-s
         <c:set var="PETHEELORS" value="${requestScope.PETHEELORS}" />
         <c:if test="${empty PETHEELORS}">
             <h2 > This is out of time or not have permission

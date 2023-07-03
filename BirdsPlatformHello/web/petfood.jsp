@@ -20,284 +20,235 @@
     <body>
 
         <!-- header section starts  -->
+        <jsp:include page="pageHeader.jsp"></jsp:include>
 
-        <header class="header">
-            <jsp:include page="header.jsp"></jsp:include>
-        </header>
-
-        <!-- header section ends  -->
+            <!-- header section ends  -->
 
 
-        <!-- closer btn  -->
+            <!-- closer btn  -->
 
-        <div id="closer" class="ri-close-line"></div>
+            <div id="closer" class="ri-close-line"></div>
 
-        <!-- navbar start  -->
+            <!-- navbar start  -->
 
-        <nav class="navbar">
-            <a href="Homepage.html">Home</a>
-            <a href="shop.html">Shop</a>
-            <a href="about.html">About</a>
-            <a href="team.html">Team</a>
-            <a href="blog.html">Blog</a>
-            <a href="contact.html">Contact</a>
-        </nav>
+            <nav class="navbar">
+                <a href="Homepage.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="team.html">Team</a>
+                <a href="blog.html">Blog</a>
+                <a href="contact.html">Contact</a>
+            </nav>
 
-        <!-- navbar end  -->
-
-
-        <!-- shopping cart start  -->
-
-        <div class="shopping-cart">
-
-            <div class="box">
-                <i class="ri-close-line close-icon"></i>
-                <img src="img/cart-img-1.jpg" alt="">
-                <div class="content">
-                    <h3>modern furniture</h3>
-                    <span class="quantity"> 1 </span>
-                    <span class="multiply"> x </span>
-                    <span class="price"> $ </span>
-                </div>
-            </div>
-
-            <div class="box">
-                <i class="ri-close-line close-icon"></i>
-                <img src="img/cart-img-1.jpg" alt="">
-                <div class="content">
-                    <h3>modern furniture</h3>
-                    <span class="quantity"> 1 </span>
-                    <span class="multiply"> x </span>
-                    <span class="price"> $ </span>
-                </div>
-            </div>
-
-            <div class="box">
-                <i class="ri-close-line close-icon"></i>
-                <img src="img/cart-img-1.jpg" alt="">
-                <div class="content">
-                    <h3>modern furniture</h3>
-                    <span class="quantity"> 1 </span>
-                    <span class="multiply"> x </span>
-                    <span class="price"> $1</span>
-                </div>
-            </div>
-
-            <div class="box">
-                <i class="ri-close-line close-icon"></i>
-                <img src="img/cart-img-1.jpg" alt="">
-                <div class="content">
-                    <h3>modern furniture</h3>
-                    <span class="quantity"> 1 </span>
-                    <span class="multiply"> x </span>
-                    <span class="price"> $1 </span>
-                </div>
-            </div>
-
-            <h3 class="total"> total : <span>$560.00</span> </h3>
-            <a href="#" class="btn">checkout cart</a>
-
-        </div>
-
-        <!-- shopping cart end  -->
+            <!-- navbar end  -->
 
 
-        <!-- login form start  -->
+            <!-- shopping cart start  -->
 
-        <div class="login-form">
-            <form action="#">
-                <h3>login form</h3>
-                <input type="email" placeholder="enter your email" class="box">
-                <input type="password" placeholder="enter your password" class="box">
-                <div class="remember">
-                    <input type="checkbox" name="" id="remember-me">
-                    <label for="remember-me">remember me</label>
-                </div>
-                <input type="submit" value="login now" class="btn">
-                <p>forget password? <a href="#">click here</a> </p>
-                <p>don't have an account? <a href="#">create now</a> </p>
-            </form>
-        </div>
-
-        <!-- login form end  -->
-
-
-        <!-- heading section start -->
-
-        <section class="heading">
-            <h3>SALE</h3>
-            <p> <a href="Homepage.html">home</a> / <span>On sale</span> </p>
-        </section>
-
-        <!-- heading section end -->
-
-
-
-
-
-        <!-- products section start -->
-
-        <section class="products">
-
-
-            <div class="box-container">
+            <div class="shopping-cart">
 
                 <div class="box">
-                    <div class="icons">
-                        <a href="#" class="ri-shopping-cart-line"></a>
-                        <a href="#" class="ri-heart-line"></a>
-                        <a href="#" class="ri-eye-line"></a>
-                    </div>
-                    <div class="image">
-                        <img src="https://i.pinimg.com/564x/99/2b/db/992bdbb9499138f2f0b8a5b66ae57108.jpg" alt="">
-                    </div>
+                    <i class="ri-close-line close-icon"></i>
+                    <img src="img/cart-img-1.jpg" alt="">
                     <div class="content">
-                        <div class="sale">
+                        <h3>modern furniture</h3>
+                        <span class="quantity"> 1 </span>
+                        <span class="multiply"> x </span>
+                        <span class="price"> $ </span>
+                    </div>
+                </div>
 
-                            <h1>50%</h1>
+                <div class="box">
+                    <i class="ri-close-line close-icon"></i>
+                    <img src="img/cart-img-1.jpg" alt="">
+                    <div class="content">
+                        <h3>modern furniture</h3>
+                        <span class="quantity"> 1 </span>
+                        <span class="multiply"> x </span>
+                        <span class="price"> $ </span>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <i class="ri-close-line close-icon"></i>
+                    <img src="img/cart-img-1.jpg" alt="">
+                    <div class="content">
+                        <h3>modern furniture</h3>
+                        <span class="quantity"> 1 </span>
+                        <span class="multiply"> x </span>
+                        <span class="price"> $1</span>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <i class="ri-close-line close-icon"></i>
+                    <img src="img/cart-img-1.jpg" alt="">
+                    <div class="content">
+                        <h3>modern furniture</h3>
+                        <span class="quantity"> 1 </span>
+                        <span class="multiply"> x </span>
+                        <span class="price"> $1 </span>
+                    </div>
+                </div>
+
+                <h3 class="total"> total : <span>$560.00</span> </h3>
+                <a href="#" class="btn">checkout cart</a>
+
+            </div>
+
+            <!-- shopping cart end  -->
+
+
+            <!-- login form start  -->
+
+            <div class="login-form">
+                <form action="#">
+                    <h3>login form</h3>
+                    <input type="email" placeholder="enter your email" class="box">
+                    <input type="password" placeholder="enter your password" class="box">
+                    <div class="remember">
+                        <input type="checkbox" name="" id="remember-me">
+                        <label for="remember-me">remember me</label>
+                    </div>
+                    <input type="submit" value="login now" class="btn">
+                    <p>forget password? <a href="#">click here</a> </p>
+                    <p>don't have an account? <a href="#">create now</a> </p>
+                </form>
+            </div>
+
+            <!-- login form end  -->
+
+
+            <!-- heading section start -->
+
+            <section class="heading">
+                <h3>SALE</h3>
+                <p> <a href="Homepage.html">home</a> / <span>On sale</span> </p>
+            </section>
+
+            <!-- heading section end -->
+
+
+
+
+
+            <!-- products section start -->
+
+            <section class="products">
+
+
+                <div class="box-container">
+
+                    <div class="box">
+                        <div class="icons">
+                            <a href="#" class="ri-shopping-cart-line"></a>
+                            <a href="#" class="ri-heart-line"></a>
+                            <a href="#" class="ri-eye-line"></a>
                         </div>
-                        <div class="price">
-                            <h4>old price</h4>
-                            <h4 id="new">new price</h4>
+                        <div class="image">
+                            <img src="https://i.pinimg.com/564x/99/2b/db/992bdbb9499138f2f0b8a5b66ae57108.jpg" alt="">
                         </div>
-                        <h3>food</h3>
-                        <div style="display: flex;" class="stars">
-                            <i style="color: #5e473e;" class="fa-solid fa-shop"></i>
-                            <form class="ShopGo" action="">
-                                <input style="color: #5e473e;" type="Submit" name="MAIN" value="ShopName">
-                            </form>
-                            <div class="rating">
-                                <span> (4,5) </span>
-                                <i class="fas fa-star"></i>
+                        <div class="content">
+                            <div class="sale">
+
+                                <h1>50%</h1>
+                            </div>
+                            <div class="price">
+                                <h4>old price</h4>
+                                <h4 id="new">new price</h4>
+                            </div>
+                            <h3>food</h3>
+                            <div style="display: flex;" class="stars">
+                                <i style="color: #5e473e;" class="fa-solid fa-shop"></i>
+                                <form class="ShopGo" action="">
+                                    <input style="color: #5e473e;" type="Submit" name="MAIN" value="ShopName">
+                                </form>
+                                <div class="rating">
+                                    <span> (4,5) </span>
+                                    <i class="fas fa-star"></i>
+
+                                </div>
 
                             </div>
-
                         </div>
                     </div>
-                </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="ri-shopping-cart-line"></a>
-                        <a href="#" class="ri-heart-line"></a>
-                        <a href="#" class="ri-eye-line"></a>
-                    </div>
-                    <div class="image">
-                        <img src="https://i.pinimg.com/564x/99/2b/db/992bdbb9499138f2f0b8a5b66ae57108.jpg" alt="">
-                    </div>
-                    <div class="content">
-                        <div class="sale">
+                    <div class="box">
+                        <div class="icons">
+                            <a href="#" class="ri-shopping-cart-line"></a>
+                            <a href="#" class="ri-heart-line"></a>
+                            <a href="#" class="ri-eye-line"></a>
+                        </div>
+                        <div class="image">
+                            <img src="https://i.pinimg.com/564x/99/2b/db/992bdbb9499138f2f0b8a5b66ae57108.jpg" alt="">
+                        </div>
+                        <div class="content">
+                            <div class="sale">
 
-                            <h1>50%</h1>
-                        </div>
-                        <div class="price">
-                            <h4>old price</h4>
-                            <h4 id="new">new price</h4>
-                        </div>
-                        <h3>food</h3>
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span> (50) </span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="ri-shopping-cart-line"></a>
-                        <a href="#" class="ri-heart-line"></a>
-                        <a href="#" class="ri-eye-line"></a>
-                    </div>
-                    <div class="image">
-                        <img src="https://i.pinimg.com/564x/99/2b/db/992bdbb9499138f2f0b8a5b66ae57108.jpg" alt="">
-                    </div>
-                    <div class="content">
-                        <div class="sale">
-
-                            <h1>50%</h1>
-                        </div>
-                        <div class="price">
-                            <h4>old price</h4>
-                            <h4 id="new">new price</h4>
-                        </div>
-                        <h3>food</h3>
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span> (50) </span>
+                                <h1>50%</h1>
+                            </div>
+                            <div class="price">
+                                <h4>old price</h4>
+                                <h4 id="new">new price</h4>
+                            </div>
+                            <h3>food</h3>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span> (50) </span>
+                            </div>
                         </div>
                     </div>
+
+
+                    <div class="box">
+                        <div class="icons">
+                            <a href="#" class="ri-shopping-cart-line"></a>
+                            <a href="#" class="ri-heart-line"></a>
+                            <a href="#" class="ri-eye-line"></a>
+                        </div>
+                        <div class="image">
+                            <img src="https://i.pinimg.com/564x/99/2b/db/992bdbb9499138f2f0b8a5b66ae57108.jpg" alt="">
+                        </div>
+                        <div class="content">
+                            <div class="sale">
+
+                                <h1>50%</h1>
+                            </div>
+                            <div class="price">
+                                <h4>old price</h4>
+                                <h4 id="new">new price</h4>
+                            </div>
+                            <h3>food</h3>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span> (50) </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                 </div>
 
+            </section>
 
-
-            </div>
-
-        </section>
-
-        <!-- products section end -->
+            <!-- products section end -->
 
 
 
 
 
 
-        <!-- footer section start  -->
-        <section class="footer">
-            <div class="box-container">
-
-                <div class="box">
-                    <h3>quick links</h3>
-                    <a href="Homepage.html"> <i class="ri-arrow-right-line"></i> home </a>
-                    <a href="shop.html"> <i class="ri-arrow-right-line"></i> shop </a>
-                    <a href="about.html"> <i class="ri-arrow-right-line"></i> about </a>
-                    <a href="team.html"> <i class="ri-arrow-right-line"></i> team </a>
-                    <a href="blog.html"> <i class="ri-arrow-right-line"></i> blog </a>
-                    <a href="contact.html"> <i class="ri-arrow-right-line"></i> contact </a>
-                </div>
-
-                <div class="box">
-                    <h3>quick links</h3>
-                    <a href="Homepage.html"> <i class="ri-arrow-right-line"></i> Home </a>
-                    <a href="shop.html"> <i class="ri-arrow-right-line"></i> Shop </a>
-                    <a href="about.html"> <i class="ri-arrow-right-line"></i> About </a>
-                    <a href="team.html"> <i class="ri-arrow-right-line"></i> Team </a>
-                    <a href="blog.html"> <i class="ri-arrow-right-line"></i> Blog </a>
-                    <a href="contact.html"> <i class="ri-arrow-right-line"></i> Contact </a>
-                </div>
-
-                <div class="box">
-                    <h3>extra links</h3>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Order </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Wishlist </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Account </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Favorite </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> Terms of user </a>
-                </div>
-
-                <div class="box">
-                    <h3>extra links</h3>
-                    <a href="#"> <i class="ri-facebook-fill"></i> Facebook </a>
-                    <a href="#"> <i class="ri-twitter-fill"></i> Twitter </a>
-                    <a href="#"> <i class="ri-instagram-fill"></i> Instagram </a>
-                    <a href="#"> <i class="ri-linkedin-box-fill"></i> Linkedin </a>
-                    <a href="#"> <i class="ri-pinterest-fill"></i> Pinterest </a>
-                </div>
-
-            </div>
-        </section>
-
-        <section class="credit">
-            shopemail@gmail.com|+84 123456789
-        </section>
+            <!-- footer section start  -->
+        <jsp:include page="pageFooter.jsp"></jsp:include>
         <!-- footer section end  -->
 
         <!-- custom js file link  -->

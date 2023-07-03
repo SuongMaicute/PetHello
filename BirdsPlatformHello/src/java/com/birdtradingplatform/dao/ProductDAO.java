@@ -28,6 +28,105 @@ public class ProductDAO {
         return productList;
     }
 
+     public List<Product> getNewItemsList(int limit, int curPage) throws SQLException {
+        List<Product> list = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "select * "
+                        + " from [Product]"
+                        + " order by dateIn desc offset " + limit * (curPage - 1) + " rows "
+                        + " fetch next ? rows only ";
+
+                pstm = con.prepareStatement(sql);
+                pstm.setInt(1, limit);
+
+                rs = pstm.executeQuery();
+                while (rs.next()) {
+                    int productID = rs.getInt("productID");
+                    String productName = rs.getString("productName");
+                    double priceIn = rs.getDouble("priceIn");
+                    String category = rs.getString("category");
+                    int quantity = rs.getInt("quantity");
+                    String description = rs.getString("description");
+                    String status = rs.getString("status");
+                    String img = rs.getString("img");
+                    String rating = rs.getString("rating");
+                    double priceOut = rs.getDouble("priceOut");
+                    double pSale = rs.getDouble("pSale");
+                    list.add(new Product(productID, productName, priceIn, category, quantity, description, status, img, rating, null, priceOut, pSale, ""));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pstm != null) {
+                pstm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return list;
+    }
+     
+     
+     
+    public List<Product> getBestSellerList(int limit, int curPage) throws SQLException {
+        List<Product> list = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "select [OrderDetail].productID, productName, category, img, rating, priceOut, pSale, count([OrderDetail].productID) as seller"
+                        + " from [Product] left join [OrderDetail] "
+                        + " on [Product].productID = [OrderDetail].productID "
+                        + " group by [OrderDetail].productID, productName, category, img, rating, priceOut, pSale,[OrderDetail].productID"
+                        + " order by seller desc"
+                        + " offset "+ limit * (curPage - 1)+" rows "
+                        + " fetch next ? rows only";
+
+                pstm = con.prepareStatement(sql);
+                pstm.setInt(1, limit);
+
+                rs = pstm.executeQuery();
+                while (rs.next()) {
+                    int productID = rs.getInt("productID");
+                    String productName = rs.getString("productName");
+                    String category = rs.getString("category");
+                    String img = rs.getString("img");
+                    String rating = rs.getString("rating");
+                    double priceOut = rs.getDouble("priceOut");
+                    double pSale = rs.getDouble("pSale");
+                    list.add(new Product(productID, productName, 0, category, 0, "", "", img, rating, null, priceOut, pSale, ""));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pstm != null) {
+                pstm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return list;
+    }
+    
     public List<Product> getProductByName(String name) throws SQLException{
         Connection con = null;
         PreparedStatement stm = null;
@@ -868,5 +967,9 @@ public class ProductDAO {
         Shop shop = new Shop(1, null, 0, null, 0, 0);
         List<Product> products = aO.getProductByShopID(shop);
         System.out.println(products.size());
+    }
+
+    public List<Product> getShopProductListByPage(String shopID, String search, int productPerPage, int curPage, String colSort, String category) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

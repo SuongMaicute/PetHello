@@ -3,12 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/web/Checkmail.jsp</file>
+            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/src/java/com/birdtradingplatform/model/AccountInsertError.java</file>
             <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/DispatcherServlet.java</file>
-            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/web/shopOrderDetails.jsp</file>
-            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/web/feedbacklist-staff.jsp</file>
-            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/web/sendCode.jsp</file>
-            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/CreateCodeController1.java</file>
+            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/web/cartview.jsp</file>
+            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/src/java/com/birdtradingplatform/dao/AddressShipmentDAO.java</file>
+            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/AddressShipController.java</file>
+            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/web/HomePage.jsp</file>
+            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/CartController.java</file>
+            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/src/java/com/birdtradingplatform/controller/CheckOutController.java</file>
+            <file>file:/D:/Documents/CodeJava/BirdTradingPlatform/BirdsPlatformHello/src/java/com/birdtradingplatform/dao/CustomerDAO.java</file>
         </group>
     </open-files>
 </project-private>

@@ -161,9 +161,7 @@
 
     <!-- footer section start  -->
     <jsp:include page="pageFooter.jsp"></jsp:include>
-    <section class="credit">
-        shopemail@gmail.com|+84 123456789
-    </section>
+    
     <!-- footer section end  -->
 
     <!-- custom js file link  -->

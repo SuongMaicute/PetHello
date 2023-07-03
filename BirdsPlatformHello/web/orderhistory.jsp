@@ -8,260 +8,119 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <form action="order">
-        <head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Oder detail</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta charset="utf-8">
-            <title>Order</title>
-            <link rel="stylesheet" href="css/orderstyle.css">
-        </head>
 
-        <body>
-            <div class="container">
-                <br><br>
+        <!-- font awesome cdn link  -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+            />
 
+        <!-- custom css file link  -->
+        <link rel="stylesheet" href="css/feedbacklist-staff.css">
+        <link rel="stylesheet" href="css/shopOrderDetails.css">
+        <link rel="stylesheet" href="css/shop.css">
+    </head>
+    <body>
+        <jsp:include page="pageHeader.jsp"></jsp:include>
+        <!-- heading section end -->
+
+
+        <!-- user info -->
+
+        <section class="userInfo">
+            <div>
+                <div class="line-cl"></div>
+                <!-- sort section start -->
+                <form action="order" method="post">
+                            <div class="item">
+                                <label for="">Sort by Status:</label>
+                                <select name="status" onchange="this.form.submit();">
+                                    <option value="">${requestScope.status}</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Confirmed">Confirmed</option>
+                                    <option value="Cancel">Cancel</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
+                                <input type="hidden" name="action" value="historyorder"/>
+                                
+                            </div>
+                </form>
                 <div class="row">
-                    <div class="order-breadcrumb">
-                        <a href="#" class="">Your Account</a> › <a href="#" class="">Your Orders</a>
 
-                    </div>
-                </div>
+                    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Order Date</th>
+                                <th>Address</th>
+                                <th>Total($)</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <c:forEach var="order" items="${requestScope.ORDER_LIST}">
+                                <tr>
+                                    <td>${order.getOrderID()}</td>
+                                    <td>${order.getOrderDate()}</td>
+                                    <td>${order.getAddress().getDetail()}, ${order.getAddress().getDistrict()}, ${order.getAddress().getProvince()}</td>
+                                    <td>${order.getTotal()}</td>
+                                    <td>${order.getStatus()}</td>
+                                    <td><a href="order?action=orderdetail&orderID=${order.getOrderID()}">View detail</a></td>
+                                </tr>
+                            </c:forEach>
 
 
-                <div class="row order_sorter" style="margin-top: 30px;">
-                    <ul id="toggle-orders">
-                        <li class="first"></li>
-                        <li class="oh selected"><a href="order?action=historyorders">Order History</a></li>
-                        <li class="fo"><a href="order?action=historyorders&status=Pending">Pending/Future Orders</a>
-                        </li>
-                        <li class="ed"><a href="order?action=historyorders&status=Cancel">Cancel</a></>
-                        </li>
-                        <li class="com"><a href="order?action=historyorders&status=Completed">Completed/Delivered</a></li>
+                        </tbody>
+                    </table>
 
-                    </ul>
-                </div>
 
-                <div class="row" id="order-history">
 
-                    <div class="row order-summary">
-                        <div class="totalspent-orders">
-                            <h2>${requestScope.TOTAL_MONEY}</h2>
-                            <h3>Overall Total Spent</h3>
+                    <!-- paging section start -->
+                    <c:if test="${requestScope.totalpage >1}">
+                        <div class="pagination">
+                            <c:if test="${requestScope.currentpage>1}">
+                                <a href="order?action=historyorder&curPage=${requestScope.currentpage-1}&status=${requestScope.status}" class="prev">Previous</a>
+
+                            </c:if>
+                            <c:forEach var="page" begin="1" end="${requestScope.totalpage}">
+                                <c:if test="${requestScope.currentpage==pageScope.page}">
+
+                                    <a style="background-color: #e1cec7"  href="order?action=historyorder&curPage=${pageScope.page}&status=${requestScope.status}">${page}</a>
+                                </c:if>
+                                <c:if test="${requestScope.currentpage!=pageScope.page}">
+                                    <a href="order?action=historyorder&curPage=${pageScope.page}&status=${requestScope.status}">${page}</a>                        
+                                </c:if>
+
+
+                            </c:forEach>
+                            <c:if test="${requestScope.currentpage<requestScope.totalpage}">
+                                <a href="order?action=historyorder&curPage=${requestScope.currentpage+1}&status=${requestScope.status}" class="next">Next</a>
+                            </c:if>
+
                         </div>
-                        <div class="printqty-orders">
-                            <h2>${requestScope.TOTAL_ORDER}</h2>
-                            <h3>Overall Total Orders</h3>
-                        </div>
-
-                    </div>
-
-                    <!--     <div class="row download-all">
-                        <a href="#" class="all-history">Download All Order History</a>
-                      </div> -->
-
-
-
-                    <c:if test="${requestScope.ORDER_LIST!=null}">
-                        <c:if test="${not empty requestScope.ORDER_LIST}">
-                            <c:forEach var="order" items="${requestScope.ORDER_LIST}">
-                                <div class="order-container">
-
-                                    <div class="header">
-                                        <div class="row">
-                                            <div class="col-1"><span>ORDERS PLACED</span><span>${order.getOrderDate()}</span></div>
-                                            <div class="col-2"><span>TOTAL</span><span>${order.getTotal()} VND</span></div>                                
-                                            <div class="col-3"><span>ORDER#</span><span>${order.getOrderID()}</span></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="box">
-                                        <div class="row">
-                                            <div class="col-1">
-                                                <img src="" alt="">
-                                            </div>
-                                            <div class="col-2">              
-                                                <span class="product-title">${order.getFirstProductName()} + ${order.getTotalQuantity()-1} items more <i
-                                                        class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-                                                <p>Order Status: ${order.getStatus()} <br>
-                                                    Total Quantity: ${order.getTotalQuantity()} <br>
-                                                    Ship Date: ${order.getShipDate()} <br>
-
-                                                    <a href="#" class="btn-default"><i class="fa fa-repeat" aria-hidden="true"></i> Re-Order</a>
-                                            </div>
-                                            <div class="col-3">
-                                                <a href="#" class="btn-default"><i class="fa fa-download" aria-hidden="true"></i> Download</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-truck" aria-hidden="true"></i> Track</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-remove" aria-hidden="true"></i> Cancel</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div><!-- end of order-container -->
-
-
-
-
-                            </c:forEach>
-                        </c:if>
-                    </c:if>
-                </div><!-- end of Order History -->
-
-                <div id="future-orders">
-                    <c:if test="${requestScope.ORDER_LIST!=null}">
-                        <c:if test="${not empty requestScope.ORDER_LIST}">
-                            <c:forEach var="order" items="${requestScope.ORDER_LIST}">
-
-
-                               <div class="order-container">
-
-                                    <div class="header">
-                                        <div class="row">
-                                            <div class="col-1"><span>ORDERS PLACED</span><span>${order.getOrderDate()}</span></div>
-                                            <div class="col-2"><span>TOTAL</span><span>${order.getTotal()} VND</span></div>                                
-                                            <div class="col-3"><span>ORDER#</span><span>${order.getOrderID()}</span></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="box">
-                                        <div class="row">
-                                            <div class="col-1">
-                                                <img src="" alt="">
-                                            </div>
-                                            <div class="col-2">              
-                                                <span class="product-title">${order.getFirstProductName()} + ${order.getTotalQuantity()-1} items more <i
-                                                        class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-                                                <p>Order Status: ${order.getStatus()} <br>
-                                                    Total Quantity: ${order.getTotalQuantity()} <br>
-                                                    Ship Date: ${order.getShipDate()} <br>
-
-                                                    <a href="#" class="btn-default"><i class="fa fa-repeat" aria-hidden="true"></i> Re-Order</a>
-                                            </div>
-                                            <div class="col-3">
-                                                <a href="#" class="btn-default"><i class="fa fa-download" aria-hidden="true"></i> Download</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-truck" aria-hidden="true"></i> Track</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-remove" aria-hidden="true"></i> Cancel</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div><!-- end of order-container -->
-
-
-                            </c:forEach>
-                        </c:if>
                     </c:if>
 
-                </div><!-- end of future-orders -->
-                <div id="cancel-orders">
-                    <c:if test="${requestScope.ORDER_LIST!=null}">
-                        <c:if test="${not empty requestScope.ORDER_LIST}">
-                            <c:forEach var="order" items="${requestScope.ORDER_LIST}">
+                    <!-- paging section start -->
+                </div>
+        </section>
 
 
-                               <div class="order-container">
-
-                                    <div class="header">
-                                        <div class="row">
-                                            <div class="col-1"><span>ORDERS PLACED</span><span>${order.getOrderDate()}</span></div>
-                                            <div class="col-2"><span>TOTAL</span><span>${order.getTotal()} VND</span></div>                                
-                                            <div class="col-3"><span>ORDER#</span><span>${order.getOrderID()}</span></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="box">
-                                        <div class="row">
-                                            <div class="col-1">
-                                                <img src="" alt="">
-                                            </div>
-                                            <div class="col-2">              
-                                                <span class="product-title">${order.getFirstProductName()} + ${order.getTotalQuantity()-1} items more <i
-                                                        class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-                                                <p>Order Status: ${order.getStatus()} <br>
-                                                    Total Quantity: ${order.getTotalQuantity()} <br>
-                                                    Ship Date: ${order.getShipDate()} <br>
-
-                                                    <a href="#" class="btn-default"><i class="fa fa-repeat" aria-hidden="true"></i> Re-Order</a>
-                                            </div>
-                                            <div class="col-3">
-                                                <a href="#" class="btn-default"><i class="fa fa-download" aria-hidden="true"></i> Download</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-truck" aria-hidden="true"></i> Track</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-remove" aria-hidden="true"></i> Cancel</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div><!-- end of order-container -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+         <jsp:include page="pageFooter.jsp"></jsp:include>
+    </body>  <!-- cart end -->
 
 
-                            </c:forEach>
-                        </c:if>
-                    </c:if>
-
-                </div><!-- end of cancel-orders -->
-                
-                <div id="completed-orders">
-                    <c:if test="${requestScope.ORDER_LIST!=null}">
-                        <c:if test="${not empty requestScope.ORDER_LIST}">
-                            <c:forEach var="order" items="${requestScope.ORDER_LIST}">
-
-
-                               <div class="order-container">
-
-                                    <div class="header">
-                                        <div class="row">
-                                            <div class="col-1"><span>ORDERS PLACED</span><span>${order.getOrderDate()}</span></div>
-                                            <div class="col-2"><span>TOTAL</span><span>${order.getTotal()} VND</span></div>                                
-                                            <div class="col-3"><span>ORDER#</span><span>${order.getOrderID()}</span></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="box">
-                                        <div class="row">
-                                            <div class="col-1">
-                                                <img src="" alt="">
-                                            </div>
-                                            <div class="col-2">              
-                                                <span class="product-title">${order.getFirstProductName()} + ${order.getTotalQuantity()-1} items more <i
-                                                        class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-                                                <p>Order Status: ${order.getStatus()} <br>
-                                                    Total Quantity: ${order.getTotalQuantity()} <br>
-                                                    Ship Date: ${order.getShipDate()} <br>
-
-                                                    <a href="#" class="btn-default"><i class="fa fa-repeat" aria-hidden="true"></i> Re-Order</a>
-                                            </div>
-                                            <div class="col-3">
-                                                <a href="#" class="btn-default"><i class="fa fa-download" aria-hidden="true"></i> Download</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-truck" aria-hidden="true"></i> Track</a>
-                                                <a href="#" class="btn-default"><i class="fa fa-remove" aria-hidden="true"></i> Cancel</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div><!-- end of order-container -->
-
-
-                            </c:forEach>
-                        </c:if>
-                    </c:if>
-
-                </div><!-- end of completed-orders -->
-
-
-          
-
-               
-
-            </div><!-- container ends -->
-
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-            <script src="js/order.js"></script>
-        </body>
-    </form>
 
 </html>

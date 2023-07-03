@@ -7,6 +7,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:if test="${requestScope.isinclude==null}">
+    <c:if test="${requestScope.isinclude!=0}">
+        <jsp:include page='product'/>
+
+    </c:if>
+    
+</c:if>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,6 +34,8 @@
 
         <!-- custom css file link  -->
         <link rel="stylesheet" href="css/total.css">
+        <link rel="stylesheet" href="css/shop.css">
+
 
     </head>
 
@@ -38,6 +47,8 @@
         <jsp:include page="pageHeader.jsp"></jsp:include>
 
             <!-- header section ends  -->
+
+
             <!-- closer btn  -->
 
             <div id="closer" class="ri-close-line"></div>
@@ -136,17 +147,149 @@
 
             <!-- banner section ends -->
 
+<!-- products section start -->
 
 
+      <section class="products">
+            <h1 class="title"> 
+                <span>Best Sellers</span> 
+            </h1>
+            <c:if test="${requestScope.bestSellerList!=null}">
+                <c:if test="${not empty requestScope.bestSellerList}">
+
+                    <div class="box-container">
+
+                        <c:forEach var="product" items="${requestScope.bestSellerList}">
+                            <div class="box">
+                                <div class="icons">
+                                    <a href="product?action=detail&productID=${product.getProductID()}" class="ri-eye-line"></a>
+                                </div>
+                                <div class="image">
+                                    <img src="${product.getImg()}" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="price">$${product.getPriceOut()*product.getpSale()}</div>
+                                    <h3>${product.getProductName()}</h3>
+                                    <div class="stars">
 
 
-            <!-- products section start -->
+                                        <c:if test="${(1-product.getpSale())>0}">
+                                            <p>sale: ${(100-product.getpSale()*100)}% </p>
+                                        </c:if>
 
-            <section class="products">
-                <h3 style="font-size: 30px;"> The product your image about on Pet Hello ! </h3>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
 
 
-                <div class="box-container">
+                    </div>
+                </c:if>
+            </c:if>
+
+        </section>
+
+        <!-- products section end -->
+
+        <!-- paging section start -->
+    <c:if test="${requestScope.totalpage >1}">
+        <div class="pagination">
+            <c:if test="${requestScope.currentpage>1}">
+                <a href="product?prev=home&curPage=${requestScope.currentpage-1}&currentpagenew=${requestScope.currentpagenew}" class="prev">Previous</a>
+
+            </c:if>
+            <c:forEach var="page" begin="1" end="${requestScope.totalpage}">
+                <c:if test="${requestScope.currentpage==pageScope.page}">
+
+                    <a style="background-color: #e1cec7"  href="product?prev=home&curPage=${pageScope.page}&currentpagenew=${requestScope.currentpagenew}">${page}</a>
+                </c:if>
+                <c:if test="${requestScope.currentpage!=pageScope.page}">
+                    <a href="product?prev=home&curPage=${pageScope.page}&currentpagenew=${requestScope.currentpagenew}">${page}</a>                        
+                </c:if>
+
+
+            </c:forEach>
+            <c:if test="${requestScope.currentpage<requestScope.totalpage}">
+                <a href="product?prev=home&curPage=${requestScope.currentpage+1}&currentpagenew=${requestScope.currentpagenew}" class="next">Next</a>
+            </c:if>
+
+        </div>
+    </c:if>
+        <section class="products">
+            <h1 class="title"> <span>New Items</span> </h1>
+            <c:if test="${requestScope.newList!=null}">
+                <c:if test="${not empty requestScope.newList}">
+
+                    <div class="box-container">
+
+                        <c:forEach var="product" items="${requestScope.newList}">
+                            <div class="box">
+                                <div class="icons">
+                                    <a href="product?action=detail&productID=${product.getProductID()}" class="ri-eye-line"></a>
+                                </div>
+                                <div class="image">
+                                    <img src="${product.getImg()}" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="price">$${product.getPriceOut()*product.getpSale()}</div>
+                                    <h3>${product.getProductName()}</h3>
+                                    <div class="stars">
+
+
+                                        <c:if test="${(1-product.getpSale())>0}">
+                                            <p>sale: ${(100-product.getpSale()*100)}% </p>
+                                        </c:if>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+
+
+                    </div>
+                </c:if>
+            </c:if>
+
+        </section>
+
+        <!-- products section end -->
+
+        <!-- paging section start -->
+        <c:if test="${requestScope.totalpage >1}">
+            <div class="pagination">
+                <c:if test="${requestScope.currentpagenew>1}">
+                    <a href="product?prev=home&currentpagenew=${requestScope.currentpagenew-1}&curPage=${requestScope.currentpage}" class="prev">Previous</a>
+
+                </c:if>
+                <c:forEach var="page" begin="1" end="${requestScope.totalpage}">
+                    <c:if test="${requestScope.currentpagenew==pageScope.page}">
+
+                        <a style="background-color: #e1cec7"  href="product?prev=home&currentpagenew=${pageScope.page}">${page}</a>
+                    </c:if>
+                    <c:if test="${requestScope.currentpagenew!=pageScope.page}">
+                        <a href="product?&prev=home&currentpagenew=${pageScope.page}&curPage=${requestScope.currentpage}">${page}</a>                        
+                    </c:if>
+
+
+                </c:forEach>
+                <c:if test="${requestScope.currentpagenew<requestScope.totalpage}">
+                    <a href="product?prev=home&currentpagenew=${requestScope.currentpagenew+1}&curPage=${requestScope.currentpage}" class="next">Next</a>
+                </c:if>
+
+            </div>
+        </c:if>
+
+        <!-- paging section start -->
+
+        <!-- products section start -->
+
+        <section class="products">
+            <h3 style="font-size: 30px;"> The product your image about on Pet Hello ! </h3>
+
+
+            <div class="box-container">
 
                 <c:if test="${empty requestScope.LIST}">
                     <h3 style="font-size: 30px;"> No Product on Sale, Please comeback later. </h3>
@@ -225,9 +368,10 @@
 
 
                                     <!-- footer section start  -->
-                                    <jsp:include page="pageFooter.jsp"></jsp:include>
+
                                     <!-- footer section end  -->
 
+                                    <jsp:include page="pageFooter.jsp"></jsp:include>
 
                                     <!-- custom js file link  -->
                                     <script src="js/total.js"></script>

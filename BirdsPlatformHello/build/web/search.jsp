@@ -35,25 +35,7 @@
 
     </head>
     <body>
-        <header class="header">
-            <a href="home.html" class="logo">
-                <i class="ri-store-2-line"></i> Pet.Hello
-            </a>
-
-            <form action="#" class="search-form">
-                <input type="search" value="${requestScope.SEARCHVALUE}" id="search-box" />
-                <label for="search-box" class="ri-search-line"></label>
-            </form>
-
-            <div class="icons">
-                <div id="menu-btn" class="ri-menu-line"></div>
-                <div id="search-btn" class="ri-search-line"></div>
-                <div id="cart-btn" class="ri-shopping-cart-line"></div>
-                <div id="login-btn" class="ri-user-line"></div>
-            </div>
-        </header>
-
-        <div id="closer" class="ri-close-line"></div>
+       <jsp:include page="pageHeader.jsp"></jsp:include>
 
         <!-- navbar start  -->
 
@@ -293,50 +275,7 @@
 
 
         <!-- footer section start  -->
-        <section class="footer">
-            <div class="box-container">
-                <div class="box">
-                    <h3>quick links</h3>
-                    <a href="home.html"> <i class="ri-arrow-right-line"></i> Home </a>
-                    <a href="shop.html"> <i class="ri-arrow-right-line"></i> Shop </a>
-                    <a href="about.html"> <i class="ri-arrow-right-line"></i> About </a>
-                    <a href="team.html"> <i class="ri-arrow-right-line"></i> Team </a>
-                    <a href="blog.html"> <i class="ri-arrow-right-line"></i> Blog </a>
-                    <a href="contact.html">
-                        <i class="ri-arrow-right-line"></i> Contact
-                    </a>
-                </div>
-
-                <div class="box">
-                    <h3>extra links</h3>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Order </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Wishlist </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Account </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Favorite </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> Terms of user </a>
-                </div>
-
-                <div class="box">
-                    <h3>extra links</h3>
-                    <a href="#"> <i class="ri-facebook-fill"></i> Facebook </a>
-                    <a href="#"> <i class="ri-twitter-fill"></i> Twitter </a>
-                    <a href="#"> <i class="ri-instagram-fill"></i> Instagram </a>
-                    <a href="#"> <i class="ri-linkedin-box-fill"></i> Linkedin </a>
-                    <a href="#"> <i class="ri-pinterest-fill"></i> Pinterest </a>
-                </div>
-
-                <div class="box">
-                    <h3>newsletter</h3>
-                    <p>subscribe for latest updates</p>
-                    <form action="#">
-                        <input type="email" name="" placeholder="enter your email" id="" />
-                        <input type="submit" value="subscribe" class="btn" />
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <section class="credit">shopemail@gmail.com|+84 123456789</section>
+       <jsp:include page="pageFooter.jsp"></jsp:include>
         <!-- footer section end  -->
 
         <script src="js/script.js"></script>

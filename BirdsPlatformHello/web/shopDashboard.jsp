@@ -39,7 +39,7 @@
                     <div class="shop-begin">
                         <div class="main-title">
                             <div class="shop-details right">
-                                <img src="${sessionScope.SHOP_ADMIN_ROLE.avatar}" alt="alt"
+                                <img src="${sessionScope.dto.avatar}" alt="alt"
                                      class=" img-table rounded-circle align-items-center"/>
                                 <h3 class="text-center ">My Shop</h3>
                                 <h4 class="text-center">Address</h4>

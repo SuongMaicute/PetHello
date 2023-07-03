@@ -6,11 +6,11 @@ package com.birdtradingplatform.controller;
 
 import com.birdtradingplatform.dao.CustomerDAO;
 import com.birdtradingplatform.dao.FeedbackDAO;
+import com.birdtradingplatform.dao.OrderDAO;
 import com.birdtradingplatform.dao.ProductDAO;
 import com.birdtradingplatform.dao.ShopDAO;
 import com.birdtradingplatform.model.Account;
 import com.birdtradingplatform.model.AddressShipment;
-import com.birdtradingplatform.model.Feedback;
 import com.birdtradingplatform.model.FeedbackDetail;
 import com.birdtradingplatform.model.Product;
 import com.birdtradingplatform.model.ProductWithRate;
@@ -18,10 +18,8 @@ import com.birdtradingplatform.model.Shop;
 import com.birdtradingplatform.model.ShopAddress;
 import com.birdtradingplatform.utils.Utils;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,11 +51,43 @@ public class ProductController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
         System.out.println("Productcontroller");
-        if ("detail".equals(action)) {
+        if ("".equals(action) || action == null) {
+            ProductDAO pdao = new ProductDAO();
+            int limit = 3;
+            int total = pdao.getProductCount("");
+            int curPage;
+            try {
+                curPage = Integer.parseInt(request.getParameter("curPage"));
+            } catch (Exception e) {
+                curPage = 1;
+            }
+            int totalPage = (int) Math.ceil((double) total / (double) limit);
+            List<Product> bestSellerList = pdao.getBestSellerList(limit, curPage);
+            request.setAttribute("totalpage", totalPage);
+            request.setAttribute("currentpage", curPage);
+            request.setAttribute("bestSellerList", bestSellerList);
+            int curPageNew;
+            try {
+                curPageNew = Integer.parseInt(request.getParameter("currentpagenew"));
+            } catch (Exception e) {
+                curPageNew = 1;
+            }
+            List<Product> newList = pdao.getNewItemsList(limit, curPageNew);
+            request.setAttribute("currentpagenew", curPageNew);
+            request.setAttribute("newList", newList);
+            request.setAttribute("isinclude", 0);
+            if ("home".equals(request.getParameter("prev"))) {
+                request.getRequestDispatcher("HomePage.jsp").forward(request, response);
+            }
+
+        } else if ("detail".equals(action)) {
             String productID = request.getParameter("productID");
 
             ProductDAO dao = new ProductDAO();
             Product product = dao.getProduct(productID);
+            OrderDAO odao = new OrderDAO();
+            int sold = odao.getProductSold(productID);
+            request.setAttribute("sold", sold);
 
             if (product != null) {
                 HttpSession session = request.getSession();
@@ -144,25 +174,44 @@ public class ProductController extends HttpServlet {
         } else if ("pagingshopproductlist".equals(action)) {
             ProductDAO dao = new ProductDAO();
             String search = request.getParameter("search");
-            String colSort = request.getParameter("colSort");
-            String sortType = request.getParameter("sortType");
+            String colunm = request.getParameter("colSort");
             String category = request.getParameter("category");
             String shopID = request.getParameter("shopID");
-            if (colSort == null) {
-                colSort = "pRate.star";
+            String colSort;
+            String colSortPresent;
+            try {
+                switch (colunm) {
+                    case "new":
+                        colSort = "dateIn";
+                        colSortPresent = "Newest Product";
+                        break;
+                    case "priceasc":
+                        colSort = "priceOut*pSale asc";
+                        colSortPresent = "Price: Low to High";
+                        break;
+                    case "pricedesc":
+                        colSort = "priceOut*pSale desc";
+                        colSortPresent = "Price: High to Low";
+                        break;
+                    default:
+                        colSort = "star";
+                        colSortPresent = "Favorite Product";
+                        break;
+                }
+            } catch (Exception e) {
+                colSort = "star";
+                colSortPresent = "Favorite Product";
             }
+
             if (search == null) {
                 search = "";
             }
-            if (sortType == null) {
-                sortType = "";
-            }
-            if (colSort == null) {
-                colSort = "";
+            if (category == null) {
+                category = "";
             }
 
             int totalProduct = dao.getProductCount(search, category, shopID);
-            int productPerPage = 16;
+            int productPerPage = 3;
             int numPage = (int) Math.ceil((double) totalProduct / (double) productPerPage);
             int curPage;
             try {
@@ -170,12 +219,32 @@ public class ProductController extends HttpServlet {
             } catch (Exception e) {
                 curPage = 1;
             }
-            List<ProductWithRate> shopProductList = dao.getShopProductListByPage(shopID, search,
-                    productPerPage, curPage, colSort, category, sortType);
+            List<Product> shopProductList = dao.getShopProductListByPage(shopID, search,
+                    productPerPage, curPage, colSort, category);
 
             ShopDAO shopdao = new ShopDAO();
             Shop shop = shopdao.getShop(shopID);
             ShopAddress address = shopdao.getShopAddress(shop.getAddressID());
+
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
+
+            request.setAttribute("ratingofshop", feedbackDAO.getRatingOfShop(Integer.parseInt(shopID)));
+            request.setAttribute("evaluateofshop", feedbackDAO.getFeedbackCountOfShop(Integer.parseInt(shopID)));
+            request.setAttribute("totalproductofshop", dao.getProductCount("", "", "" + shopID));
+
+            Account acc = shopdao.getShopAccount(Integer.parseInt(shopID));
+            //join time
+            long join = Utils.countTime(Utils.toDate(acc.getRegisDate()), new java.util.Date());
+            if (join > 30) {
+                join = join / 30;
+                request.setAttribute("joinmonth", join);
+            } else {
+                request.setAttribute("joinday", join);
+            }
+
+            request.setAttribute("search", search);
+            request.setAttribute("avatar", acc.getAvatar());
+            request.setAttribute("colSortPresent", colSortPresent);
 
             //address
             request.setAttribute("shopaddress", address);

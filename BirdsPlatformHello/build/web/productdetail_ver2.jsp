@@ -28,12 +28,12 @@
         <link rel="stylesheet" href="css/productCss.css" />
     </head>
     <body>
-        <%@include file="sheader.jsp" %>
+        <jsp:include page="pageHeader.jsp"></jsp:include>
 
-        
 
-        <!-- heading section start -->
-        <form action="cart" method="POST">
+
+            <!-- heading section start -->
+              <form action="cart" method="POST">
 
             <section class="product">
                 <div class="wrapper-container">
@@ -42,20 +42,7 @@
                             <img class="img-big" src="${requestScope.productdetail.getImg()}" alt="" />
 
                             <!--share status start-->
-                            <div class="share">
-                                <div class="social seprate">
-                                    <span>Share : </span>
-                                    <img src="image/icons8-facebook-48.png" alt="" />
-                                    <img src="image/icons8-facebook-messenger-48.png" alt="" />
-                                    <img src="image/icons8-instagram-48.png" alt="" />
-                                    <img src="image/icons8-pinterest-48.png" alt="" />
-                                </div>
-
-                                <div class="heart">
-                                    <img src="image/icons8-heart-96.png" alt="" />
-                                    <span>Viewed (1.1k)</span>
-                                </div>
-                            </div>
+                            
                         </div>
                         <!--share status end-->
 
@@ -84,7 +71,7 @@
                                     </div>
 
                                     <div class="nubber-sell">
-                                        <span>5k</span>
+                                        <span>${requestScope.sold}</span>
                                         <span>Sold</span>
                                     </div>
                                 </div>
@@ -100,13 +87,7 @@
 
                                 </div>
                                 <div class="pick">
-                                    <div class="shop-dis pick-fx">
-                                        <span class="spantt">Shop discount code</span>
-                                        <div class="number-dis">
-                                            <span class="sale-percent">Sales 12k</span>
-                                            <span class="sale-percent">Sales 15k</span>
-                                        </div>
-                                    </div>
+                                   
                                     <c:choose>
                                         <c:when test="${requestScope.addressShipment==null}">
                                             <div class="transport pick-fx">
@@ -160,7 +141,6 @@
                                             <input type="submit" value="Add to cart">
                                         </div>
 
-                                        <div class="buynow"><span>Buy now</span></div>
                                     </div>
                                     <p>${requestScope.addmessage}</p>
                                 </div>
@@ -177,7 +157,7 @@
                             <img src="${requestScope.shopaccount.getAvatar()}" alt="" />
                             <div class="shop-name__info">
                                 <p>${requestScope.productdetail.getShop().getShopName()}</p>
-                                <p>Online</p>
+                                
                                 <div class="chat-shop">
 
                                     <div class="">
@@ -398,7 +378,7 @@
         </section>
         <!-- cart end -->
         <!-- footer section start  -->
-        <%@include file="footer.jsp" %>
+        <jsp:include page="pageFooter.jsp"></jsp:include>
 
         <script src="js/script.js"></script>
     </body>

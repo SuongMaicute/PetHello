@@ -58,4 +58,33 @@ public class AddressShipmentDAO {
         }
         return result;
     }
+
+     public int addAddressShip(String phone, String detail, String district, String province, int customerID) throws SQLException {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        int row = 0;
+        try {
+            con = DBHelper.makeConnection();
+            if (con != null) {
+                String sql = "insert into [AddressShipment](phoneShipment, detail, district, province, customerID) values (?,?,?,?,?)";
+                pstm = con.prepareStatement(sql);
+                pstm.setString(1, phone);
+                pstm.setString(2, detail);
+                pstm.setString(3, district);
+                pstm.setString(4, province);
+                pstm.setInt(5, customerID);
+                row = pstm.executeUpdate();
+            }
+        } catch (Exception e) {
+        } finally {
+           
+            if (pstm != null) {
+                pstm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return row;
+    }
 }

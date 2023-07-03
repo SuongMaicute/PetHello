@@ -142,14 +142,9 @@
                     </c:forEach>
 
 
-                    <section class="check-out">
-                        <div class="voucher">
-                            <input type="text" >
-                            <span>Pet Hello voucher</span>
-                        </div>
+                    <section class="check-out">                       
                         <div class="confirm-box">
                             <div class="line"></div>
-                            <input type="" value="Delete" class="check-out__delete">
                             <div class="ip-checkout">
                                 <span>Total (${sessionScope.allShopCart.getTotalCountAllShop()} products): </span>
                                 <span class="total">${sessionScope.allShopCart.getTotalMoneyAllShop()}$</span>
@@ -177,7 +172,7 @@
 
 
 
-<%@include file="footer.jsp" %>
+<%@include file="pageFooter.jsp" %>
 
 <script src="js/script.js"></script>
 </body>

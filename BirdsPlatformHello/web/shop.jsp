@@ -29,23 +29,7 @@
     <body>
 
         <!-- header section starts  -->
-
-        <header class="header">
-            <a href="Homepage.html" class="logo"> <i class="ri-store-2-line"></i> Pet.Hello </a>
-
-            <form action="#" class="search-form">
-                <input type="search" placeholder="search in ${requestScope.shophomepage.getShopName()}" id="search-box">
-                <label for="search-box" class="ri-search-line"></label>
-            </form>
-
-            <div class="icons">
-                <div id="menu-btn" class="ri-menu-line"></div>
-                <div id="search-btn" class="ri-search-line"></div>
-                <div id="cart-btn" class="ri-shopping-cart-line"></div>
-                <div id="login-btn" class="ri-user-line"></div>
-            </div>
-        </header>
-
+        <jsp:include page="pageHeader.jsp"></jsp:include>
         <!-- header section ends  -->
 
 
@@ -282,53 +266,7 @@
 
 
         <!-- footer section start  -->
-        <section class="footer">
-            <div class="box-container">
-
-                <div class="box">
-                    <h3>quick links</h3>
-                    <a href="Homepage.html"> <i class="ri-arrow-right-line"></i> home </a>
-                    <a href="shop.html"> <i class="ri-arrow-right-line"></i> shop </a>
-                    <a href="about.html"> <i class="ri-arrow-right-line"></i> about </a>
-                    <a href="team.html"> <i class="ri-arrow-right-line"></i> team </a>
-                    <a href="blog.html"> <i class="ri-arrow-right-line"></i> blog </a>
-                    <a href="contact.html"> <i class="ri-arrow-right-line"></i> contact </a>
-                </div>
-
-                <div class="box">
-                    <h3>quick links</h3>
-                    <a href="Homepage.html"> <i class="ri-arrow-right-line"></i> Home </a>
-                    <a href="shop.html"> <i class="ri-arrow-right-line"></i> Shop </a>
-                    <a href="about.html"> <i class="ri-arrow-right-line"></i> About </a>
-                    <a href="team.html"> <i class="ri-arrow-right-line"></i> Team </a>
-                    <a href="blog.html"> <i class="ri-arrow-right-line"></i> Blog </a>
-                    <a href="contact.html"> <i class="ri-arrow-right-line"></i> Contact </a>
-                </div>
-
-                <div class="box">
-                    <h3>extra links</h3>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Order </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Wishlist </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Account </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> My Favorite </a>
-                    <a href="#"> <i class="ri-arrow-right-line"></i> Terms of user </a>
-                </div>
-
-                <div class="box">
-                    <h3>extra links</h3>
-                    <a href="#"> <i class="ri-facebook-fill"></i> Facebook </a>
-                    <a href="#"> <i class="ri-twitter-fill"></i> Twitter </a>
-                    <a href="#"> <i class="ri-instagram-fill"></i> Instagram </a>
-                    <a href="#"> <i class="ri-linkedin-box-fill"></i> Linkedin </a>
-                    <a href="#"> <i class="ri-pinterest-fill"></i> Pinterest </a>
-                </div>
-
-            </div>
-        </section>
-
-        <section class="credit">
-            shopemail@gmail.com|+84 123456789
-        </section>
+        <jsp:include page="pageFooter.jsp"></jsp:include>
         <!-- footer section end  -->
 
         <!-- custom js file link  -->

@@ -13,22 +13,28 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>check out</title>
-        <link
-            href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css"
-            rel="stylesheet"
-            />
 
-        <!-- font awesome cdn link  -->
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-            />
 
+
+        <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <!-- font awesome cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+
+   
         <!-- custom css file link  -->
-        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/checkout.css" />
     </head>
     <body>
-        <%@include file="sheader.jsp" %>
+        <jsp:include page="pageHeader.jsp"></jsp:include>
 
         <!-- heading section start -->
 
@@ -39,21 +45,22 @@
 
         <!-- heading section end -->
 
-
-
-       
         <!-- user info -->
         <c:set var="account" value="${sessionScope.USERDTOBYUSERNAME}" />
         <c:if test="${account!=null}">
             <c:if test="${not empty account}">
                 <section class="userInfo">
                     <div>
-                        <div class="line-cl"></div>
                         <h3>User information</h3>
                         <div class="user__details">
-                            <span class="bold">${account.username}</span><span class="bold">${requestScope.addressShipment.phoneShipment}</span>
-                            <span > ${requestScope.addressShipment.detail}, ${requestScope.addressShipment.district}, ${requestScope.addressShipment.province}</span>
+                            <span class="bold" id="userInfoUsername">${account.username}</span>
+                            <span class="infolight" id="userInfoPhone">${requestScope.addressShipment.phoneShipment}</span><br>
+                            <div id="userInfoAddress" class="infolight">
+                                <span>${requestScope.addressShipment.district}, ${requestScope.addressShipment.province}</span><br>
+                                <span>${requestScope.addressShipment.detail}</span>
+                            </div>
                         </div>
+                        <button class="show-btn" onclick="showAddressModal()">Change</button>
 
                     </div>
 
@@ -61,6 +68,80 @@
 
             </c:if>
         </c:if>
+
+
+
+
+        <!-- Address Modal -->
+
+        <div id="addressModal" class="modal" style="overflow: auto; height: 100%;">
+            <div class="modal-content">
+                <h2>User Information: </h2>
+                <c:if test="${requestScope.addressShipmentList!=null}">
+                    <c:if test="${not empty requestScope.addressShipmentList}">
+                        <div class="users__details">
+                            <c:forEach var="address" items="${requestScope.addressShipmentList}">
+
+                                <input type="radio"  name="information"/>
+                                <span class="bold" id="userInfoUsername" style="margin-top: 0px;">${account.username}</span>
+                                <span class="infolight" id="userInfoPhone">${address.getPhoneShipment()}</span><br>
+                                <div id="userInfoAddress" class="infolight">
+                                    <span>${address.getDistrict()}, ${address.getProvince()}</span><br>
+                                    <span>${address.getDetail()}</span>
+                                </div><br>
+
+
+                            </c:forEach>
+                            <button class="add-btn" onclick="AddAddressModal()">Add New Address</button>
+                        </div>
+                    </c:if>
+                </c:if>
+
+
+                <!-- <ul id="addressList"></ul> -->
+                <div id="btn">
+
+                    <button class="save-btn" onclick="saveUserInfo()">Save</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Add Modal -->
+        <div id="addModal" class="modal">
+            <div class="modal-content">
+                <form action="address">
+                    <h2>Add Information</h2>
+                    <div class="form-group">
+                        <label class="info-label" for="editUsername">Username</label>
+                        <input type="text" id="editUsername" class="input-field" disabled="" value="${account.username}">
+                    </div>
+                    <div class="form-group">
+                        <label class="info-label" for="editPhone">Phone</label>
+                        <input type="text" id="editPhone" class="input-field" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label class="info-label" for="editAddress">Address</label>
+                        <input type="text" id="editAddress" class="input-field" name="detail">
+                    </div>
+                    <div class="form-group">
+                        <label class="info-label" for="editAddress">District</label>
+                        <input type="text" id="editAddress" class="input-field" name="district">
+                    </div>
+                    <div class="form-group">
+                        <label class="info-label" for="editAddress">Province</label>
+                        <input type="text" id="editAddress" class="input-field" name="province">
+                    </div>
+                    <input type="hidden" name="action" value="addaddress"/>
+                    <div id="btn">
+                        <button class="save-btn" type="submit" onclick="updateUserInfo()">Save</button>
+                        <button class="cancel-btn" onclick="hideAddAddressModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
         <!-- user info end -->
         <!-- cart start -->
@@ -156,7 +237,7 @@
                                             <span class="all-pay">$${sessionScope.checkoutMap.getTotalMoneyAllShop()+pageScope.shipFee}</span>
                                         </div>
                                     </div>
-                                        <input type="hidden" name="addressShip" value="${requestScope.addressShipment.getAddressShipID()}" >
+                                    <input type="hidden" name="addressShip" value="${requestScope.addressShipment.getAddressShipID()}" >
                                     <input class="order" type="submit" name="action" value="Order" >
 
                                 </div>
@@ -168,15 +249,15 @@
             </c:if>
 
         </form>
-         <div class="card-body cart">
+        <div class="card-body cart">
             <div class="col-sm-12 empty-cart-cls text-center">
 
-                
+
                 <c:if test="${requestScope.message!=null}">
                     <c:if test="${not empty requestScope.message}">
                         <h3><strong>${requestScope.message}</strong></h3>
                         <div><a href="HomePage.jsp" class="btn-empty" data-abc="true">continue shopping</a></div>
-                        <div><a href="">view my order</a></div>
+                        <div><a href="order?action=historyorder" class="btn-empty" data-abc="true">view my order</a></div>
 
                     </c:if>
                 </c:if>
@@ -188,7 +269,7 @@
 
 
         <!-- footer section start  -->
-        <%@include file="footer.jsp" %>
+        <jsp:include page="pageFooter.jsp"></jsp:include>
         <!-- footer section end  -->
 
         <script src="js/script.js"></script>

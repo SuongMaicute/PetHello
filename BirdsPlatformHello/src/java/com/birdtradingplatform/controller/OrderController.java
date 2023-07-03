@@ -6,13 +6,17 @@ package com.birdtradingplatform.controller;
 
 import com.birdtradingplatform.dao.CustomerDAO;
 import com.birdtradingplatform.dao.OrderDAO;
+import com.birdtradingplatform.dao.ShopDAO;
 import com.birdtradingplatform.model.Account;
 import com.birdtradingplatform.model.AddressShipment;
 import com.birdtradingplatform.model.Cart;
 import com.birdtradingplatform.model.Customer;
 import com.birdtradingplatform.model.Item;
 import com.birdtradingplatform.model.MutilShopCart;
+
+import com.birdtradingplatform.model.OrderDetailItem;
 import com.birdtradingplatform.model.OrderHistory;
+import com.birdtradingplatform.model.Shop;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -51,19 +55,32 @@ public class OrderController extends HttpServlet {
             HttpSession session = request.getSession();
             String status = request.getParameter("status");
             //get account login in this session with attribute name is LOGIN_ACCOUNT
-            Account account = (Account) session.getAttribute("LOGIN_ACCOUNT");
-
-            OrderDAO odao = new OrderDAO();
-            List<OrderHistory> orderList = odao.getOrderHistory(account.getAccountID(), status);
-            double totalMoney = 0;
-            int totalOrder = orderList.size();
-            for (OrderHistory order : orderList) {
-                totalMoney += order.getTotal();
+            Account account = (Account) session.getAttribute("USERDTOBYUSERNAME");
+            if (account == null) {
+                request.getRequestDispatcher("Login.jsp").include(request, response);
             }
-
+            CustomerDAO cusDAO = new CustomerDAO();
+            Customer customer = cusDAO.getCustomerByAccountID(account.getAccountID());
+            if (customer == null) {
+                response.sendRedirect("err.html");
+            }
+            int limit = 10;
+            int curPage;
+            try {
+                curPage = Integer.parseInt(request.getParameter("curPage"));
+            } catch (Exception e) {
+                curPage = 1;
+            }
+            OrderDAO odao = new OrderDAO();
+            
+            List<OrderHistory> orderList = odao.getOrderHistory(customer.getCustomerID(), status, curPage, limit);
+            int total = odao.getOrderHistoryCount(customer.getCustomerID(), status).size();
+            int totalpage= (int) Math.ceil((double) total / (double) limit);
             request.setAttribute("ORDER_LIST", orderList);
-            request.setAttribute("TOTAL_MONEY", totalMoney);
-            request.setAttribute("TOTAL_ORDER", totalOrder);
+            request.setAttribute("totalpage", totalpage);
+            request.setAttribute("currentpage", curPage);
+            request.setAttribute("status", status);
+
             request.getRequestDispatcher("orderhistory.jsp").forward(request, response);
 
         } else if ("Order".equals(action)) {
@@ -84,7 +101,7 @@ public class OrderController extends HttpServlet {
                 addressShipment = cusDAO.getAddressShipmentByID(addressID);
 
             } catch (Exception e) {
-                addressShipment = cusDAO.getAddressShipmentByCusID(customer.getCustomerID());
+                addressShipment = cusDAO.getAddressShipmentByCusID(customer.getCustomerID()).get(0);
             }
 
             //deliveryto
@@ -120,10 +137,9 @@ public class OrderController extends HttpServlet {
                 String mess = "You ordered succeed. Your order will be processed as soon as possible";
                 request.setAttribute("message", mess);
                 session.setAttribute("checkoutMap", null);
-                
 
                 if (allShopCart != null) {
-                    
+
                     if (allShopCart.getMutilShopCart().isEmpty()) {
                         allShopCart = null;
                     }
@@ -132,6 +148,19 @@ public class OrderController extends HttpServlet {
                 session.setAttribute("allShopCart", allShopCart);
                 request.getRequestDispatcher("checkout.jsp").forward(request, response);
             }
+        } else if ("orderdetail".equals(action)) {
+            int orderID = Integer.parseInt(request.getParameter("orderID"));
+            OrderDAO odao = new OrderDAO();
+            List<OrderDetailItem> orderDetailList = odao.getOrderDetailList(orderID);
+            request.setAttribute("orderDetailList", orderDetailList);
+
+            OrderHistory order = odao.getOrderHistory(orderID);
+            request.setAttribute("order", order);
+            ShopDAO sdao = new ShopDAO();
+            Shop shop = sdao.getShop(order.getShopID() + "");
+            request.setAttribute("shop", shop);
+
+            request.getRequestDispatcher("orderHistoryDetailCus.jsp").forward(request, response);
         }
     }
 

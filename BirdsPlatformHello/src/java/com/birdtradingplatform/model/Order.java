@@ -10,22 +10,16 @@ package com.birdtradingplatform.model;
  * @author leyen
  */
 public class Order {
-
     private int orderID;
     private String orderDate;
-    private double total;
+    private double total;    
     private int paymentID;
     private int customerID;
     private int addressShipID;
     private String shipDate;
     private String status;
-
+    private int shopID;
     public Order() {
-    }
-
-    public Order(double total, String orderDate) {
-        this.orderDate = orderDate;
-        this.total = total;
     }
 
     public Order(int orderID, String orderDate, double total, int paymentID, int customerID, int addressShipID, String shipDate, String status) {
@@ -39,6 +33,15 @@ public class Order {
         this.status = status;
     }
 
+    public Order(int orderID, String orderDate, double total, int addressShipID, String shipDate, String status, int shopID) {
+        this.orderID = orderID;
+        this.orderDate = orderDate;
+        this.total = total;
+        this.addressShipID = addressShipID;
+        this.shipDate = shipDate;
+        this.status = status;
+        this.shopID = shopID;
+    }
     public Order(int orderID, String orderDate, double total, int addressShipID, String shipDate, String status) {
         this.orderID = orderID;
         this.orderDate = orderDate;
@@ -47,6 +50,15 @@ public class Order {
         this.shipDate = shipDate;
         this.status = status;
     }
+
+    public int getShopID() {
+        return shopID;
+    }
+
+    public void setShopID(int shopID) {
+        this.shopID = shopID;
+    }
+    
 
     public int getOrderID() {
         return orderID;
@@ -112,4 +124,6 @@ public class Order {
         this.status = status;
     }
 
+    
+    
 }

@@ -16,6 +16,7 @@ import com.birdtradingplatform.model.MutilShopCart;
 import com.birdtradingplatform.model.Product;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,9 +48,24 @@ public class CheckOutController extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
-        if ("Check-out".equals(action)) {
+        String redirect = (String) request.getAttribute("redirect");
+        if ("addaddress".equals(redirect)) {
             HttpSession session = request.getSession();
-            Account account = (Account) session.getAttribute("USERDTOBYUSERNAME");
+            Account account = (Account) session.getAttribute("USERDTOBYUSERNAME");           
+            CustomerDAO cusDAO = new CustomerDAO();
+            Customer customer = cusDAO.getCustomerByAccountID(account.getAccountID());
+            if (customer == null) {
+                response.sendRedirect("err.html");
+            }
+             List<AddressShipment> addressShipmentList = cusDAO.getAddressShipmentByCusID(customer.getCustomerID());//test
+            //deliveryto
+            request.setAttribute("addressShipment", addressShipmentList.get(0));
+            request.setAttribute("addressShipmentList", addressShipmentList);
+            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+
+        } else if ("Check-out".equals(action)) {
+            HttpSession session = request.getSession();
+            Account account = (Account) session.getAttribute("dto");
             if (account == null) {
                 request.getRequestDispatcher("Login.jsp").include(request, response);
             }
@@ -58,19 +74,19 @@ public class CheckOutController extends HttpServlet {
             if (customer == null) {
                 response.sendRedirect("err.html");
             }
-            AddressShipment addressShipment = cusDAO.getAddressShipmentByCusID(customer.getCustomerID());//test
+            List<AddressShipment> addressShipmentList = cusDAO.getAddressShipmentByCusID(customer.getCustomerID());//test
             //deliveryto
-            request.setAttribute("addressShipment", addressShipment);
+            request.setAttribute("addressShipment", addressShipmentList.get(0));
+            request.setAttribute("addressShipmentList", addressShipmentList);
 
             String checkoutList[] = request.getParameterValues("checkoutlist");
-            if (checkoutList == null || checkoutList.length==0) {
+            if (checkoutList == null || checkoutList.length == 0) {
                 MutilShopCart allShopCart = (MutilShopCart) session.getAttribute("allShopCart");
 //                MutilShopCart bet = allShopCart;
 //                MutilShopCart checkoutMap = bet;
                 MutilShopCart checkoutMap = allShopCart;
 
                 session.setAttribute("checkoutMap", checkoutMap);
-                
 
                 request.getRequestDispatcher("checkout.jsp").forward(request, response);
 

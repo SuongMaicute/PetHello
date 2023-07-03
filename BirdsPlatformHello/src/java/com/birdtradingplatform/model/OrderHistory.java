@@ -8,39 +8,32 @@ package com.birdtradingplatform.model;
  *
  * @author leyen
  */
-public class OrderHistory extends Order{
-    private int totalQuantity;
-    private String firstProductName;
+public class OrderHistory extends Order {
 
-    public OrderHistory() {
-    }
+    private AddressShipment address;
 
-    public OrderHistory(int totalQuantity, String firstProductName, int orderID, String orderDate, double total, int addressShipID, String shipDate, String status) {
-        super(orderID, orderDate, total, addressShipID, shipDate, status);
-        this.totalQuantity = totalQuantity;
-        this.firstProductName = firstProductName;
-    }
-
-    public OrderHistory(int totalQuantity, String firstProductName, int orderID, String orderDate, double total, int paymentID, int customerID, int addressShipID, String shipDate, String status) {
+    public OrderHistory(AddressShipment address, int orderID, String orderDate, double total, int paymentID, int customerID, int addressShipID, String shipDate, String status) {
         super(orderID, orderDate, total, paymentID, customerID, addressShipID, shipDate, status);
-        this.totalQuantity = totalQuantity;
-        this.firstProductName = firstProductName;
+        this.address = address;
     }
 
-    public int getTotalQuantity() {
-        return totalQuantity;
+    public OrderHistory(AddressShipment address, int orderID, String orderDate, double total, int addressShipID, String shipDate, String status, int shopID) {
+        super(orderID, orderDate, total, addressShipID, shipDate, status, shopID);
+        this.address = address;
+    }
+    public OrderHistory(AddressShipment address, int orderID, String orderDate, double total, int addressShipID, String shipDate, String status) {
+        super(orderID, orderDate, total, addressShipID, shipDate, status);
+        this.address = address;
     }
 
-    public void setTotalQuantity(int totalQuantity) {
-        this.totalQuantity = totalQuantity;
+    public AddressShipment getAddress() {
+        return address;
     }
 
-    public String getFirstProductName() {
-        return firstProductName;
-    }
-
-    public void setFirstProductName(String firstProductName) {
-        this.firstProductName = firstProductName;
+    public void setAddress(AddressShipment address) {
+        this.address = address;
     }
     
+    
+
 }

@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import javax.naming.NamingException;
 import com.birdtradingplatform.utils.DBHelper;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -186,27 +188,27 @@ public class CustomerDAO implements Serializable{
         return shipTo;
     }
     
-    public AddressShipment getAddressShipmentByCusID(int cusID) throws SQLException{
+    public List<AddressShipment> getAddressShipmentByCusID(int cusID) throws SQLException{
          Connection con = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
-        AddressShipment shipTo = null;
+        List<AddressShipment> list = new ArrayList<>();
         try {
             con = DBHelper.makeConnection();
             if (con != null) {
-                String sql = "select * from [AddressShipment] where customerID = ?";
+                String sql = "select * from [AddressShipment] where customerID = ? order by addressShipID desc";
                 pstm = con.prepareStatement(sql);
                 pstm.setInt(1, cusID);
                 rs = pstm.executeQuery();
 
-                if (rs.next()) {
+                while (rs.next()) {
                     String phoneShipment = rs.getString("phoneShipment");
                     int addressShipID = rs.getInt("addressShipID");
                     String detail = rs.getString("detail");
                     String district = rs.getString("district");
                     String province = rs.getString("province");
                     int customerID = rs.getInt("customerID");
-                    shipTo = new AddressShipment(addressShipID, phoneShipment, detail, district, province, customerID);
+                    list.add(new AddressShipment(addressShipID, phoneShipment, detail, district, province, customerID)) ;
                 }
             }
         } catch (Exception e) {
@@ -221,7 +223,7 @@ public class CustomerDAO implements Serializable{
                 con.close();
             }
         }
-        return shipTo;
+        return list;
     }
     public AddressShipment getAddressShipmentByID(int ID) throws SQLException{
          Connection con = null;
